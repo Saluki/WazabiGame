@@ -6,9 +6,9 @@
 			
 <h2>Dashboard</h2>
 
-<a href="app/scoreboard.html" class="btn btn-default">View scoreboard</a>
-<a href="app/game.html" class="btn btn-default">Join game</a>
-<a href="app/logout.html" class="btn btn-danger">Logout</a>
+<a href="app/scoreboard.html" class="btn btn-default">Historique parties</a>
+<a href="app/game.html" class="btn btn-default">Commencer partie</a>
+<a href="app/logout.html" class="btn btn-danger">Quitter</a>
 
 <!-- JS Dependencies -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>

@@ -32,6 +32,10 @@
     <servlet-name>app.game</servlet-name>
     <jsp-file>/WEB-INF/jsp/app/game.jsp</jsp-file>
   </servlet>
+  <servlet>
+  	<servlet-name>app.create</servlet-name>
+  	<jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
+  </servlet>
   <servlet-mapping>
     <servlet-name>index</servlet-name>
     <url-pattern>/index.html</url-pattern>

@@ -12,7 +12,7 @@
 		<base href="${fn:substring(url,0,fn:length(url)-fn:length(uri))}${req.contextPath}/"/>
 		
 		<meta charset="UTF-8">
-		<title>${ param.pageTitle } | Wazabi Game</title>
+		<title>${ param.pageTitle } | Wazabi</title>
 		
 		<!-- CSS Dependencies -->
 		<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
