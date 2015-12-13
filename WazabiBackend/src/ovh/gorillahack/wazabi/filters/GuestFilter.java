@@ -12,8 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = { "/app/*", "/api/*" })
-public class AuthFilter implements Filter {
+@WebFilter(urlPatterns = { "/", "/index.html", "/register.html", "/auth.html" })
+public class GuestFilter implements Filter {
 
 	protected FilterConfig config;
 
@@ -23,14 +23,15 @@ public class AuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		Boolean session = (Boolean) httpRequest.getSession().getAttribute("authentificated");
+		Boolean isAuthenticated = (Boolean) httpRequest.getSession().getAttribute("authentificated");
 
-		if (session != null && (Boolean) session) {
-			chain.doFilter(request, response);
+		if (isAuthenticated != null && isAuthenticated) {
+			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/dashboard.html");
 			return;
 		}
 
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.html");
+		chain.doFilter(request, response);
+		return;
 	}
 
 	public void init(FilterConfig config) throws ServletException {
