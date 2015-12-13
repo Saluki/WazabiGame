@@ -17,7 +17,8 @@ public class Logout extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.getSession().invalidate();		
-		getServletContext().getNamedDispatcher("index").forward(request, response);
+		response.sendRedirect(request.getContextPath() +"/index.html");
+		
 	}
 
 }

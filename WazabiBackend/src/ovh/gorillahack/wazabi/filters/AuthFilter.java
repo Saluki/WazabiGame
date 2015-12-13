@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * NOTE: ADDING API!!!
@@ -20,10 +23,20 @@ public class AuthFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
 		// TODO Authentication check
+
+		HttpServletRequest requ = (HttpServletRequest) request;
+		HttpServletResponse resp =  (HttpServletResponse) response;
 		
-		chain.doFilter(request, response);
+		 Boolean session = (Boolean)  requ.getSession().getAttribute("authentificated");
+		
+		 if(session != null && (Boolean) session){
+			 chain.doFilter(request, response);
+			 return;
+		 }
+		 resp.sendRedirect(requ.getContextPath()+"/index.html");
+		 
+		
 	}
 
 	public void init(FilterConfig config) throws ServletException {

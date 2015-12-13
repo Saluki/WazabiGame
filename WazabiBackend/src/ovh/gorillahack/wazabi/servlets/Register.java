@@ -33,18 +33,19 @@ public class Register extends HttpServlet {
 		synchronized (ctx) {
 		// mdp et repeat mdp incorrecte et pseudo non existant
 			if(mdp.equals(mdpRepeat) ){
-				if(! gestionPartie.verificationPseudo(pseudo)){
+				if( gestionPartie.verificationPseudo(pseudo)){
 					gestionPartie.inscription(pseudo,mdp);
+				
 					ctx.getNamedDispatcher("app.dashboard").forward(request,response);
 				}else{
 					request.setAttribute("errorMessage", "Les deux mots de passe ne sont pas similaire");
-					ctx.getNamedDispatcher("index").forward(request,response);
+					ctx.getNamedDispatcher("register").forward(request,response);
 					return;
 				}
 				
 			}else{
-				request.setAttribute("errorMessage", "Le pseudo est d�j� utilis�");
-				ctx.getNamedDispatcher("index").forward(request,response);
+				request.setAttribute("errorMessage", "Le pseudo est deja utilise");
+				ctx.getNamedDispatcher("register").forward(request,response);
 				return;
 			}
 		

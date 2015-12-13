@@ -36,6 +36,10 @@
     <servlet-name>index</servlet-name>
     <url-pattern>/index.html</url-pattern>
   </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/register.html</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>app.dashboard</servlet-name>
     <url-pattern>/app/dashboard.html</url-pattern>

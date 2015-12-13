@@ -11,9 +11,8 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		// TODO Auto-generated constructor stub
 	}
 	public boolean verificationPseudo(String pseudo){
-		if( pseudo.equals("charles")){
+		if( pseudo.equals("charles"))
 			return false;
-		}
 		return true;
 		
 	}
@@ -23,9 +22,9 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	@Override
 	public boolean verificationAuthentification(String pseudo, String mdp) {
 		// TODO Auto-generated method stub
-		if(pseudo != "Roger" && mdp != "federer")
-			return false;
-		return true;
+		if(pseudo.equals("azerty") && mdp.equals("azerty"))
+			return true;
+		return false;
 	}
 	
 }

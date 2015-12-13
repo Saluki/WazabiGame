@@ -30,13 +30,14 @@ public class Authentication extends HttpServlet {
 		String pseudo = request.getParameter("pseudo");
 		String mdp = request.getParameter("mot_de_passe");
 		
-		ServletContext csx = getServletContext();
+		ServletContext ctx = getServletContext();
 		if(gestionPartie.verificationAuthentification(pseudo,mdp)){
-			csx.getNamedDispatcher("app.dashboard").forward(request, response);
+			request.getSession().setAttribute("authentificated", true);
+			ctx.getNamedDispatcher("app.dashboard").forward(request, response);
 			return;
 		}
 		request.setAttribute("errorMessage", "Authentification failed");
-		csx.getNamedDispatcher("index").forward(request, response);
+		ctx.getNamedDispatcher("index").forward(request, response);
 	}
 
 }
