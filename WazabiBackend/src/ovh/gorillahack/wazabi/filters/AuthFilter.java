@@ -8,7 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 
+/**
+ * NOTE: ADDING API!!!
+ */
+@WebFilter(urlPatterns="/app/*")
 public class AuthFilter implements Filter {
 
 	protected FilterConfig config;
