@@ -10,34 +10,59 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ipl.mock.MockInterfaceGestionPartie;
+import ovh.gorillahack.wazabi.utils.Utils;
 
 @WebServlet(urlPatterns = "/auth.html")
 public class Authentication extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
+	private ServletContext context;
+
 	@EJB
 	private MockInterfaceGestionPartie gestionPartie;
+
+	public void init() {
+		this.context = getServletContext();
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-			
-		// TODO Send back to authentication form
+
+		response.sendRedirect("index.html");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Authenticate current user
-		
+
 		String pseudo = request.getParameter("pseudo");
-		String mdp = request.getParameter("mot_de_passe");
-		
-		ServletContext ctx = getServletContext();
-		if(gestionPartie.verificationAuthentification(pseudo,mdp)){
-			request.getSession().setAttribute("authentificated", true);
-			ctx.getNamedDispatcher("app.dashboard").forward(request, response);
+		String password = request.getParameter("mot_de_passe");
+
+		if (!Utils.checkString(pseudo)) {
+			redirectWithError(request, response, "Format du pseudo invalide");
 			return;
 		}
-		request.setAttribute("errorMessage", "Authentification failed");
-		ctx.getNamedDispatcher("index").forward(request, response);
+
+		if (!Utils.checkString(password)) {
+			redirectWithError(request, response, "Format du mot de passe invalide");
+			return;
+		}
+
+		if (gestionPartie.verificationAuthentification(pseudo, password)) {
+
+			request.getSession().setAttribute("authentificated", true);
+			response.sendRedirect("app/dashboard.html");
+			return;
+		}
+
+		redirectWithError(request, response, "Pseudo ou mot de passe incorrect");
+	}
+
+	protected void redirectWithError(HttpServletRequest request, HttpServletResponse response, String message)
+			throws ServletException, IOException {
+
+		request.setAttribute("errorMessage", message);
+		context.getNamedDispatcher("index").forward(request, response);
 	}
 
 }
