@@ -10,6 +10,7 @@ import javax.ejb.Remote;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import ovh.gorillahack.wazabi.dao.DeDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
@@ -28,7 +29,7 @@ import ovh.gorillahack.wazabi.domaine.Partie.Status;
 @Startup
 @Remote(GestionPartie.class)
 public class GestionPartieImpl implements GestionPartie {
-	private Partie partieCourrante;
+	private Partie partieCourante;
 	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -73,38 +74,32 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public List<Joueur> listerJoueurPartieCourante() {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurPartieDao.listerJoueurPartieCourante();
 	}
 
 	@Override
 	public Joueur commencerPartie() {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurPartieDao.commencerPartie();
 	}
 
 	@Override
-	public List<De> lancerDe(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<De> lancerDes(Joueur j) {
+		return joueurDaoImpl.lancerDes(j);
 	}
 
 	@Override
-	public List<De> voirDe(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<De> voirDes(Joueur j) {
+		return joueurDaoImpl.voirDes(j);
 	}
 
 	@Override
 	public Carte piocherUneCarte(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
 	public void terminerTour() {
-		// TODO Auto-generated method stub
-		
+		joueurPartieDao.terminerTour();
 	}
 
 	@Override

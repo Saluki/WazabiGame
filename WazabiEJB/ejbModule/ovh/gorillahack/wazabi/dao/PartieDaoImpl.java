@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -12,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
 
 @Stateless
@@ -36,6 +39,10 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	public Partie rejoindrePartie(Joueur j){
 		JoueurPartie jp = new JoueurPartie(ordre++, 0, deDaoImpl.getDes(j), carteDaoImpl.getCartes(j));
 		Partie p= super.recherche("SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie) FROM Partie p)");
+		//Si pas de partie ou si la partie possède le status PAS_COMMENCEE
+		if(p==null||p.getStatut()==Partie.Status.PAS_COMMENCE){
+			p = super.enregistrer(new Partie("TOTO", new Date(), Sens.HORAIRE, j, null, null, Status.EN_ATTENTE));
+		}
 		jp.setPartie(p);
 		jp.setJoueur(j);
 		joueurPartieDao.enregistrer(jp);

@@ -84,7 +84,7 @@ public interface GestionPartie {
 	 * @param Joueur j: Le joueur dont on veux lancer les dés.
 	 * @return La liste des De que le joueur a obtenu.
 	 */
-	public List<De> lancerDe(Joueur j);
+	public List<De> lancerDes(Joueur j);
 	
     /**
      * 
@@ -93,7 +93,7 @@ public interface GestionPartie {
      * @param Joueur j: Le joueur dont on veux récupérer les dés.
      * @return List<De> la liste des dés du joueur.
      */
-	public List<De> voirDe(Joueur j);
+	public List<De> voirDes(Joueur j);
 	
 	/**
 	 * 
