@@ -14,6 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CARTES", schema="WAZABI")
 public class Carte implements Serializable {
+	private static final long serialVersionUID = -6077579153718005022L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id_carte;
