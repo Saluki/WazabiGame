@@ -56,6 +56,10 @@ public class Main {
 			for(Joueur j: gestionPartie.listerJoueurPartieCourante()){
 				System.out.println(j.getPseudo());
 			}
+			
+			System.out.println("Le joueur " + gestionPartie.commencerPartie().getPseudo()
+					+ "commence");
+			gestionPartie.terminerTour();
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

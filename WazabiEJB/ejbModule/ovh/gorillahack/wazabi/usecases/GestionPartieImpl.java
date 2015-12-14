@@ -1,6 +1,5 @@
 package ovh.gorillahack.wazabi.usecases;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,17 +9,12 @@ import javax.ejb.Remote;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
-import ovh.gorillahack.wazabi.dao.DeDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
-import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
-import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -36,10 +30,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
-	
-	@EJB
-	private JoueurPartieDaoImpl joueurPartieDao;
-	
+		
 	@PostConstruct
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
@@ -99,7 +90,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void terminerTour() {
-		joueurPartieDao.terminerTour();
+		joueurDaoImpl.terminerTour();
 	}
 
 	@Override

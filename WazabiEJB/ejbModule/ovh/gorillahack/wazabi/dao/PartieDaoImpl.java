@@ -21,7 +21,7 @@ import ovh.gorillahack.wazabi.domaine.Partie.Status;
 @Local(Dao.class)
 @LocalBean
 public class PartieDaoImpl extends DaoImpl<Partie>{
-	private static int ordre=0;
+	protected static int ordre=0;
 	@EJB
 	private JoueurPartieDaoImpl joueurPartieDao;
 	@EJB
@@ -38,7 +38,7 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 
 	public Partie rejoindrePartie(Joueur j){
 		JoueurPartie jp = new JoueurPartie(ordre++, 0, deDaoImpl.getDes(j), carteDaoImpl.getCartes(j));
-		Partie p= super.recherche("SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie) FROM Partie p)");
+		Partie p = getPartieCourante();
 		//Si pas de partie ou si la partie possède le status PAS_COMMENCEE
 		if(p==null||p.getStatut()==Partie.Status.PAS_COMMENCE){
 			p = super.enregistrer(new Partie("TOTO", new Date(), Sens.HORAIRE, j, null, null, Status.EN_ATTENTE));
@@ -52,5 +52,9 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	public List<Partie> afficherHistorique(Joueur j){
 		return super.liste("SELECT p FROM Partie p WHERE EXISTS("
 				+ "SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = p.id_partie)", j);
+	}
+	
+	public Partie getPartieCourante(){
+		return super.recherche("SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie) FROM Partie p)");
 	}
 }
