@@ -25,16 +25,16 @@
     <jsp-file>/WEB-INF/jsp/app/dashboard.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>app.scoreboard</servlet-name>
-  	<jsp-file>/WEB-INF/jsp/app/scoreboard.jsp</jsp-file>
+    <servlet-name>app.scoreboard</servlet-name>
+    <jsp-file>/WEB-INF/jsp/app/scoreboard.jsp</jsp-file>
   </servlet>
   <servlet>
     <servlet-name>app.game</servlet-name>
     <jsp-file>/WEB-INF/jsp/app/game.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>app.create</servlet-name>
-  	<jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
+    <servlet-name>app.create</servlet-name>
+    <jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>index</servlet-name>
@@ -43,10 +43,6 @@
   <servlet-mapping>
     <servlet-name>app.dashboard</servlet-name>
     <url-pattern>/app/dashboard.html</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>app.game</servlet-name>
-    <url-pattern>/app/game.html</url-pattern>
   </servlet-mapping>
   <session-config>
     <cookie-config>

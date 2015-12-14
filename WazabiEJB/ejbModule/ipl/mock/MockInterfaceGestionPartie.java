@@ -11,4 +11,7 @@ public interface MockInterfaceGestionPartie {
 	public boolean inscription(String pseudo,String mdp);
 	public boolean verificationAuthentification(String pseudo,String mdp);
 	public Stack pileInformation();
+	EtatPartie etatPartie();
+	public boolean createPartie(String partie);
+
 }
