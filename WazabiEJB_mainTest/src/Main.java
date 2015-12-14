@@ -26,10 +26,15 @@ public class Main {
 			cartes.add(new Carte(2, 3, null, 1));
 			Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null,
 					Status.PAS_COMMENCE);
-			JoueurPartie joueurPartie1 = gestionPartie.enregistrerJoueurPartie(joueur1, partie1);
-			JoueurPartie joueurPartie2 = gestionPartie.enregistrerJoueurPartie(joueur2, partie1);
+			if (joueur1 != null) {
+				JoueurPartie joueurPartie1 = gestionPartie.enregistrerJoueurPartie(joueur1, partie1);
+				partie1.setCourant(joueurPartie1);
+			}
+			if (joueur2 != null) {
+				JoueurPartie joueurPartie2 = gestionPartie.enregistrerJoueurPartie(joueur2, partie1);
+			}
 			partie1.setCartes(cartes);
-			partie1.setCourant(joueurPartie1);
+			
 
 			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {
 				System.out.println(p.getNom());
@@ -37,8 +42,9 @@ public class Main {
 
 			System.out.println("test1 test de connexion : " + ((gestionPartie.seConnecter("test1", "test1") != null)
 					? "Connexion réussie" : "Connexion ratée"));
-			System.out.println("test1 test de connexion (doit rater) : " + ((gestionPartie.seConnecter("test1", "test2") != null)
-					? "Connexion réussie" : "Connexion ratée"));
+			System.out.println(
+					"test1 test de connexion (doit rater) : " + ((gestionPartie.seConnecter("test1", "test2") != null)
+							? "Connexion réussie" : "Connexion ratée"));
 			System.out.println(
 					"test1 test d'inscription (doit rater) : " + ((gestionPartie.inscrire("test1", "test1") != null)
 							? "Inscription réussie" : "Inscription ratée"));
