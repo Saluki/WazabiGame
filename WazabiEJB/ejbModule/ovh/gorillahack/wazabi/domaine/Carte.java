@@ -23,6 +23,9 @@ public class Carte implements Serializable {
 	@Column (nullable=false)
 	private int code_effet;
 	
+	@Column (nullable=false)
+	private boolean input;
+	
 	@Column(nullable=false)
 	private int cout;
 	
@@ -73,6 +76,9 @@ public class Carte implements Serializable {
 	public void setOrdre_pioche(int ordre_pioche) {
 		this.ordre_pioche = ordre_pioche;
 	}
+	public boolean isInput() {
+		return input;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,8 +113,5 @@ public class Carte implements Serializable {
 		} else if (!partie.equals(other.partie))
 			return false;
 		return true;
-	}
-	
-	
-	
+	}	
 }
