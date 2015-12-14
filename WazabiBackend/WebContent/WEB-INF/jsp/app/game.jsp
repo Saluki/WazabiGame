@@ -1,19 +1,73 @@
 
 <jsp:include page="/WEB-INF/jspf/header.jspf">
 	<jsp:param name="pageTitle" value="Partie"/>
+	<jsp:param name="cssFile" value="game.css"/>
 </jsp:include>
 			
-<h2>Wazabi</h2>
+<div id="board">
+	
+	<div id="player-view"></div>
+	
+	<div id="cards-list-view"></div>
+	
+	<div id="dices-list-view"></div>
+	
+</div>
 
-<a href="app/dashboard.html" class="btn btn-default">Retour</a>
+<script type="text/template" id="player-view-template">
+	
+	Player <\%= name %> 
+
+	<\% if( play ) { %>
+		is playing
+	<\% } else { %>
+		is waiting
+	<\% } %>
+	
+</script>
+
+<script type="text/template" id="card-view-template">
+	
+	<div class="card-cost">
+		<\%= cost %> Wazabi
+	</div>
+
+	<div class="card-title">
+		<\%= name %>
+	</div>
+
+	<div class="card-description">
+		<\%= description %>
+	</div>
+	
+</script>
+
+<script type="text/template" id="dice-view-template">
+	
+	<\%= value %>
+
+</script>
 
 <!-- JS Dependencies -->
-<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="bower_components/underscore/underscore-min.js"></script>
-<script type="text/javascript" src="bower_components/backbone/backbone-min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/backbone/backbone-min.js"></script>
 
-<!-- JS Scripts -->
-<script type="text/javascript" src="js/game/scheduler.js"></script>
-<script type="text/javascript" src="js/game/app.js"></script>
+<!-- JS Models and Collections -->
+<script src="js/game/models/DiceModel.js"></script>
+<script src="js/game/collections/DiceCollection.js"></script>
+<script src="js/game/models/CardModel.js"></script>
+<script src="js/game/collections/CardCollection.js"></script>
+<script src="js/game/models/ChallengerModel.js"></script>
+<script src="js/game/models/PlayerModel.js"></script>
+<script src="js/game/components/SchedulerClass.js"></script>
+
+<!-- JS Views -->
+<script src="js/game/views/PlayerView.js"></script>
+<script src="js/game/views/CardView.js"></script>
+<script src="js/game/views/CardListView.js"></script>
+
+<!-- JS Application -->
+<script src="js/game/app.js"></script>
 
 <jsp:include page="/WEB-INF/jspf/footer.jspf"/>

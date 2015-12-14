@@ -10,11 +10,5 @@
 <p>
 	${ requestScope.errorMessage }
 </p>
-
-<!-- JS Dependencies -->
-<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-
-<!-- JS Scripts -->
-<script type="text/javascript" src="js/base.js"></script>
 		
 <jsp:include page="/WEB-INF/jspf/footer.jspf"/>

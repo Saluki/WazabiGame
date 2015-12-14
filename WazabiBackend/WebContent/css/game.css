@@ -1,0 +1,40 @@
+#player-view {
+	
+	background: lightgrey;
+	text-align: center;
+	padding: 10px;
+	font-size: 16px;
+}
+
+#cards-list-view {
+	
+}
+
+.wazabi-card {
+	
+	width: 150px;
+	height: 200px;
+	border: 5px solid grey;
+	margin-left: 20px;
+	margin-top: 20px;
+	float: left;
+}
+
+.wazabi-card > .card-cost {
+	
+	padding: 10px;
+	background: lightgrey;
+}
+
+.wazabi-card > .card-title {
+	
+	padding: 10px;
+	font-weight: bold;
+	text-align:center;
+}
+
+.wazabi-card > .card-description {
+	
+	padding: 10px;
+	font-style: italic;
+}

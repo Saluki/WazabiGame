@@ -1,4 +1,6 @@
 
+'use strict';
+
 var app = app || {};
 
 app.SchedulerClass = function(refreshTime) {
@@ -6,11 +8,24 @@ app.SchedulerClass = function(refreshTime) {
 	var refreshTime = refreshTime;
 	var timerInstance = undefined;
 	var listeners = [];
+	var lastStatus = {};
+	
+	var fetchStatus = function() {
+		
+		$.getJSON('api/mock', function(statusData){
+			
+			lastStatus = statusData;
+			emitPulse();
+			
+		}).fail(function(){
+			console.error('Status call failed');
+		});
+	}
 	
 	var emitPulse = function() {
 		
 		_.each(listeners, function(listener) {
-			listener();
+			listener(lastStatus);
 		});
 	}
 	
@@ -32,7 +47,7 @@ app.SchedulerClass = function(refreshTime) {
 			return false;
 		}
 		
-		timerInstance = setInterval(emitPulse, refreshTime*1000);
+		timerInstance = setInterval(fetchStatus, refreshTime*1000);
 		return true;
 	}
 	
@@ -43,6 +58,7 @@ app.SchedulerClass = function(refreshTime) {
 		}
 		
 		clearInterval(timerInstance);
+		timerInstance = undefined;
 		return true;
 	}
 }
