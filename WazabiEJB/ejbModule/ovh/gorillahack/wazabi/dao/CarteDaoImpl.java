@@ -23,6 +23,12 @@ public class CarteDaoImpl extends DaoImpl<Carte>{
     	super(Carte.class);
     }
     
+    /**
+     * 
+     * Permet de récupérer la liste des cartes d'un joueur.
+     * @param Joueur j: le joueur dont on veut obtenir les cartes.
+     * @return La liste des cartes du joueur.
+     */
     public List<Carte> getCartes(Joueur j){
 		return /*super.liste("SELECT c FROM Carte c "
 				+ "WHERE EXISTS (SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1"

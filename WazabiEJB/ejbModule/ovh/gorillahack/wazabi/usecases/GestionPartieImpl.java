@@ -61,23 +61,6 @@ public class GestionPartieImpl implements GestionPartie {
     	return joueurDaoImpl.inscrire(pseudo, motdepasse);
     }
         
-    public Partie enregistrerPartie(String nom, Date timestamp, Sens sens, Joueur vainqueur, List<Carte> cartes,
-			JoueurPartie courant, Status statut){
-    	Partie p= new Partie(nom,timestamp,sens,vainqueur,cartes,courant, statut);
-    	p.setCartes(cartes);
-		p.setCourant(courant);
-    	p = partieDaoImpl.enregistrer(p);
-    	return p;
-    }
-        
-    public JoueurPartie enregistrerJoueurPartie(Joueur j, Partie partie){
-    	JoueurPartie p = new JoueurPartie(0,0,null,null);
-    	p.setJoueur(j);
-    	p.setPartie(partie);
-    	joueurPartieDao.enregistrer(p);
-    	return p;
-    }
-
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) {
 		return partieDaoImpl.afficherHistorique(j);

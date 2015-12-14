@@ -24,14 +24,15 @@ public class Main {
 			ArrayList<Carte> cartes = new ArrayList<>();
 			cartes.add(new Carte(0, 1, null, 0));
 			cartes.add(new Carte(2, 3, null, 1));
-			Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null,
-					Status.PAS_COMMENCE);
+			//Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null,
+			//		Status.PAS_COMMENCE);
+			//TODO supprimer la ligne du haut. L'enregistrement se fera dans la méthode rejoindrePartie(Joueur j)
 			//JoueurPartie joueurPartie1 = gestionPartie.enregistrerJoueurPartie(joueur1, partie1);
 			//JoueurPartie joueurPartie2 = gestionPartie.enregistrerJoueurPartie(joueur2, partie1);
-			partie1.setCartes(cartes);
 			//partie1.setCourant(joueurPartie1);
 			Partie p1 = gestionPartie.rejoindrePartie(joueur1);
 			Partie p2 = gestionPartie.rejoindrePartie(joueur2);
+			p1.setCartes(cartes);
 			
 			System.out.println("Historique des parties de joueur1 (partie1): ");
 			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {

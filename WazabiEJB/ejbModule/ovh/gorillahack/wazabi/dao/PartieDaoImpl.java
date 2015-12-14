@@ -41,7 +41,7 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 		joueurPartieDao.enregistrer(jp);
 		return super.enregistrer(p);
 	}	
-	
+
 	public List<Partie> afficherHistorique(Joueur j){
 		return super.liste("SELECT p FROM Partie p WHERE EXISTS("
 				+ "SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = p.id_partie)", j);
