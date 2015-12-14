@@ -18,15 +18,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie>{
 	public JoueurPartieDaoImpl() {
 		super(JoueurPartie.class);
 	}
-
-	public List<Joueur> listerJoueurPartieCourante(){
-		return null;
-	}
-	
-	public Joueur commencerPartie() {
-		return null;
-	}
-	
+		
 	public void terminerTour(){
 		
 	}

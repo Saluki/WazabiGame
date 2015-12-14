@@ -57,4 +57,16 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public List<De> voirDes(Joueur j){
 		return null;
 	}
+	
+	public List<Joueur> listerJoueurPartieCourante() {
+		return super.liste("SELECT j FROM Joueur j WHERE EXISTS "
+				+ "(SELECT jp FROM JoueurPartie jp WHERE "
+				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)"
+				+ "AND jp.joueur = j.id_joueur)");
+	}
+	
+	public Joueur commencerPartie() {
+		//TODO Il faut: Initialiser la pioche, changer le status de la partie, attribuer les dés aux joueurs?, attribuer les cartes aux joueurs, sélectionner le joueur courant
+		return null;
+	}
 }

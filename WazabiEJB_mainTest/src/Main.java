@@ -51,6 +51,11 @@ public class Main {
 			System.out.println(
 					"test1 test d'inscription (doit rater) : " + ((gestionPartie.inscrire("test1", "test1") != null)
 							? "Inscription réussie" : "Inscription ratée"));
+			
+			System.out.println("Joueurs acutellement en attente dans un salon: ");
+			for(Joueur j: gestionPartie.listerJoueurPartieCourante()){
+				System.out.println(j.getPseudo());
+			}
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

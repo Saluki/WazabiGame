@@ -16,7 +16,7 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
-
+@SuppressWarnings("serial")
 @Stateless
 @Local(Dao.class)
 @LocalBean

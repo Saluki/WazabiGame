@@ -74,12 +74,12 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public List<Joueur> listerJoueurPartieCourante() {
-		return joueurPartieDao.listerJoueurPartieCourante();
+		return joueurDaoImpl.listerJoueurPartieCourante();
 	}
 
 	@Override
 	public Joueur commencerPartie() {
-		return joueurPartieDao.commencerPartie();
+		return joueurDaoImpl.commencerPartie();
 	}
 
 	@Override
