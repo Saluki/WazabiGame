@@ -10,6 +10,7 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 public class Main {
@@ -22,7 +23,7 @@ public class Main {
 			ArrayList<Carte> cartes = new ArrayList<>();
 			cartes.add(new Carte(0, 1, null, 0));
 			cartes.add(new Carte(2, 3, null, 1));
-			Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null);
+			Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null, Status.PAS_COMMENCE);
 			JoueurPartie joueurPartie1 = gestionPartie.enregistrerJoueurPartie(joueur1, partie1);
 			JoueurPartie joueurPartie2 = gestionPartie.enregistrerJoueurPartie(joueur2, partie1);
 			partie1.setCartes(cartes);

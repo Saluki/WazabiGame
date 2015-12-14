@@ -19,6 +19,7 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -63,8 +64,8 @@ public class GestionPartieImpl implements GestionPartie {
     }
         
     public Partie enregistrerPartie(String nom, Date timestamp, Sens sens, Joueur vainqueur, List<Carte> cartes,
-			JoueurPartie courant){
-    	Partie p= new Partie(nom,timestamp,sens,vainqueur,cartes,courant);
+			JoueurPartie courant, Status statut){
+    	Partie p= new Partie(nom,timestamp,sens,vainqueur,cartes,courant, statut);
     	p.setCartes(cartes);
 		p.setCourant(courant);
     	p = partieDaoImpl.enregistrer(p);

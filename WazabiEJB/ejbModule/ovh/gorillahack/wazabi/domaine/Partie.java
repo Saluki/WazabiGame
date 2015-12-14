@@ -30,6 +30,10 @@ public class Partie implements Serializable {
 		HORAIRE, ANTIHORAIRE
 	}
 
+	public enum Status {
+		COMMENCE, PAS_COMMENCE, EN_ATTENTE
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_partie;
@@ -43,6 +47,10 @@ public class Partie implements Serializable {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Sens sens;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Status statut;
 
 	@OneToOne
 	@PrimaryKeyJoinColumn(name = "id_vainqueur")
@@ -63,7 +71,7 @@ public class Partie implements Serializable {
 	private List<Carte> pioche;
 
 	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> cartes,
-			JoueurPartie courant) {
+			JoueurPartie courant, Status statut) {
 		super();
 		this.nom = nom;
 		this.timestamp_creation = timestamp_creation;
@@ -71,6 +79,7 @@ public class Partie implements Serializable {
 		this.vainqueur = vainqueur;
 		this.cartes = cartes;
 		this.courant = courant;
+		this.statut = statut;
 	}
 
 	public Partie() {
@@ -134,59 +143,29 @@ public class Partie implements Serializable {
 		this.courant = courant;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cartes == null) ? 0 : cartes.hashCode());
-		result = prime * result + ((courant == null) ? 0 : courant.hashCode());
-		result = prime * result + id_partie;
-		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
-		result = prime * result + ((sens == null) ? 0 : sens.hashCode());
-		result = prime * result + ((timestamp_creation == null) ? 0 : timestamp_creation.hashCode());
-		result = prime * result + ((vainqueur == null) ? 0 : vainqueur.hashCode());
-		return result;
+	public Status getStatut() {
+		return statut;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Partie other = (Partie) obj;
-		if (cartes == null) {
-			if (other.cartes != null)
-				return false;
-		} else if (!cartes.equals(other.cartes))
-			return false;
-		if (courant == null) {
-			if (other.courant != null)
-				return false;
-		} else if (!courant.equals(other.courant))
-			return false;
-		if (id_partie != other.id_partie)
-			return false;
-		if (nom == null) {
-			if (other.nom != null)
-				return false;
-		} else if (!nom.equals(other.nom))
-			return false;
-		if (sens != other.sens)
-			return false;
-		if (timestamp_creation == null) {
-			if (other.timestamp_creation != null)
-				return false;
-		} else if (!timestamp_creation.equals(other.timestamp_creation))
-			return false;
-		if (vainqueur == null) {
-			if (other.vainqueur != null)
-				return false;
-		} else if (!vainqueur.equals(other.vainqueur))
-			return false;
-		return true;
+	public void setStatut(Status statut) {
+		this.statut = statut;
 	}
 
+	public List<JoueurPartie> getJoueursParties() {
+		return joueursParties;
+	}
+
+	public void setJoueursParties(List<JoueurPartie> joueursParties) {
+		this.joueursParties = joueursParties;
+	}
+
+	public List<Carte> getPioche() {
+		return pioche;
+	}
+
+	public void setPioche(List<Carte> pioche) {
+		this.pioche = pioche;
+	}
+
+	
 }
