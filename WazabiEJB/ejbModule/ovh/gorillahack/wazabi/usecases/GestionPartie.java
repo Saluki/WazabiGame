@@ -13,6 +13,7 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 public interface GestionPartie {
 	public Joueur inscrire(String pseudo, String motdepasse);
 	public List<Partie> afficherHistorique(Joueur j);
+	public Joueur seConnecter(String pseudo, String mdp);
 	public Partie rejoindrePartie(Joueur j);
 	public List<Joueur> listerJoueurPartieCourante();
 	public Joueur commencerPartie();

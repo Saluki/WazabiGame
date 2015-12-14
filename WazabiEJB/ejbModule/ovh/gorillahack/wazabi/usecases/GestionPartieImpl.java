@@ -101,4 +101,10 @@ public class GestionPartieImpl implements GestionPartie {
 		
 	}
 
+	@Override
+	public Joueur seConnecter(String pseudo, String mdp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
