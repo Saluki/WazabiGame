@@ -1,9 +1,11 @@
 package ovh.gorillahack.wazabi.domaine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -23,6 +24,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "PARTIES", schema = "WAZABI")
 public class Partie implements Serializable {
+	private static final long serialVersionUID = -4647647034257120291L;
+
 	public enum Sens {
 		HORAIRE, ANTIHORAIRE
 	}
@@ -48,18 +51,16 @@ public class Partie implements Serializable {
 	@OneToMany(mappedBy = "partie")
 	private List<Carte> cartes;
 
-	// @OneToOne
-	// @JoinColumn(name = "id_courant")
-	// @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(referencedColumnName =
-	// "id_joueur"),
-	// @PrimaryKeyJoinColumn(referencedColumnName = "id_partie") })
-	// private JoueurPartie courant;
-
 	@OneToOne
-	@JoinColumns({
-			@JoinColumn(name = "id_partie", referencedColumnName = "partie_id_partie", insertable = false, updatable = false),
-			@JoinColumn(name = "id_joueur", referencedColumnName = "joueur_id_joueur", insertable = false, updatable = false) })
+	@PrimaryKeyJoinColumn(name = "id_joueur_partie")
 	private JoueurPartie courant;
+
+	@OneToMany(mappedBy = "partie")
+	private List<JoueurPartie> joueursParties;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_partie")
+	private List<Carte> pioche;
 
 	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> cartes,
 			JoueurPartie courant) {
@@ -74,6 +75,7 @@ public class Partie implements Serializable {
 
 	public Partie() {
 		super();
+		cartes = new ArrayList<Carte>();
 	}
 
 	public int getId_partie() {
@@ -185,7 +187,6 @@ public class Partie implements Serializable {
 		} else if (!vainqueur.equals(other.vainqueur))
 			return false;
 		return true;
-	}	
-	
-	
+	}
+
 }

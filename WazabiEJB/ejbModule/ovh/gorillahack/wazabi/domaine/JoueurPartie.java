@@ -1,116 +1,65 @@
 package ovh.gorillahack.wazabi.domaine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "JOUEURS_PARTIE", schema = "WAZABI")
+@Table(name = "JOUEURS_PARTIE", schema = "WAZABI", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"joueur_id_joueur", "partie_id_partie" }) )
 public class JoueurPartie implements Serializable {
-	@EmbeddedId
-	private JoueurPartiePK pk;
+	private static final long serialVersionUID = 2497302449327247869L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id_joueur_partie;
 	@Column
 	private int ordre_joueur;
 	@Column
 	private int compteur_sauts;
-	
 
-	public JoueurPartiePK getPk() {
-		return pk;
-	}
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	@PrimaryKeyJoinColumn(name = "id_joueur")
+	private Joueur joueur;
 
-	@Embeddable
-	class JoueurPartiePK implements Serializable {
-		private static final long serialVersionUID = 3698746362647339758L;
-		
-		@ManyToOne
-		@PrimaryKeyJoinColumn(name="id_joueur")
-		private Joueur joueur;
-		@ManyToOne
-		@PrimaryKeyJoinColumn(name="id_partie")
-		private Partie partie;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	@PrimaryKeyJoinColumn(name = "id_partie")
+	private Partie partie;
 
-		public JoueurPartiePK() {
-		}
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_joueur_partie")
+	private List<De> des;
 
-		public JoueurPartiePK(Joueur joueur, Partie partie) {
-			this.joueur = joueur;
-			this.partie = partie;
-		}
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_joueur_partie")
+	private List<Carte> cartes;
 
-		public Joueur getJoueur() {
-			return joueur;
-		}
-
-		public void setJoueur(Joueur joueur) {
-			this.joueur = joueur;
-		}
-
-		public Partie getPartie() {
-			return partie;
-		}
-
-		public void setPartie(Partie partie) {
-			this.partie = partie;
-		}
-
-		//auto generated
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((joueur == null) ? 0 : joueur.hashCode());
-			result = prime * result + ((partie == null) ? 0 : partie.hashCode());
-			return result;
-		}
-
-		//auto generated
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			JoueurPartiePK other = (JoueurPartiePK) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (joueur == null) {
-				if (other.joueur != null)
-					return false;
-			} else if (!joueur.equals(other.joueur))
-				return false;
-			if (partie == null) {
-				if (other.partie != null)
-					return false;
-			} else if (!partie.equals(other.partie))
-				return false;
-			return true;
-		}
-
-		private JoueurPartie getOuterType() {
-			return JoueurPartie.this;
-		}
-
-	}
-
-	public JoueurPartie(int ordre_joueur, int compteur_sauts) {
+	public JoueurPartie(int ordre_joueur, int compteur_sauts, List<De> des, List<Carte> cartes) {
 		super();
 		this.ordre_joueur = ordre_joueur;
 		this.compteur_sauts = compteur_sauts;
+		this.des = des;
+		this.cartes = cartes;
 	}
 
 	public JoueurPartie() {
 		super();
+		des = new ArrayList<>();
+		cartes = new ArrayList<>();
 	}
 
 	public int getOrdre_joueur() {
@@ -129,17 +78,13 @@ public class JoueurPartie implements Serializable {
 		this.compteur_sauts = compteur_sauts;
 	}
 
-	public void setPk(JoueurPartiePK pk) {
-		this.pk = pk;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + compteur_sauts;
+		result = prime * result + id_joueur_partie;
 		result = prime * result + ordre_joueur;
-		result = prime * result + ((pk == null) ? 0 : pk.hashCode());
 		return result;
 	}
 
@@ -154,15 +99,42 @@ public class JoueurPartie implements Serializable {
 		JoueurPartie other = (JoueurPartie) obj;
 		if (compteur_sauts != other.compteur_sauts)
 			return false;
-		if (ordre_joueur != other.ordre_joueur)
+		if (id_joueur_partie != other.id_joueur_partie)
 			return false;
-		if (pk == null) {
-			if (other.pk != null)
-				return false;
-		} else if (!pk.equals(other.pk))
+		if (ordre_joueur != other.ordre_joueur)
 			return false;
 		return true;
 	}
-	
-	
+
+	public Joueur getJoueur() {
+		return joueur;
+	}
+
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
+	}
+
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+
+	public List<De> getDes() {
+		return des;
+	}
+
+	public List<Carte> getCartes() {
+		return cartes;
+	}
+
+	public void setDes(List<De> des) {
+		this.des = des;
+	}
+
+	public void setCartes(List<Carte> cartes) {
+		this.cartes = cartes;
+	}
 }

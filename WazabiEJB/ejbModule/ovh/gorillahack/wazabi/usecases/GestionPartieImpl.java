@@ -1,5 +1,7 @@
 package ovh.gorillahack.wazabi.usecases;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -8,7 +10,11 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
+import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
+import ovh.gorillahack.wazabi.domaine.Carte;
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.Partie;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -19,6 +25,9 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 public class GestionPartieImpl implements GestionPartie {
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
+	
+	@EJB
+	private PartieDaoImpl partieDaoImpl;
 	
 	@PostConstruct
 	public void postconstruct() {
@@ -45,9 +54,57 @@ public class GestionPartieImpl implements GestionPartie {
     }
 
 	@Override
-	public boolean verificationAuthentification(String pseudo, String mdp) {
+	public List<Partie> afficherHistorique(Joueur j) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
+	}
+
+	@Override
+	public Partie rejoindrePartie(Joueur j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Joueur> listerJoueurPartieCourante() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Joueur commencerPartie() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<De> lancerDe(Joueur j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<De> voirDe(Joueur j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Carte piocherUneCarte(Joueur j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void terminerTour() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Joueur seConnecter(String pseudo, String mdp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
