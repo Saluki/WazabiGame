@@ -49,10 +49,6 @@
     <url-pattern>/app/dashboard.html</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>app.game</servlet-name>
-    <url-pattern>/app/game.html</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
   	<servlet-name>api.mock</servlet-name>
   	<url-pattern>/api/mock</url-pattern>
   </servlet-mapping>

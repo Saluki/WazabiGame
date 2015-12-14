@@ -5,7 +5,7 @@
 			
 <h2>Creer une nouvelle partie</h2>
 
-<form method="POST" action="">
+<form method="POST" action="app/game.html">
 	<label>Nom partie</label>
 	<input type="text" name="nom" placeholder="Nom"><br><br>
 	<input type="submit" value="Creer">

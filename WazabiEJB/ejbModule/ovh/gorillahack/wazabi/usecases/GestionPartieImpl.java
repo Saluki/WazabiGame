@@ -23,12 +23,14 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 @Startup
 @Remote(GestionPartie.class)
 public class GestionPartieImpl implements GestionPartie {
+	private Partie partieCourante;
+	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 	
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
-	
+		
 	@PostConstruct
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
@@ -48,57 +50,52 @@ public class GestionPartieImpl implements GestionPartie {
     
     @Override
     public Joueur inscrire(String pseudo, String motdepasse) {
-    	Joueur joueur = new Joueur(pseudo, motdepasse);
-    	joueurDaoImpl.enregistrer(joueur);
-    	return joueur;
+    	return joueurDaoImpl.inscrire(pseudo, motdepasse);
     }
-
+        
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return partieDaoImpl.afficherHistorique(j);
 	}
 
 	@Override
 	public Partie rejoindrePartie(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return partieDaoImpl.rejoindrePartie(j);
 	}
 
 	@Override
 	public List<Joueur> listerJoueurPartieCourante() {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.listerJoueurPartieCourante();
 	}
 
 	@Override
 	public Joueur commencerPartie() {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.commencerPartie();
 	}
 
 	@Override
-	public List<De> lancerDe(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<De> lancerDes(Joueur j) {
+		return joueurDaoImpl.lancerDes(j);
 	}
 
 	@Override
-	public List<De> voirDe(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<De> voirDes(Joueur j) {
+		return joueurDaoImpl.voirDes(j);
 	}
 
 	@Override
 	public Carte piocherUneCarte(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
 	public void terminerTour() {
-		// TODO Auto-generated method stub
-		
+		joueurDaoImpl.terminerTour();
+	}
+
+	@Override
+	public Joueur seConnecter(String pseudo, String mdp) {
+		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
 
 }
