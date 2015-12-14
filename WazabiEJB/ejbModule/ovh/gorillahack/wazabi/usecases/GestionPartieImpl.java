@@ -58,9 +58,7 @@ public class GestionPartieImpl implements GestionPartie {
     
     @Override
     public Joueur inscrire(String pseudo, String motdepasse) {
-    	Joueur joueur = new Joueur(pseudo, motdepasse);
-    	joueurDaoImpl.enregistrer(joueur);
-    	return joueur;
+    	return joueurDaoImpl.inscrire(pseudo, motdepasse);
     }
         
     public Partie enregistrerPartie(String nom, Date timestamp, Sens sens, Joueur vainqueur, List<Carte> cartes,
@@ -128,8 +126,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Joueur seConnecter(String pseudo, String mdp) {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
 
 }
