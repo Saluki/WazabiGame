@@ -1,9 +1,6 @@
 package ovh.gorillahack.wazabi.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
@@ -17,16 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import ipl.mock.MockGestionPartie;
-import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.usecases.GestionPartieImpl;
+import ipl.mock.MockInterfaceGestionPartie;
 
 @WebServlet(urlPatterns = "/api/game/status")
 public class GameStatus extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	@EJB
-	private MockGestionPartie gestionPartie ;
+	private MockInterfaceGestionPartie gestionPartie ;
 	// Developer notice
 	// [java.lang.NoClassDefFoundError: org/json/simple/JSONObject]
 	// => Use "Markers" > "Quick fix"
@@ -40,17 +35,15 @@ public class GameStatus extends HttpServlet {
 		// information a resortir de la base de donnée
 		Stack pile = gestionPartie.pileInformation();
 		//strucutre de la pile : 
-		// 1)Map<String, String>
-		Map<String,String> joueurInfo = (Map<String,String>)pile.pop();
-		//2)Vector<Map<String, String>>
-		Vector<Map<String, String>> carteInfo = (Vector<Map<String, String>>) pile.pop();
-		//3)Vector<String>
-		Vector<String> desJoueurs = (Vector<String>) pile.pop();
-
 		//4)Vector<Map<String, Vector<String>>>
 		Vector<Map<String, Vector<String>>> challengers = (Vector<Map<String, Vector<String>>>) pile.pop();
-		
-		// 1) Player informations
+		//3)Vector<String>
+		Vector<String> desJoueurs = (Vector<String>) pile.pop();
+		//2)Vector<Map<String, String>>
+		Vector<Map<String, String>> carteInfo = (Vector<Map<String, String>>) pile.pop();
+		// 1)Map<String, String>
+				Map<String,String> joueurInfo = (Map<String,String>) pile.pop();
+			
 		JSONObject playerInfo = new JSONObject();
 		playerInfo.putAll(joueurInfo);
 		
@@ -59,6 +52,7 @@ public class GameStatus extends HttpServlet {
 		// Personal game data
 		JSONObject hand = new JSONObject();
 		JSONObject cards = new JSONObject();
+		
 		for (int i = 0; i < carteInfo.size(); i++) {
 			// carte
 	
