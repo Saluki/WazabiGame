@@ -1,10 +1,12 @@
 package ovh.gorillahack.wazabi.domaine;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="DE", schema="WAZABI")
-public class De {
+public class De implements Serializable {
 	public enum Valeur {WAZABI, PIOCHE, DE}
 	
 	@Id
@@ -38,6 +40,31 @@ public class De {
 
 	public void setValeur(Valeur valeur) {
 		this.valeur = valeur;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id_de;
+		result = prime * result + ((valeur == null) ? 0 : valeur.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		De other = (De) obj;
+		if (id_de != other.id_de)
+			return false;
+		if (valeur != other.valeur)
+			return false;
+		return true;
 	}
 	
 	

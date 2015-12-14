@@ -1,5 +1,7 @@
 package ovh.gorillahack.wazabi.domaine;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="CARTES", schema="WAZABI")
-public class Carte {
+public class Carte implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id_carte;
@@ -68,6 +70,41 @@ public class Carte {
 	}
 	public void setOrdre_pioche(int ordre_pioche) {
 		this.ordre_pioche = ordre_pioche;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + code_effet;
+		result = prime * result + cout;
+		result = prime * result + id_carte;
+		result = prime * result + ordre_pioche;
+		result = prime * result + ((partie == null) ? 0 : partie.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Carte other = (Carte) obj;
+		if (code_effet != other.code_effet)
+			return false;
+		if (cout != other.cout)
+			return false;
+		if (id_carte != other.id_carte)
+			return false;
+		if (ordre_pioche != other.ordre_pioche)
+			return false;
+		if (partie == null) {
+			if (other.partie != null)
+				return false;
+		} else if (!partie.equals(other.partie))
+			return false;
+		return true;
 	}
 	
 	
