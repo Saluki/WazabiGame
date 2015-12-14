@@ -7,9 +7,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.Partie;
 
 /**
  * Session Bean implementation class JoueurDaoImpl
@@ -23,9 +23,5 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	
     public JoueurDaoImpl() {
     	super(Joueur.class);
-    }
-
-    public List<Joueur> afficherHistorique(Joueur j) {
-    	return super.liste("SELECT j from Joueur j WHERE id_joueur=?1",j);
     }
 }

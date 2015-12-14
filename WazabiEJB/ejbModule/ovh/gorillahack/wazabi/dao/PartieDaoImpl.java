@@ -17,7 +17,7 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 @Local(Dao.class)
 @LocalBean
 public class PartieDaoImpl extends DaoImpl<Partie>{
-
+	
 	public PartieDaoImpl() {
 		super(Partie.class);
 	}
@@ -27,5 +27,10 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 
 	public Partie rejoindrePartie(Joueur j){
 		return null;
+	}	
+	
+	public List<Partie> afficherHistorique(Joueur j){
+		return super.liste("SELECT p FROM Partie p WHERE EXISTS("
+				+ "SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = p.id_partie)", j);
 	}
 }

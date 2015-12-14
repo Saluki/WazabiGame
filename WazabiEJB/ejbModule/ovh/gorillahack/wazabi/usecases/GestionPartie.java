@@ -1,6 +1,7 @@
 
 package ovh.gorillahack.wazabi.usecases;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -8,7 +9,9 @@ import javax.ejb.Remote;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 
 @Remote
 public interface GestionPartie {
@@ -22,4 +25,7 @@ public interface GestionPartie {
 	public List<De> voirDe(Joueur j);
 	public Carte piocherUneCarte(Joueur j);
 	public void terminerTour();
+    public Partie enregistrerPartie(String nom, Date timestamp, Sens sens, Joueur vainqueur, List<Carte> cartes,
+			JoueurPartie courant);
+    public JoueurPartie enregistrerJoueurPartie(Joueur j, Partie partie);
 }

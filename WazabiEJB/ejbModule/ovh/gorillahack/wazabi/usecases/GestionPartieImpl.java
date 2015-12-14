@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.usecases;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,11 +11,14 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
+import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -23,11 +27,16 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 @Startup
 @Remote(GestionPartie.class)
 public class GestionPartieImpl implements GestionPartie {
+	private Partie partieCourrante;
+	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 	
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
+	
+	@EJB
+	private JoueurPartieDaoImpl joueurPartieDao;
 	
 	@PostConstruct
 	public void postconstruct() {
@@ -52,16 +61,31 @@ public class GestionPartieImpl implements GestionPartie {
     	joueurDaoImpl.enregistrer(joueur);
     	return joueur;
     }
+        
+    public Partie enregistrerPartie(String nom, Date timestamp, Sens sens, Joueur vainqueur, List<Carte> cartes,
+			JoueurPartie courant){
+    	Partie p= new Partie(nom,timestamp,sens,vainqueur,cartes,courant);
+    	p.setCartes(cartes);
+		p.setCourant(courant);
+    	p = partieDaoImpl.enregistrer(p);
+    	return p;
+    }
+        
+    public JoueurPartie enregistrerJoueurPartie(Joueur j, Partie partie){
+    	JoueurPartie p = new JoueurPartie(0,0,null,null);
+    	p.setJoueur(j);
+    	p.setPartie(partie);
+    	joueurPartieDao.enregistrer(p);
+    	return p;
+    }
 
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return partieDaoImpl.afficherHistorique(j);
 	}
 
 	@Override
 	public Partie rejoindrePartie(Joueur j) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
