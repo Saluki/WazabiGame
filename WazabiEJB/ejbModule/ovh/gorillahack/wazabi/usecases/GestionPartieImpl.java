@@ -44,4 +44,10 @@ public class GestionPartieImpl implements GestionPartie {
     	return joueur;
     }
 
+	@Override
+	public boolean verificationAuthentification(String pseudo, String mdp) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
