@@ -48,18 +48,15 @@ public class Partie implements Serializable {
 	@OneToMany(mappedBy = "partie")
 	private List<Carte> cartes;
 
-	// @OneToOne
-	// @JoinColumn(name = "id_courant")
-	// @PrimaryKeyJoinColumns({ @PrimaryKeyJoinColumn(referencedColumnName =
-	// "id_joueur"),
-	// @PrimaryKeyJoinColumn(referencedColumnName = "id_partie") })
-	// private JoueurPartie courant;
-
 	@OneToOne
-	@JoinColumns({
-			@JoinColumn(name = "id_partie", referencedColumnName = "partie_id_partie", insertable = false, updatable = false),
-			@JoinColumn(name = "id_joueur", referencedColumnName = "joueur_id_joueur", insertable = false, updatable = false) })
+	@PrimaryKeyJoinColumn(name="id_joueur_partie")
+//	@JoinColumns({
+//			@JoinColumn(name = "id_partie", referencedColumnName = "partie_id_partie", insertable = false, updatable = false),
+//			@JoinColumn(name = "id_joueur", referencedColumnName = "joueur_id_joueur", insertable = false, updatable = false) })
 	private JoueurPartie courant;
+	
+	@OneToMany(mappedBy="partie")
+	private List<JoueurPartie> joueursParties;
 
 	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> cartes,
 			JoueurPartie courant) {

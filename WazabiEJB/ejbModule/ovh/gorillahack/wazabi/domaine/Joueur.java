@@ -1,8 +1,15 @@
 package ovh.gorillahack.wazabi.domaine;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "JOUEURS", schema = "WAZABI")
@@ -14,6 +21,9 @@ public class Joueur implements Serializable {
 	private String pseudo;
 	@Column(nullable = false, length=250)
 	private String mot_de_passe;
+	
+	@OneToMany(mappedBy="joueur")
+	private List<JoueurPartie> joueursParties;
 	
 	public Joueur(String pseudo, String mot_de_passe) {
 		super();
