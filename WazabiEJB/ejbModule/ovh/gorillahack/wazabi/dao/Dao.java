@@ -1,9 +1,13 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Dao<E> {
-	E enregistrer(E entite);
-	
+public interface Dao<E> extends Serializable {
+	E rechercher(int id);
+	E enregistrer(E entité);
+	E mettreAJour(E entité);
+	E recharger(int id);
+	void supprimer(int id);
 	List<E> lister();
 }

@@ -16,26 +16,16 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 @Stateless
 @Local(Dao.class)
 @LocalBean
-public class PartieDaoImpl implements Dao<Partie>{
+public class PartieDaoImpl extends DaoImpl<Partie>{
+
+	public PartieDaoImpl() {
+		super(Partie.class);
+	}
 
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
-	@Override
-	public Partie enregistrer(Partie entite) {
-		entityManager.persist(entite);
-		return entite;
+	public Partie rejoindrePartie(Joueur j){
+		return null;
 	}
-
-	@Override
-	public List<Partie> lister() {
-		List<Partie> parties = null;
-		String queryString = "select p from Partie p";
-		TypedQuery<Partie> query = entityManager.createQuery(queryString, Partie.class);
-		parties = query.getResultList();
-		return parties;
-	}
-	
-	
-
 }

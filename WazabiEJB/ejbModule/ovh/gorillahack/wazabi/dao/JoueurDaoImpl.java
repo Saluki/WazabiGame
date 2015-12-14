@@ -17,29 +17,15 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 @Stateless
 @Local(Dao.class)
 @LocalBean
-public class JoueurDaoImpl implements Dao<Joueur> {
+public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 	
     public JoueurDaoImpl() {
+    	super(Joueur.class);
     }
 
-	/**
-     * @see Dao#enregistrer(E)
-     */
-    public Joueur enregistrer(Joueur entite) {
-    	entityManager.persist(entite);
-		return entite;
-    }
-
-	/**
-     * @see Dao#lister()
-     */
-    public List<Joueur> lister() {
-    	List<Joueur> joueurs = null;
-		String queryString = "select j from Joueur j";
-		TypedQuery<Joueur> query = entityManager.createQuery(queryString, Joueur.class);
-		joueurs = query.getResultList();
-		return joueurs;
+    public List<Joueur> afficherHistorique(Joueur j) {
+    	return super.liste("SELECT j from Joueur j WHERE id_joueur=?1",j);
     }
 }
