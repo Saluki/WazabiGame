@@ -121,6 +121,20 @@ public class JoueurPartie implements Serializable {
 	public void setPartie(Partie partie) {
 		this.partie = partie;
 	}
-	
-	
+
+	public List<De> getDes() {
+		return des;
+	}
+
+	public List<Carte> getCartes() {
+		return cartes;
+	}
+
+	public void setDes(List<De> des) {
+		this.des = des;
+	}
+
+	public void setCartes(List<Carte> cartes) {
+		this.cartes = cartes;
+	}
 }
