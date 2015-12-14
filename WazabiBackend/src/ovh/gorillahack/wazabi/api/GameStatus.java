@@ -15,25 +15,31 @@ public class GameStatus extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	// Developer notice
+	// [java.lang.NoClassDefFoundError: org/json/simple/JSONObject]
+	// => Use "Markers" > "Quick fix"
+	
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		// java.lang.NoClassDefFoundError: org/json/simple/JSONObject
-		// Use "Markers" > "Quick fix"
 		
-		JSONObject subObject = new JSONObject();
-		subObject.put("lastKey", "value");
+		JSONObject statusObject = new JSONObject();
+		
+		// Player informations
+		JSONObject playerInfo = new JSONObject();
+		playerInfo.put("pseudo", "John Doe");
+		playerInfo.put("isCurrentTurn", true);
+		statusObject.put("player", playerInfo);
+		
+		// Personal game data
+		JSONObject gameData = new JSONObject();
+		gameData.put("cards", "{}");
+		gameData.put("dices", "{}");
+		statusObject.put("personalGame", gameData);
+		
+		// Challengers game data
+		statusObject.put("challengersGame", "[]");
 
-		JSONObject object = new JSONObject();
-		object.put("key", "value");
-		object.put("otherKey", subObject);
-
-		// TODO Return game status as JSON object
-		// http://www.json.org/
-		// http://www.tutorialspoint.com/json/json_java_example.htm
-
-		response.getWriter().print(object.toJSONString());
+		response.getWriter().print(statusObject.toJSONString());
 	}
-
 }
