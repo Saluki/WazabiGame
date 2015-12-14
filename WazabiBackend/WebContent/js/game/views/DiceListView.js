@@ -12,13 +12,20 @@ app.DiceListView = Backbone.View.extend({
 	},
 	
 	initialize: function() {
-		// TODO this.listenTo(app.)
+		
+		this.listenTo(this.collection, 'reset', this.render);
+		this.listenTo(this.collection, 'update', this.render);
 	},
 	
 	render: function() {
 		
 		this.cleanList();
-		this.$el.html('DICES');
+		this.collection.each(function(diceModel){
+			
+			var diceView = new app.DiceView({ model:diceModel });
+			this.$el.append(diceView.el);
+			
+		}, this);
 		
 		return this;
 	},
@@ -29,7 +36,7 @@ app.DiceListView = Backbone.View.extend({
 	},
 
 	rollDices: function() {
-		console.log('Rolling dices')
+		alert('Rolling dices...');
 	}
 	
 });

@@ -41,6 +41,10 @@
   	<jsp-file>/WEB-INF/jsp/api/mock.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
+  	<servlet-name>app.game</servlet-name>
+  	<url-pattern>/app/mock.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>index</servlet-name>
     <url-pattern>/index.html</url-pattern>
   </servlet-mapping>

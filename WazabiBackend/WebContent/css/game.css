@@ -1,3 +1,20 @@
+#board {
+	
+}
+
+#waiting-screen {
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 30px;
+	color: lightgrey;
+	padding-top: 200px;
+}
+
 #player-view {
 	
 	background: lightgrey;
@@ -7,6 +24,7 @@
 }
 
 #cards-list-view {
+	
 	
 }
 
@@ -37,4 +55,24 @@
 	
 	padding: 10px;
 	font-style: italic;
+}
+
+#dices-list-view {
+	
+	margin-top:30px;
+}
+
+.wazabi-dice {
+	
+	height: 50px;
+	width: 50px;
+	background: lightgrey;
+	border: 1px solid grey;
+	border-radius: 3px;
+	text-align: center;
+	float: left;
+	margin-left: 30px;
+	font-size: 20px;
+	padding-top: 10px;
+	font-weight: bold;
 }

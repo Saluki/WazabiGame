@@ -9,6 +9,8 @@ app.CardListView = Backbone.View.extend({
 	events : {},
 
 	initialize : function() {		
+		
+		this.listenTo(this.collection, 'reset', this.render);
 		this.listenTo(this.collection, 'update', this.render);
 	},
 

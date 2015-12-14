@@ -9,29 +9,34 @@ $(function(){
 	
 	app.scheduler = new app.SchedulerClass(5);
 	
+	app.game = new app.GameModel();
 	app.mainPlayer = new app.PlayerModel();
-	app.playerCards = new app.CardCollection();
 	
-	// TODO Show game waiting screen following extracted game status
-	// Put #board on 'waiting status' and when status
-	// - when 'playing', erase and show toolbars
-	// - when 'waiting', reshow default waiting ==> TEMPLATE
+	app.playerCards = new app.CardCollection();
+	app.playerDices = new app.DiceCollection();
 	
 	// TODO Current data loader, and yes, it's really ugly
 	app.scheduler.registerListener(function(statusData){
 		
+		app.game.set('status', statusData.status);
+		
 		app.mainPlayer.set('name', statusData.player.name);
 		app.mainPlayer.set('play', statusData.player.play);
 		
-		app.playerCards.reset();
-		app.playerCards.add(statusData.hand.cards);
+		app.playerCards.reset(statusData.hand.cards);
 		
-		// TODO Load dices
+		var tempDicesList = [];
+		_.each(statusData.hand.dices, function(diceValue) {
+			tempDicesList.push( new app.DiceModel({ value:diceValue }) );
+		});		
+		app.playerDices.reset(tempDicesList);
 				
 	});
 	
+	app.board = new app.BoardView({ model:app.game });
 	app.mainPlayerView = new app.PlayerView({ model:app.mainPlayer });
 	app.playerCardsView = new app.CardListView({ collection:app.playerCards });
+	app.playerDicesView = new app.DiceListView({ collection:app.playerDices });
 	
 	app.scheduler.start();
 	

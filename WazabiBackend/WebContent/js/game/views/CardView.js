@@ -24,8 +24,10 @@ app.CardView = Backbone.View.extend({
 		return this;
 	},
 	
-	chooseCard : function(e) {		
-		console.log('Choosed card ' + this.model.get('name'));
+	chooseCard : function(e) {
+		
+		alert('You choosed "' + this.model.get('name') + '"');
+		// console.log('Choosed card ' + this.model.get('name'));
 	}
 
 });

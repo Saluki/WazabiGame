@@ -6,11 +6,13 @@
 			
 <div id="board">
 	
-	<div id="player-view"></div>
-	
-	<div id="cards-list-view"></div>
-	
+	<div id="player-view"></div>	
+	<div id="cards-list-view" class="clearfix"></div>
 	<div id="dices-list-view"></div>
+	
+	<div id="waiting-screen">
+		En attente de joueurs...
+	</div>
 	
 </div>
 
@@ -54,6 +56,7 @@
 <script src="bower_components/backbone/backbone-min.js"></script>
 
 <!-- JS Models and Collections -->
+<script src="js/game/models/GameModel.js"></script>
 <script src="js/game/models/DiceModel.js"></script>
 <script src="js/game/collections/DiceCollection.js"></script>
 <script src="js/game/models/CardModel.js"></script>
@@ -63,9 +66,12 @@
 <script src="js/game/components/SchedulerClass.js"></script>
 
 <!-- JS Views -->
+<script src="js/game/views/BoardView.js"></script>
 <script src="js/game/views/PlayerView.js"></script>
 <script src="js/game/views/CardView.js"></script>
 <script src="js/game/views/CardListView.js"></script>
+<script src="js/game/views/DiceView.js"></script>
+<script src="js/game/views/DiceListView.js"></script>
 
 <!-- JS Application -->
 <script src="js/game/app.js"></script>
