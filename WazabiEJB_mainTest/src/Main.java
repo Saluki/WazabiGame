@@ -23,7 +23,7 @@ public class Main {
 			cartes.add(new Carte(0, 1, null, 0));
 			cartes.add(new Carte(2, 3, null, 1));
 			Partie partie1 = new Partie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null);
-			JoueurPartie joueurPartie1 = new JoueurPartie(0, 0);
+			JoueurPartie joueurPartie1 = new JoueurPartie();
 			partie1.setCartes(cartes);
 			partie1.setCourant(joueurPartie1);
 

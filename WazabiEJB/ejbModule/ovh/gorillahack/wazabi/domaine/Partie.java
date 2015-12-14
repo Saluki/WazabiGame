@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -51,15 +53,14 @@ public class Partie implements Serializable {
 
 	@OneToOne
 	@PrimaryKeyJoinColumn(name = "id_joueur_partie")
-	// @JoinColumns({
-	// @JoinColumn(name = "id_partie", referencedColumnName =
-	// "partie_id_partie", insertable = false, updatable = false),
-	// @JoinColumn(name = "id_joueur", referencedColumnName =
-	// "joueur_id_joueur", insertable = false, updatable = false) })
 	private JoueurPartie courant;
 
 	@OneToMany(mappedBy = "partie")
 	private List<JoueurPartie> joueursParties;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_partie")
+	private List<Carte> pioche;
 
 	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> cartes,
 			JoueurPartie courant) {

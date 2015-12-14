@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.domaine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,8 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "JOUEURS_PARTIE", schema = "WAZABI", uniqueConstraints = @UniqueConstraint(columnNames = { "joueur_id_joueur",
-		"partie_id_partie" }) )
+@Table(name = "JOUEURS_PARTIE", schema = "WAZABI", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"joueur_id_joueur", "partie_id_partie" }) )
 public class JoueurPartie implements Serializable {
 	private static final long serialVersionUID = 2497302449327247869L;
 	@Id
@@ -30,118 +31,35 @@ public class JoueurPartie implements Serializable {
 	private int compteur_sauts;
 
 	@ManyToOne
-	@JoinColumn(nullable=false)
+	@JoinColumn(nullable = false)
 	@PrimaryKeyJoinColumn(name = "id_joueur")
 	private Joueur joueur;
 
 	@ManyToOne
-	@JoinColumn(nullable=false)
+	@JoinColumn(nullable = false)
 	@PrimaryKeyJoinColumn(name = "id_partie")
 	private Partie partie;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="id_de")
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_joueur_partie")
 	private List<De> des;
 
-	// public JoueurPartiePK getPk() {
-	// return pk;
-	// }
-	//
-	// @Transient
-	// public Joueur getJoueur() {
-	// return pk.getJoueur();
-	// }
-	//
-	// @Transient
-	// public Partie getPartie() {
-	// return pk.getPartie();
-	// }
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_joueur_partie")
+	private List<Carte> cartes;
 
-	// @Embeddable
-	// class JoueurPartiePK implements Serializable {
-	// private static final long serialVersionUID = 3698746362647339758L;
-	//
-	// @ManyToOne
-	// @PrimaryKeyJoinColumn(name="id_joueur")
-	// private Joueur joueur;
-	// @ManyToOne
-	// @PrimaryKeyJoinColumn(name="id_partie")
-	// private Partie partie;
-	//
-	// public JoueurPartiePK() {
-	// }
-	//
-	// public JoueurPartiePK(Joueur joueur, Partie partie) {
-	// this.joueur = joueur;
-	// this.partie = partie;
-	// }
-	//
-	// public Joueur getJoueur() {
-	// return joueur;
-	// }
-	//
-	// public void setJoueur(Joueur joueur) {
-	// this.joueur = joueur;
-	// }
-	//
-	// public Partie getPartie() {
-	// return partie;
-	// }
-	//
-	// public void setPartie(Partie partie) {
-	// this.partie = partie;
-	// }
-	//
-	// //auto generated
-	// @Override
-	// public int hashCode() {
-	// final int prime = 31;
-	// int result = 1;
-	// result = prime * result + getOuterType().hashCode();
-	// result = prime * result + ((joueur == null) ? 0 : joueur.hashCode());
-	// result = prime * result + ((partie == null) ? 0 : partie.hashCode());
-	// return result;
-	// }
-	//
-	// //auto generated
-	// @Override
-	// public boolean equals(Object obj) {
-	// if (this == obj)
-	// return true;
-	// if (obj == null)
-	// return false;
-	// if (getClass() != obj.getClass())
-	// return false;
-	// JoueurPartiePK other = (JoueurPartiePK) obj;
-	// if (!getOuterType().equals(other.getOuterType()))
-	// return false;
-	// if (joueur == null) {
-	// if (other.joueur != null)
-	// return false;
-	// } else if (!joueur.equals(other.joueur))
-	// return false;
-	// if (partie == null) {
-	// if (other.partie != null)
-	// return false;
-	// } else if (!partie.equals(other.partie))
-	// return false;
-	// return true;
-	// }
-	//
-	// private JoueurPartie getOuterType() {
-	// return JoueurPartie.this;
-	// }
-	//
-	// }
-
-	public JoueurPartie(int ordre_joueur, int compteur_sauts) {
+	public JoueurPartie(int ordre_joueur, int compteur_sauts, List<De> des, List<Carte> cartes) {
 		super();
 		this.ordre_joueur = ordre_joueur;
 		this.compteur_sauts = compteur_sauts;
+		this.des = des;
+		this.cartes = cartes;
 	}
 
 	public JoueurPartie() {
 		super();
+		des = new ArrayList<>();
+		cartes = new ArrayList<>();
 	}
 
 	public int getOrdre_joueur() {
@@ -188,8 +106,21 @@ public class JoueurPartie implements Serializable {
 		return true;
 	}
 
-	// public void setPk(JoueurPartiePK pk) {
-	// this.pk = pk;
-	// }
+	public Joueur getJoueur() {
+		return joueur;
+	}
 
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
+	}
+
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+	
+	
 }
