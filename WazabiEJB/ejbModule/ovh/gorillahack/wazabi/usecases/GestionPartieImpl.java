@@ -85,7 +85,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Partie rejoindrePartie(Joueur j) {
-		return null;
+		return partieDaoImpl.rejoindrePartie(j);
 	}
 
 	@Override
