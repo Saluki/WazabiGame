@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.utils.Utils;
+import ovh.gorillahack.wazabi.util.Utils;
 
 /**
  * Servlet implementation class JoinGame
@@ -40,19 +41,21 @@ public class JoinGame extends HttpServlet {
 		// TODO Auto-generated method stub
 		context = getServletContext();
 		String partie = request.getParameter("nom");
-		if( !Utils.checkString(partie)){
-			redirectWithError(request, response, "Format de la partie invalide");
-			return;
-		}
+
 		
 		synchronized(getServletContext()){
-			if( gestionPartie.creerPartie(partie) != null){
-				getServletContext().getNamedDispatcher("app.game").forward(request, response);
-				return;
-			}else{
-				request.setAttribute("message", "Une partie a ete cree entre temps. Veuillez vous inscire a la partie");
-				request.getServletContext().getNamedDispatcher("app.dashboard").forward(request, response);
-				return;
+			try {
+				if( gestionPartie.creerPartie(partie) != null){
+					getServletContext().getNamedDispatcher("app.game").forward(request, response);
+					return;
+				}else{
+					request.setAttribute("message", "Une partie a ete cree entre temps. Veuillez vous inscire a la partie");
+					request.getServletContext().getNamedDispatcher("app.dashboard").forward(request, response);
+					return;
+				}
+			} catch (ValidationException e) {
+				// TODO Auto-generated catch block
+				redirectWithError(request, response, e.getMessage());
 			}
 		}
 	
@@ -61,7 +64,7 @@ public class JoinGame extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setAttribute("errorMessage", message);
-		context.getNamedDispatcher("app.dashboard").forward(request, response);
+		context.getNamedDispatcher("app.create").forward(request, response);
 	}
 
 }

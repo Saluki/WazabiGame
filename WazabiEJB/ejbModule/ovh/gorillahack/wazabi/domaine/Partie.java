@@ -56,9 +56,6 @@ public class Partie implements Serializable {
 	@JoinColumn(name = "id_vainqueur")
 	private Joueur vainqueur;
 
-	@OneToMany(mappedBy = "partie")
-	private List<Carte> cartes;
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_courant")
 	private JoueurPartie courant;
@@ -70,21 +67,21 @@ public class Partie implements Serializable {
 	@JoinColumn(name = "id_partie")
 	private List<Carte> pioche;
 
-	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> cartes,
+	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> pioche,
 			JoueurPartie courant, Status statut) {
 		super();
 		this.nom = nom;
 		this.timestamp_creation = timestamp_creation;
 		this.sens = sens;
 		this.vainqueur = vainqueur;
-		this.cartes = cartes;
+		this.pioche = pioche;
 		this.courant = courant;
 		this.statut = statut;
 	}
 
 	public Partie() {
 		super();
-		cartes = new ArrayList<Carte>();
+		pioche = new ArrayList<Carte>();
 	}
 
 	public int getId_partie() {
@@ -127,14 +124,6 @@ public class Partie implements Serializable {
 		this.vainqueur = vainqueur;
 	}
 
-	public List<Carte> getCartes() {
-		return cartes;
-	}
-
-	public void setCartes(List<Carte> cartes) {
-		this.cartes = cartes;
-	}
-
 	public JoueurPartie getCourant() {
 		return courant;
 	}
@@ -166,5 +155,71 @@ public class Partie implements Serializable {
 	public void setPioche(List<Carte> pioche) {
 		this.pioche = pioche;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((courant == null) ? 0 : courant.hashCode());
+		result = prime * result + id_partie;
+		result = prime * result + ((joueursParties == null) ? 0 : joueursParties.hashCode());
+		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+		result = prime * result + ((pioche == null) ? 0 : pioche.hashCode());
+		result = prime * result + ((sens == null) ? 0 : sens.hashCode());
+		result = prime * result + ((statut == null) ? 0 : statut.hashCode());
+		result = prime * result + ((timestamp_creation == null) ? 0 : timestamp_creation.hashCode());
+		result = prime * result + ((vainqueur == null) ? 0 : vainqueur.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Partie other = (Partie) obj;
+		if (courant == null) {
+			if (other.courant != null)
+				return false;
+		} else if (!courant.equals(other.courant))
+			return false;
+		if (id_partie != other.id_partie)
+			return false;
+		if (joueursParties == null) {
+			if (other.joueursParties != null)
+				return false;
+		} else if (!joueursParties.equals(other.joueursParties))
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (pioche == null) {
+			if (other.pioche != null)
+				return false;
+		} else if (!pioche.equals(other.pioche))
+			return false;
+		if (sens != other.sens)
+			return false;
+		if (statut != other.statut)
+			return false;
+		if (timestamp_creation == null) {
+			if (other.timestamp_creation != null)
+				return false;
+		} else if (!timestamp_creation.equals(other.timestamp_creation))
+			return false;
+		if (vainqueur == null) {
+			if (other.vainqueur != null)
+				return false;
+		} else if (!vainqueur.equals(other.vainqueur))
+			return false;
+		return true;
+	}
+	
+	
 
 }
