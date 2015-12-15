@@ -105,7 +105,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void commencerPartie() {
-		joueurDaoImpl.commencerPartie();
+		partieCourante = joueurDaoImpl.commencerPartie(nbCartesParJoueurs);
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) throws ValidationException {
-		if(! Utils.checkString(nom) || ! Pattern.matches("([a-z]|[0-9]){1,20}", nom))
+		if(! Utils.checkString(nom) || ! Pattern.matches("[A-Za-z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
@@ -216,5 +216,10 @@ public class GestionPartieImpl implements GestionPartie {
 
 	public void setNbDesTotal(int nbDesTotal) {
 		this.nbDesTotal = nbDesTotal;
+	}
+	
+	@Override
+	public Partie getPartieCourante(){
+		return partieCourante;
 	}
 }

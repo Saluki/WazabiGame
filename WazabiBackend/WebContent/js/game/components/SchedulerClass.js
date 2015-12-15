@@ -12,7 +12,7 @@ app.SchedulerClass = function(refreshTime) {
 	
 	var fetchStatus = function() {
 		
-		$.getJSON('api/mock', function(statusData){
+		$.getJSON('api/game/status', function(statusData){
 			
 			lastStatus = statusData;
 			emitPulse();

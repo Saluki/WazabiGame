@@ -145,6 +145,8 @@ public interface GestionPartie {
 	 * @return Le joueur courant
 	 */
 	public Joueur getJoueurCourant();
+	
+	public Partie getPartieCourante();
 
 	public void deconnecter(Joueur j);
 
