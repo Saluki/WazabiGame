@@ -23,8 +23,7 @@ public class GamePlayCard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// TODO Return JSON dices result as an array
-		int carte = Integer.parseInt(request.getPathInfo());
-		
+		int carte = Integer.parseInt(request.getPathInfo().substring(1));
 		JSONObject jsonResponse = new JSONObject();
 		jsonResponse.putAll(gestionPartie.carteJouer(carte));
 		

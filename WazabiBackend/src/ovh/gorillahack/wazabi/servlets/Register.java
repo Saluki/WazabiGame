@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.servlets;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
@@ -36,7 +37,7 @@ public class Register extends HttpServlet {
 		String password = request.getParameter("mot_de_passe");
 		String passwordRepeat = request.getParameter("mot_de_passe_repeat");
 		
-		if (!Utils.checkString(pseudo)) {
+		if (!Utils.checkString(pseudo) &&  Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
 			redirectWithError(request, response, "Format du pseudo invalide");
 			return;
 		}
@@ -53,7 +54,13 @@ public class Register extends HttpServlet {
 		
 		final ServletContext context = getServletContext();
 		synchronized (context) {
-			Joueur joueur = gestionPartie.inscrire(pseudo, password);
+			Joueur joueur;
+			try{
+			 joueur = gestionPartie.inscrire(pseudo, password);
+			}catch(Exception e){
+				redirectWithError(request, response, "Format du pseudo invalide : Le pseudo ne peut depasser 20 caracteres.");
+				return;
+			}
 		if ( joueur != null) {
 				request.getSession().setAttribute("authentificated", joueur);
 				response.sendRedirect("app/dashboard.html");

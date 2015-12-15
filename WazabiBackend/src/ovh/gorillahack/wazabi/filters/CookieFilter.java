@@ -20,15 +20,18 @@ public class CookieFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		
+		if(httpRequest.getCookies().length ==0){
+			chain.doFilter(request, response);
+			return;
+		}
 		if( !httpRequest.isRequestedSessionIdFromCookie() ) {
 			
 			request.setAttribute("errorMessage", "Activation des cookies obligatoire");
 			config.getServletContext().getNamedDispatcher("error.main").forward(request, response);
 			return;
 		}
-		
 		chain.doFilter(request, response);
+		
 	}
 	
 	public void init(FilterConfig config) throws ServletException {
