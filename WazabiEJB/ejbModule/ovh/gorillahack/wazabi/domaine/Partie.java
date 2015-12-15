@@ -52,15 +52,15 @@ public class Partie implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Status statut;
 
-	@OneToOne
-	@PrimaryKeyJoinColumn(name = "id_vainqueur")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_vainqueur")
 	private Joueur vainqueur;
 
 	@OneToMany(mappedBy = "partie")
 	private List<Carte> cartes;
 
-	@OneToOne
-	@PrimaryKeyJoinColumn(name = "id_joueur_partie")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_courant")
 	private JoueurPartie courant;
 
 	@OneToMany(mappedBy = "partie")
@@ -167,5 +167,4 @@ public class Partie implements Serializable {
 		this.pioche = pioche;
 	}
 
-	
 }
