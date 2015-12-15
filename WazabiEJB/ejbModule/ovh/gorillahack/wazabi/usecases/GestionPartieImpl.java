@@ -106,7 +106,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void commencerPartie() {
-		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs);
+		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
@@ -56,7 +58,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	}
 
 	public Partie rejoindrePartie(Joueur j) {
-		JoueurPartie jp = new JoueurPartie(ordre++, 0, deDaoImpl.getDes(j), carteDaoImpl.getCartes(j));
+		JoueurPartie jp = new JoueurPartie(ordre++, 0, null, null);
 		Partie p = getPartieCourante();
 		if (p == null || p.getStatut() == Partie.Status.PAS_COMMENCE) {
 			return null;
@@ -83,13 +85,20 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		return joueurDaoImpl.listerJoueurPartieCourante();
 	}
 	
-	public Partie commencerPartie(int nbCartesParJoueur) {
+	public Partie commencerPartie(int nbCartesParJoueur, int nbDesParJoueurs) {
 		Partie p = getPartieCourante();
 		if(p==null||p.getStatut()!=Status.EN_ATTENTE)
 			return null;
 		p.setStatut(Status.COMMENCE);
+		int cpt=1;
+
 		for(Joueur j: listerJoueurPartieCourante()){
-			//TODO Mettre 4 dés pour chaque joueur
+			List<De> des = new ArrayList<De>();
+			int nbDes=0;
+			for(nbDes=0; nbDes<nbDesParJoueurs; nbDes++){
+				des.add(deDaoImpl.rechercher(cpt++));
+			}
+			joueurPartieDao.setDes(j,des);
 			for(int i = 0; i<nbCartesParJoueur;i++){
 				joueurDaoImpl.piocherCarte(j);
 			}

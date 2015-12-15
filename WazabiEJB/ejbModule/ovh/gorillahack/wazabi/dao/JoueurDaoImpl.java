@@ -34,6 +34,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	
 	@EJB
 	private JoueurPartieDaoImpl joueurPartieDaoImpl;
+	
+	@EJB
+	private CarteDaoImpl carteDaoImpl;
+	@EJB
+	private DeDaoImpl deDaoImpl;
+
 
 	public JoueurDaoImpl() {
 		super(Joueur.class);
@@ -76,7 +82,11 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 	
 	public List<De> voirDes(Joueur j){
-		return null;
+		return deDaoImpl.getDes(j);
+	}
+	
+	public List<Carte> voirCartes(Joueur j){
+		return carteDaoImpl.getCartes(j);
 	}
 			
 	public void terminerTour(){

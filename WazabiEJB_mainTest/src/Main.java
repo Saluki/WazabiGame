@@ -1,7 +1,10 @@
+import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.ValidationException;
@@ -49,7 +52,10 @@ public class Main {
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo()
 					+ " commence");
 			gestionPartie.commencerPartie();
-			gestionPartie.deconnecter(joueur1);
+			/*List<De> des = gestionPartie.voirDes(joueur1);
+			for(De de: des){
+				System.out.println(de.getId_de());
+			}*/
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

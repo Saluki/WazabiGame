@@ -1,10 +1,13 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 
@@ -35,5 +38,11 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie>{
 	public void enleverJoueur(JoueurPartie j){
 		j.setEstActif(false);
 		super.mettreAJour(j);
+	}
+	
+	public void setDes(Joueur j, List<De> des){
+		JoueurPartie jp = getJoueurDeLaPartieCourante(j);
+		jp.setDes(des);
+		super.enregistrer(jp);
 	}
 }
