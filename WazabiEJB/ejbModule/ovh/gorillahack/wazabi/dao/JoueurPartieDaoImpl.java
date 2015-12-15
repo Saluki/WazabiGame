@@ -33,6 +33,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie>{
 	}
 	
 	public void enleverJoueur(JoueurPartie j){
-		super.supprimer(j.getId_joueur_partie());
+		j.setEstActif(false);
+		super.mettreAJour(j);
 	}
 }

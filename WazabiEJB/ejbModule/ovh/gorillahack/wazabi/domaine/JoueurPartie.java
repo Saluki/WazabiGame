@@ -56,6 +56,7 @@ public class JoueurPartie implements Serializable {
 		this.compteur_sauts = compteur_sauts;
 		this.des = des;
 		this.cartes = cartes;
+		this.estActif=true;
 	}
 
 	public JoueurPartie() {

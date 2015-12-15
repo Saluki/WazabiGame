@@ -155,17 +155,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public void deconnecter(Joueur j){
 		joueurDaoImpl.deconnecter(j,min_joueurs);
 	}
-	
-	private void recupererDonnees(){
-		partieCourante = partieDaoImpl.getPartieCourante();
-		List<Joueur> joueursDeLaPartie = listerJoueurPartieCourante();
-		if(partieCourante.getStatut() == Status.EN_ATTENTE){
-			
-		} else if(partieCourante.getStatut() == Status.COMMENCE){
-			
-		}
-	}
-	
+		
 	public Joueur getJoueurCourant(){
 		return partieCourante.getCourant().getJoueur();
 	}
