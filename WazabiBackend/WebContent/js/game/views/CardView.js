@@ -27,17 +27,41 @@ app.CardView = Backbone.View.extend({
 	// TODO Check permissions, must be CHOOSE_CARD
 	chooseCard : function(e) {
 		
-		// Put and remove interact lock
-		var apiUrl = 'api/game/playcard/' + this.model.get('effect');
-		$.getJSON(apiUrl, function(data){
+		// TODO Put and remove interact lock
+				
+		if( this.model.get('input') ) {
+			
+			var that = this;
+			alertify.prompt('La carte a besoin d\'une valeur', '', function(e, value){
+				that.sendCardToServer(that);
+			});
+		}
+		else {
+			this.sendCardToServer(this);
+		}
+	},
+	
+	sendCardToServer: function(view) {
+		
+		$.ajax({
+			dataType: 'json',
+			url: 'api/game/playcard/' + this.model.get('effect'),
+			context: view
+		})
+		.success(function(data){
+			
+			alertify.success('Traitement termine');
 			
 			this.model.destroy();
-			this.remove();
+			this.remove()
 			
-			// Change to other status
+			// TODO Change lock
 			
-		}, this).fail(function(){
-			console('Could not play card');
+		})
+		.fail(function(){
+			
+			  alertify.alert('Erreur lors du traitement de la carte');
+			
 		});
 	}
 

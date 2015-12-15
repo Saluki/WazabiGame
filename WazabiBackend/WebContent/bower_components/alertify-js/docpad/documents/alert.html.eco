@@ -1,0 +1,79 @@
+---
+layout: 'default'
+hljs: 	'light'
+component:	'alert'
+title: 'Alert Dialog'
+prop: '#prop#'
+propType: '#type#'
+---
+
+<section class="blue">
+    <div class="content">
+      <div class="grid two">
+        <div class="column">
+          <h1> Alert Dialog</h1>
+          An alert dialog is often used if you want to make sure information comes through to the user.
+					When an alert dialog pops up, the user will have to click "OK" to proceed.
+        </div>
+        <div class="right column">
+          <%- @partial('ad') %>            
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="dark">
+    <div class="content">
+      <!--Defult usage-->
+      <div class="segment has-menu">
+        <h1><i class="fa fa-book"></i> Default usage</h1>
+        <hr />
+        <p>You create an alert dialog by invoking <code> alertify.alert(...)</code></p>
+
+        <div class="ui small info message">
+          <div class="content">
+            <p>
+              <i class="fa fa-info-circle"></i>
+              Calling <code>alertify.alert()</code> the dialog parameter-less constructor will return the alert dialog instance. You can use this syntax to modify dialog settings before showing it.
+              Also you can get the dialog instance (singletons only) by invoking <code>alertify.dialog('alert');</code>
+            </p>
+          </div>
+        </div>
+
+<pre>
+<code class="lang-javascript">
+/*
+ * @title {String or DOMElement} The dialog title.
+ * @message {String or DOMElement} The dialog contents.
+ * @onok {Function} Invoked when the user clicks OK button or closes the dialog.
+ *
+ * alertify.alert(title, message, onok);
+ * 
+ * overloads:
+ *
+ * alertify.alert(message);
+ *
+ * alertify.alert(title, message);
+ *
+ * alertify.alert(message, onok);
+ *
+ */
+alertify.alert('This is an alert message!');
+</code> 
+</pre>
+        <div class="RIGHT">
+          <a class="button example" href="javascript:void(0);">
+            <span> Run </span>
+          </a>
+        </div>
+      </div>
+
+<%- @partial('menu', true) %>
+
+
+
+
+
+   
+    </div>
+  </section>

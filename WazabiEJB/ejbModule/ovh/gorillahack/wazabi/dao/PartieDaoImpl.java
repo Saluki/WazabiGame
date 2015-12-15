@@ -39,7 +39,7 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 	
-	public Partie creerUnePartie(String nom) {		
+	public Partie creerUnePartie(String nom) {				
 		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 	}
 

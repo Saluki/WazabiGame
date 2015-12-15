@@ -51,6 +51,8 @@
   <servlet-mapping>
     <servlet-name>app.dashboard</servlet-name>
     <url-pattern>/app/dashboard.html</url-pattern>
+    <url-pattern>/app/</url-pattern>
+    <url-pattern>/app</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>api.mock</servlet-name>
