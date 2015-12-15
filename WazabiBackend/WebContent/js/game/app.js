@@ -7,6 +7,10 @@ $(function(){
 		
 	console.log('Starting application...');
 	
+	// Alertify settings
+    alertify.set('notifier','position', 'top-right');
+    alertify.defaults.glossary.title = 'Wazabi';
+	
 	// Models
 	app.game       = new app.GameModel();
 	app.mainPlayer = new app.PlayerModel();

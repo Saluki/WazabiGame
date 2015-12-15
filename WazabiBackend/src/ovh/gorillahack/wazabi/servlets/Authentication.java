@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ipl.mock.MockInterfaceGestionPartie;
+
+import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 import ovh.gorillahack.wazabi.utils.Utils;
 
 @WebServlet(urlPatterns = "/auth.html")
@@ -20,7 +22,7 @@ public class Authentication extends HttpServlet {
 	private ServletContext context;
 
 	@EJB
-	private MockInterfaceGestionPartie gestionPartie;
+	private GestionPartie gestionPartie;
 
 	public void init() {
 		this.context = getServletContext();
@@ -47,10 +49,9 @@ public class Authentication extends HttpServlet {
 			redirectWithError(request, response, "Format du mot de passe invalide");
 			return;
 		}
-
-		if (gestionPartie.verificationAuthentification(pseudo, password)) {
-
-			request.getSession().setAttribute("authentificated", true);
+		Joueur joueur = gestionPartie.seConnecter(pseudo, password);
+		if ( joueur != null) {
+			request.getSession().setAttribute("authentificated", joueur);
 			response.sendRedirect("app/dashboard.html");
 			return;
 		}

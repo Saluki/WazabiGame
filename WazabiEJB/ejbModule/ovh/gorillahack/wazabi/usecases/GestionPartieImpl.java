@@ -1,6 +1,8 @@
 package ovh.gorillahack.wazabi.usecases;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -15,6 +17,7 @@ import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -24,6 +27,12 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 @Remote(GestionPartie.class)
 public class GestionPartieImpl implements GestionPartie {
 	private Partie partieCourante;
+	private int min_joueurs;
+	private int max_joueurs;
+	private int nbCartesParJoueurs;
+	private int nbCartesTotal;
+	private int nbDesParJoueur;
+	private int nbDesTotal;
 	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -60,17 +69,25 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Partie rejoindrePartie(Joueur j) {
-		return partieDaoImpl.rejoindrePartie(j);
+		partieCourante  = partieDaoImpl.rejoindrePartie(j);
+		return partieCourante;
 	}
 
 	@Override
 	public List<Joueur> listerJoueurPartieCourante() {
 		return joueurDaoImpl.listerJoueurPartieCourante();
 	}
+	
+	@Override
+	public List<Joueur> getAdversaires(Joueur j) {
+		List<Joueur> adversaires = listerJoueurPartieCourante();
+		adversaires.remove(j);
+		return adversaires;
+	}
 
 	@Override
-	public Joueur commencerPartie() {
-		return joueurDaoImpl.commencerPartie();
+	public void commencerPartie() {
+		joueurDaoImpl.commencerPartie();
 	}
 
 	@Override
@@ -100,7 +117,22 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) {
-		return partieDaoImpl.creerUnePartie(nom);
+		partieCourante = partieDaoImpl.creerUnePartie(nom);
+		return partieCourante;
+	}
+	
+	private void recupererDonnees(){
+		partieCourante = partieDaoImpl.getPartieCourante();
+		List<Joueur> joueursDeLaPartie = listerJoueurPartieCourante();
+		if(partieCourante.getStatut() == Status.EN_ATTENTE){
+			
+		} else if(partieCourante.getStatut() == Status.COMMENCE){
+			
+		}
+	}
+	
+	public Joueur getJoueurCourant(){
+		return partieCourante.getCourant().getJoueur();
 	}
 
 }
