@@ -124,8 +124,7 @@ public class XmlParserImpl {
 					carteEffetDaoImpl.enregistrer(carteEffet);
 					hashmap.put(codeEffet.intValue(), carteEffet);
 				}
-				List<Carte> cartes = carteDaoImpl.creerCartes(cout.intValue(), carteEffet, nb.intValue());
-				paquetDeCarte.addAll(cartes);
+				paquetDeCarte.addAll(creerCartes(cout.intValue(), carteEffet, nb.intValue()));
 			}
 			gestionPartie.setJeuDeCarte(paquetDeCarte);
 
@@ -141,6 +140,15 @@ public class XmlParserImpl {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public List<Carte> creerCartes(int cout, CarteEffet carteEffet, int nombre) {
+		ArrayList<Carte> list = new ArrayList<>();
+		for (int i = 0; i < nombre; i++) {
+			Carte carte = new Carte(carteEffet, cout);
+			list.add(carte);
+		}
+		return list;
 	}
 
 }

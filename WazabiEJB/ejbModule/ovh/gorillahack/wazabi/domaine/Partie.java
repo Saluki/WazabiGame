@@ -74,7 +74,11 @@ public class Partie implements Serializable {
 		this.timestamp_creation = timestamp_creation;
 		this.sens = sens;
 		this.vainqueur = vainqueur;
+		if (pioche != null) {
 		this.pioche = pioche;
+		} else {
+			this.pioche = new ArrayList<>();
+		}
 		this.courant = courant;
 		this.statut = statut;
 	}
@@ -154,6 +158,10 @@ public class Partie implements Serializable {
 
 	public void setPioche(List<Carte> pioche) {
 		this.pioche = pioche;
+	}
+	
+	public void ajouterCarteALaPioche(Carte carte) {
+		this.pioche.add(carte);
 	}
 
 	@Override

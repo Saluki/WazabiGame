@@ -23,6 +23,10 @@ public class CarteEffet implements Serializable {
 		this.effet = effet;
 		this.description = description;
 	}
+	
+	public CarteEffet() {
+		super();
+	}
 
 	public int getCode_effet() {
 		return code_effet;

@@ -21,14 +21,21 @@ public class Register extends HttpServlet {
 
 	@EJB
 	private GestionPartie gestionPartie;
-
+/**
+ * 
+ * 
+ */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		final ServletContext context = getServletContext();
 		context.getNamedDispatcher("register").forward(request, response);
 	}
-
+/**
+ * Parametre : recupere le pseudo, mdp et le mdp a retaper
+ * description : Inscrit le nouvelle utilisateur dans la base de donnée . Si l'inscription echoue , il reste sur la page
+ *				et un message lui est indiquer . Sinon il est rediriger directement dans le dashboard
+ */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -56,7 +63,14 @@ public class Register extends HttpServlet {
 			}
 		}
 	}
-
+/**
+ * 
+ * @param request
+ * @param response
+ * @param message
+ * @throws ServletException
+ * @throws IOException
+ */
 	protected void redirectWithError(HttpServletRequest request, HttpServletResponse response, String message)
 			throws ServletException, IOException {
 

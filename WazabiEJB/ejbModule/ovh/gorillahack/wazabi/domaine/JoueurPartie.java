@@ -137,4 +137,8 @@ public class JoueurPartie implements Serializable {
 	public void setCartes(List<Carte> cartes) {
 		this.cartes = cartes;
 	}
+
+	public int getId_joueur_partie() {
+		return id_joueur_partie;
+	}
 }

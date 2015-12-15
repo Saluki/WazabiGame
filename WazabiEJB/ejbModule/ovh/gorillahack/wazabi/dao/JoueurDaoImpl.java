@@ -90,14 +90,14 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		Partie p = partieDaoImpl.getPartieCourante();
 		if(p==null||p.getStatut()==Status.PAS_COMMENCE||p.getStatut()==Status.COMMENCE)
 			return null;
-		for(Joueur j: listerJoueurPartieCourante()){
+		/*for(Joueur j: listerJoueurPartieCourante()){
 			//TODO Mettre 4 dés pour chaque joueur
 			for(int i = 0; i<nbCartesParJoueur;i++){
 				piocherCarte(j);
 			}
 			p.setStatut(Status.COMMENCE);
 			partieDaoImpl.mettreAJour(p);
-		}
+		}*/
 		
 		
 		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
@@ -123,7 +123,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	
 	public void deconnecter(Joueur j, int nombreJoueursMin){
 		Partie p = partieDaoImpl.getPartieCourante();
-		joueurPartieDaoImpl.supprimer(j.getId_joueur());
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
 		if(temp.size()<nombreJoueursMin){
 			p.setStatut(Status.ANNULEE);

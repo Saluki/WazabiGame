@@ -10,11 +10,13 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("serial")
 @Stateful
@@ -30,6 +32,8 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private DeDaoImpl deDaoImpl;
 	@EJB
 	private FaceDaoImpl faceDaoImpl;
+	@EJB
+	private GestionPartie gestionPartie;
 
 	public PartieDaoImpl() {
 		super(Partie.class);
@@ -38,7 +42,14 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 	public Partie creerUnePartie(String nom) {
-		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
+		Partie partie = super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
+		List<Carte> cartes = gestionPartie.getJeuDeCarte();
+		for (int i = 0; i < cartes.size(); i++) {
+			Carte carte = cartes.get(i);
+			carteDaoImpl.enregistrer(carte);
+			partie.ajouterCarteALaPioche(carte);
+		}
+		return partie;
 	}
 
 	public Partie rejoindrePartie(Joueur j) {

@@ -28,12 +28,20 @@ public class Authentication extends HttpServlet {
 	public void init() {
 		this.context = getServletContext();
 	}
-
+/**
+ * description : redirection vers la page index.html
+ */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.sendRedirect("index.html");
 	}
+/**
+ * 
+ * description : recuperation des paremetres pseudo et mot_de_passe afin de verifier si l'utilisateur a entre le bon mdp et le
+ * 				bon pseudo . Si oui il est redirié vers le dashboard ,sinon il reste sur le page et un message d'erreur lui est affiché
+ * exception : une Validation exception est lancé si il utilise un pseudo de plus de 20 caracteres ou si il utilise des caracteres speciaux
+ */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -57,7 +65,14 @@ public class Authentication extends HttpServlet {
 
 		redirectWithError(request, response, "Pseudo ou mot de passe incorrect");
 	}
-
+/**
+ * 
+ * @param request
+ * @param response
+ * @param message
+ * @throws ServletException
+ * @throws IOException
+ */
 	protected void redirectWithError(HttpServletRequest request, HttpServletResponse response, String message)
 			throws ServletException, IOException {
 
