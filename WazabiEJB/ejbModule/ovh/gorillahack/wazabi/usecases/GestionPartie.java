@@ -110,4 +110,13 @@ public interface GestionPartie {
 	 * 
 	 */
 	public void terminerTour();
+	
+	/**
+	 * 
+	 * Permet de creer une partie selon le nom passe en parametre
+	 * 
+	 * @param Le nom de la partie
+	 * @return La partie ainsi creee
+	 */
+	public Partie creerPartie(String nom);
 }

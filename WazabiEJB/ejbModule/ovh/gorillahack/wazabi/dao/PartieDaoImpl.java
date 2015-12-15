@@ -1,5 +1,8 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -35,13 +38,24 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
+	
+	public Partie creerUnePartie(String nom) {
+		try {
+			InputStream is = new FileInputStream("wazabi.xml");
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		
+		
+		
+		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
+	}
 
 	public Partie rejoindrePartie(Joueur j){
 		JoueurPartie jp = new JoueurPartie(ordre++, 0, deDaoImpl.getDes(j), carteDaoImpl.getCartes(j));
 		Partie p = getPartieCourante();
-		//Si pas de partie ou si la partie possède le status PAS_COMMENCEE
 		if(p==null||p.getStatut()==Partie.Status.PAS_COMMENCE){
-			p = super.enregistrer(new Partie("TOTO", new Date(), Sens.HORAIRE, j, null, null, Status.EN_ATTENTE));
+			return null;
 		}
 		jp.setPartie(p);
 		jp.setJoueur(j);
