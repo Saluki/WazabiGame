@@ -40,11 +40,6 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	private EntityManager entityManager;
 	
 	public Partie creerUnePartie(String nom) {
-		try {
-			InputStream is = new FileInputStream("wazabi.xml");
-		} catch (FileNotFoundException e) {
-			return null;
-		}
 		
 		
 		

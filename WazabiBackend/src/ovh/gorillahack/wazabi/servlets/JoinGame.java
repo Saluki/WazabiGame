@@ -40,7 +40,7 @@ public class JoinGame extends HttpServlet {
 		// TODO Auto-generated method stub
 		context = getServletContext();
 		String partie = request.getParameter("nom");
-		if(Utils.checkString(partie)){
+		if(! Utils.checkString(partie)){
 			redirectWithError(request, response, "Format de la partie invalide");
 			return;
 		}
@@ -61,7 +61,7 @@ public class JoinGame extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setAttribute("errorMessage", message);
-		context.getNamedDispatcher("index").forward(request, response);
+		context.getNamedDispatcher("dashboard").forward(request, response);
 	}
 
 }
