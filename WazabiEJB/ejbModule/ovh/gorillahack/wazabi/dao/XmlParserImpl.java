@@ -1,13 +1,12 @@
 package ovh.gorillahack.wazabi.dao;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,10 +21,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.usecases.GestionPartieImpl;
 
 @Local
 @Stateless
@@ -34,6 +33,8 @@ public class XmlParserImpl {
 	private FaceDaoImpl faceDaoImpl;
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
+	@EJB
+	private CarteEffetDaoImpl carteEffetDaoImpl;
 	@EJB
 	private GestionPartie gestionPartie;
 	@EJB
@@ -45,8 +46,8 @@ public class XmlParserImpl {
 
 	public boolean chargerXML() {
 		try {
-			ClassLoader loader = getClass().getClassLoader(); 
-	        InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");
+			ClassLoader loader = getClass().getClassLoader();
+			InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document document = builder.parse(xmlFile);
@@ -65,12 +66,12 @@ public class XmlParserImpl {
 			gestionPartie.setMax_joueurs(maxJoueurs.intValue());
 			gestionPartie.setNbCartesParJoueurs(nbCartesParJoueur.intValue());
 			gestionPartie.setNbCartesTotal(nbCartesTotal.intValue());
-			
+
 			// on importe les dés et leurs faces
 			Node deNode = (Node) xpath.compile("/wazabi/de").evaluate(document, XPathConstants.NODE);
 			Number nbDesParJoueur = (Number) xpath.compile("@nbParJoueur").evaluate(deNode, XPathConstants.NUMBER);
 			Number nbTotalDes = (Number) xpath.compile("@nbTotalDes").evaluate(deNode, XPathConstants.NUMBER);
-			
+
 			gestionPartie.setNbDesParJoueur(nbDesParJoueur.intValue());
 			deDaoImpl.creerDes(nbTotalDes.intValue());
 
@@ -100,15 +101,24 @@ public class XmlParserImpl {
 
 			// on importe les cartes
 			NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
+			HashMap<Integer, CarteEffet> hashmap = new HashMap<Integer, CarteEffet>();
 			for (int i = 0; i < cartesNodes.getLength(); i++) {
 				Node node = cartesNodes.item(i);
-				String description = (String) xpath.compile(".").evaluate(node, XPathConstants.STRING);
+				String description = ((String) xpath.compile("normalize-space(.)").evaluate(node,
+						XPathConstants.STRING));
 				Number cout = (Number) xpath.compile("@cout").evaluate(node, XPathConstants.NUMBER);
 				String effet = (String) xpath.compile("@effet").evaluate(node, XPathConstants.STRING);
 				Number codeEffet = (Number) xpath.compile("@codeEffet").evaluate(node, XPathConstants.NUMBER);
 				Number nb = (Number) xpath.compile("@nb").evaluate(node, XPathConstants.NUMBER);
-
-				carteDaoImpl.creerCartes(description, cout.intValue(), codeEffet.intValue(), effet, nb.intValue());
+				CarteEffet carteEffet = null;
+				if (hashmap.containsKey(codeEffet.intValue())) {
+					carteEffet = hashmap.get(codeEffet.intValue());
+				} else {
+					carteEffet = new CarteEffet(codeEffet.intValue(), effet, description);
+					carteEffetDaoImpl.enregistrer(carteEffet);
+					hashmap.put(codeEffet.intValue(), carteEffet);
+				}
+				carteDaoImpl.creerCartes(cout.intValue(), carteEffet, nb.intValue());
 
 			}
 

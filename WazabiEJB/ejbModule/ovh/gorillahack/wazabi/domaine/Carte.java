@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -20,11 +22,9 @@ public class Carte implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_carte;
 
-	@Column(nullable = false)
-	private int code_effet;
-
-	@Column
-	private String effet;
+	@OneToOne
+	@JoinColumn(nullable = false, name="code_effet")
+	private CarteEffet carteEffet;
 
 	@Column(nullable = false)
 	private boolean input;
@@ -39,25 +39,18 @@ public class Carte implements Serializable {
 	@Column
 	private int ordre_pioche;
 
-	@Column
-	private String description;
-
-	public Carte(int code_effet, int cout, Partie partie, int ordre_pioche, String effet, String description) {
+	public Carte(CarteEffet carteEffet, int cout, Partie partie, int ordre_pioche) {
 		super();
-		this.code_effet = code_effet;
+		this.carteEffet = carteEffet;
 		this.cout = cout;
 		this.partie = partie;
 		this.ordre_pioche = ordre_pioche;
-		this.effet = effet;
-		this.description = description;
 	}
 
-	public Carte(int code_effet, int cout, String effet, String description) {
+	public Carte(CarteEffet carteEffet, int cout) {
 		super();
-		this.code_effet = code_effet;
+		this.carteEffet = carteEffet;
 		this.cout = cout;
-		this.effet = effet;
-		this.description = description;
 	}
 
 	public Carte() {
@@ -72,12 +65,12 @@ public class Carte implements Serializable {
 		this.id_carte = id_carte;
 	}
 
-	public int getCode_effet() {
-		return code_effet;
+	public CarteEffet getCarteEffet() {
+		return carteEffet;
 	}
 
-	public void setCode_effet(int code_effet) {
-		this.code_effet = code_effet;
+	public void setCarteEffet(CarteEffet carteEffet) {
+		this.carteEffet = carteEffet;
 	}
 
 	public int getCout() {
@@ -108,21 +101,14 @@ public class Carte implements Serializable {
 		return input;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + code_effet;
+		result = prime * result + ((carteEffet == null) ? 0 : carteEffet.hashCode());
 		result = prime * result + cout;
 		result = prime * result + id_carte;
+		result = prime * result + (input ? 1231 : 1237);
 		result = prime * result + ordre_pioche;
 		result = prime * result + ((partie == null) ? 0 : partie.hashCode());
 		return result;
@@ -137,11 +123,16 @@ public class Carte implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Carte other = (Carte) obj;
-		if (code_effet != other.code_effet)
+		if (carteEffet == null) {
+			if (other.carteEffet != null)
+				return false;
+		} else if (!carteEffet.equals(other.carteEffet))
 			return false;
 		if (cout != other.cout)
 			return false;
 		if (id_carte != other.id_carte)
+			return false;
+		if (input != other.input)
 			return false;
 		if (ordre_pioche != other.ordre_pioche)
 			return false;
@@ -152,4 +143,8 @@ public class Carte implements Serializable {
 			return false;
 		return true;
 	}
+
+	
+
+
 }

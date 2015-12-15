@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
+import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 
 @Stateless
@@ -41,10 +42,10 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 				 */ null;
 	}
 
-	public List<Carte> creerCartes(String description, int cout, int codeEffet, String effet, int nombre) {
+	public List<Carte> creerCartes(int cout, CarteEffet carteEffet, int nombre) {
 		ArrayList<Carte> list = new ArrayList<>();
 		for (int i = 0; i < nombre; i++) {
-			Carte carte = new Carte(codeEffet, cout, effet, description);
+			Carte carte = new Carte(carteEffet, cout);
 			super.enregistrer(carte);
 			list.add(carte);
 		}
