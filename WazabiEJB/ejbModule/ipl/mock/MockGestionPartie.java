@@ -53,7 +53,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	public Vector<Map<String, String>> carteInformation() {
 		// TODO Auto-generated method stub
-		// le vecteur a renvoyé
+		// le vecteur a renvoyï¿½
 		Vector vecRetour = new Vector<Map<String, String>>();
 
 		// on ajoute un Map permettant de retenir les clefs valeurs des cartes
@@ -88,17 +88,17 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		Vector<String> vector = new Vector<String>();
 		switch (joueur) {
 		case 0:
-			vector.addElement("A");
-			vector.addElement("B");
-			vector.addElement("C");
+			vector.addElement("WAZABI");
+			vector.addElement("PIOCHE");
+			vector.addElement("DE");
 			return vector;
 		case 1:
-			vector.addElement("D");
-			vector.addElement("E");
+			vector.addElement("PIOCHE");
+			vector.addElement("DE");
 			return vector;
 		case 2:
-			vector.addElement("F");
-			vector.addElement("G");
+			vector.addElement("WAZABI");
+			vector.addElement("WAZABI");
 			return vector;
 
 		}
@@ -109,7 +109,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	@SuppressWarnings("unchecked")
 	public Vector<Map<String, Vector<String>>> challengersInformations() {
 		// TODO Auto-generated method stub
-		// le vecteur a renvoyé
+		// le vecteur a renvoyï¿½
 		Vector<Map<String, Vector<String>>> vecRetour = new Vector<Map<String, Vector<String>>>();
 
 		// on ajoute un Map permettant de retenir les clefs valeurs des cartes

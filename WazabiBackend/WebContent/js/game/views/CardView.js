@@ -24,15 +24,17 @@ app.CardView = Backbone.View.extend({
 		return this;
 	},
 	
-	// TODO Check permissions, must be CHOOSE_CARD
 	chooseCard : function(e) {
-		
-		// TODO Put and remove interact lock
 				
+		if( !app.Status.instance().is(app.Status.C.CHOOSE_CARD) ) {
+			alertify.warning('Vous ne pouvez pas choisir de carte pour l\'instant');
+			return;
+		}
+		
 		if( this.model.get('input') ) {
 			
 			var that = this;
-			alertify.prompt('La carte a besoin d\'une valeur', '', function(e, value){
+			alertify.prompt('La carte a besoin d\'une valeur:', '', function(e, value){
 				that.sendCardToServer(that);
 			});
 		}
@@ -43,6 +45,8 @@ app.CardView = Backbone.View.extend({
 	
 	sendCardToServer: function(view) {
 		
+		app.Status.instance().set(app.Status.C.REQUESTING);
+		
 		$.ajax({
 			dataType: 'json',
 			url: 'api/game/playcard/' + this.model.get('effect'),
@@ -50,18 +54,18 @@ app.CardView = Backbone.View.extend({
 		})
 		.success(function(data){
 			
-			alertify.success('Traitement termine');
-			
 			this.model.destroy();
-			this.remove()
+			this.remove();
 			
-			// TODO Change lock
+			alertify.success('Traitement termine');
+			app.Status.instance().set(app.Status.C.ENDING);
 			
 		})
 		.fail(function(){
 			
-			  alertify.alert('Erreur lors du traitement de la carte');
-			
+			alertify.alert('Erreur lors du traitement de la carte');
+			app.Status.instance().set(app.Status.C.CHOOSE_CARD);
+  
 		});
 	}
 

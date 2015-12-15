@@ -65,7 +65,7 @@
 
 <script type="text/template" id="dice-view-template">
 	
-	<\%= shortValue %>
+	<i class="glyphicon glyphicon-<\%= iconTag %>"></i>
 
 </script>
 

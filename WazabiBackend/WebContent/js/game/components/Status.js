@@ -6,14 +6,15 @@ var app = app || {};
 app.Status = (function() {
 	
 	var CONSTANTS = {
-		PAS_COMMENCE : 'PAS_COMMENCE',
-		COMMENCE     : 'COMMENCE',
-		EN_ATTENTE   : 'EN_ATTENTE',
-		ANNULEE      : 'ANNULEE'
+		WAITING		: 'WAITING',
+		ROLL_DICE	: 'ROLL_DICE',
+		REQUESTING	: 'REQUESTING',
+		CHOOSE_CARD : 'CHOOSE_CARD',
+		ENDING		: 'ENDING'
 	}
 	
 	var instance;
-	var currentStatus = CONSTANTS.EN_ATTENTE;
+	var currentStatus = CONSTANTS.WAITING;
 	
 	function createInstance() {
 		
@@ -24,14 +25,13 @@ app.Status = (function() {
 			},
 			
 			set: function(statusName){
+				console.log('Changing status to ' + statusName);
 				currentStatus = statusName;
 			},
 			
 			is: function(statusName) {
 				return (statusName==currentStatus);
-			},
-			
-			CONSTANTS: CONSTANTS
+			}
 			
 		};
 	}
@@ -44,7 +44,9 @@ app.Status = (function() {
 				instance=createInstance();
 			}
 			return instance;
-		}
+		},
+		
+		C: CONSTANTS
 	}
 
 })();

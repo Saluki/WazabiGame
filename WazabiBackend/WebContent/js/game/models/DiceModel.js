@@ -9,9 +9,21 @@ app.DiceModel = Backbone.Model.extend({
 		'value': '',
 	},
 	
-	getShortValue: function() {
+	getIconTag: function() {
 		
-		return this.get('value').charAt(0).toUpperCase();
+		var value = this.get('value');
+		
+		if( value==this.CONSTANTS.WAZABI ) {
+			return 'star';
+		}
+		else if( value==this.CONSTANTS.PIOCHE ) {
+			return 'gift';
+		}
+		else if( value==this.CONSTANTS.DE ) {
+			return 'share-alt';
+		}
+		
+		return 'flash';
 	},
 	
 	CONSTANTS: {

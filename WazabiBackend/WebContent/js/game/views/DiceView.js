@@ -20,7 +20,7 @@ app.DiceView = Backbone.View.extend({
 	render : function() {
 		
 		this.$el.html(this.template({
-			shortValue: this.model.getShortValue()	
+			iconTag: this.model.getIconTag()	
 		}));
 		return this;
 	}

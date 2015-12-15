@@ -4,9 +4,7 @@
 var app = app || {};
 
 $(function(){
-		
-	console.log('Starting application...');
-	
+			
 	// Alertify settings
     alertify.set('notifier','position', 'top-right');
     alertify.defaults.glossary.title = 'Wazabi';
@@ -28,14 +26,21 @@ $(function(){
 	app.challengersView = new app.ChallengersListView({ collection:app.challengers });
 	app.quitButton      = new app.QuitButtonView();
 	
+	// Updating local status
+	app.mainPlayer.on('change:play', function(){
+		
+		app.Status.instance().set(app.Status.C.ROLL_DICE);
+		alertify.success('C\'est maintenant a vous de jouer! Relancer les des en cliquant dessus...');
+	});
+	
 	// Scheduler
 	app.scheduler = new app.SchedulerClass(5);
-	app.scheduler.registerListener(app.registerAllListeners);
+	app.scheduler.registerListener(app.registerSchedulerListeners);
 	app.scheduler.start();
 	
 });
 
-app.registerAllListeners = function(statusData) {
+app.registerSchedulerListeners = function(statusData) {
 	
 	app.game.set('status', statusData.status);
 	
