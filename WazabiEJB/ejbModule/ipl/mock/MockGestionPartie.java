@@ -62,7 +62,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		// on va regarder a la premiere carte
 		HashMap<String, String> map = (HashMap<String, String>) vecRetour.get(vecRetour.size() - 1);
 		// 1iere carte
-		map.put("cardsName", "Card A");
+		map.put("name", "Card A");
 		map.put("description", "Description of A");
 		map.put("image", "/image/pic1.png");
 		map.put("effect", "2");
@@ -74,7 +74,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		// 2ieme carte
 		map = (HashMap<String, String>) vecRetour.get(vecRetour.size() - 1);
 
-		map.put("cardsName", "Card B");
+		map.put("name", "Card B");
 		map.put("description", "Description of B");
 		map.put("image", "/image/pic2.png");
 		map.put("effect", "1");

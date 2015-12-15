@@ -13,14 +13,14 @@ import org.json.simple.JSONObject;
 
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
-@WebServlet("/api/game/quit")
-public class GameQuit extends HttpServlet {
+@WebServlet("/api/game/next")
+public class GameNext extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-    
-	@EJB
+	
+    @EJB
     private GestionPartie gestionPartie;
-       
+	
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

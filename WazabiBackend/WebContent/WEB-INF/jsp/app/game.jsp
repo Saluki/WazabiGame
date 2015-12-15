@@ -9,8 +9,11 @@
 	<div id="game-header" class="clearfix">
 		<div id="player-view"></div>	
 		<div id="actions-view">
+			<div id="btn-game-next" class="btn btn-primary">
+				<i class="glyphicon glyphicon-repeat"></i>&nbsp;&nbsp;Terminer tour de jeu
+			</div>
 			<div id="btn-game-quit" class="btn btn-danger">
-				<i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Quitter la partie
+				<i class="glyphicon glyphicon-ban-circle"></i>&nbsp;&nbsp;Quitter la partie
 			</div>
 		</div>
 	</div>	
@@ -109,7 +112,7 @@
 <script src="js/game/views/DiceView.js"></script>
 <script src="js/game/views/DiceListView.js"></script>
 <script src="js/game/views/ChallengersListView.js"></script>
-<script src="js/game/views/QuitButtonView.js"></script>
+<script src="js/game/views/ActionButtonsView.js"></script>
 
 <!-- Other JS Components -->
 <script src="js/game/components/SchedulerClass.js"></script>

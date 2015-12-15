@@ -24,10 +24,14 @@ $(function(){
 	app.playerCardsView = new app.CardListView({ collection:app.playerCards });
 	app.playerDicesView = new app.DiceListView({ collection:app.playerDices });
 	app.challengersView = new app.ChallengersListView({ collection:app.challengers });
-	app.quitButton      = new app.QuitButtonView();
+	app.quitButton      = new app.ActionButtonsView();
 	
 	// Updating local status
 	app.mainPlayer.on('change:play', function(){
+		
+		if( !app.mainPlayer.get('play') ) {
+			return;
+		}
 		
 		app.Status.instance().set(app.Status.C.ROLL_DICE);
 		alertify.success('C\'est maintenant a vous de jouer! Relancer les des en cliquant dessus...');
