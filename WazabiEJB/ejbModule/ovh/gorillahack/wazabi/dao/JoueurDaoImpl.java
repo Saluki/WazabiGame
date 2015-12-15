@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.dao;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -57,7 +58,17 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 	
 	public Carte piocherCarte(Joueur j) {
-		return null;
+		Partie p = partieDaoImpl.getPartieCourante();
+		List<Carte> pioche = p.getPioche();
+		Random rand = new Random();
+		Carte c = pioche.remove(rand.nextInt(pioche.size()-1));
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<Carte> cartes = jp.getCartes();
+		cartes.add(c);
+		jp.setCartes(cartes);
+		joueurPartieDaoImpl.enregistrer(jp);
+		partieDaoImpl.enregistrer(p);
+		return c;
 	}
 	
 	public List<De> lancerDes(Joueur j){
@@ -75,25 +86,23 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				+ "AND jp.joueur = j.id_joueur)");
 	}
 	
-	public Joueur commencerPartie() {
-		//TODO Il faut: Initialiser la pioche, changer le status de la partie, attribuer les dés aux joueurs?, attribuer les cartes aux joueurs, sélectionner le joueur courant
+	public Partie commencerPartie(int nbCartesParJoueur) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		if(p==null||p.getStatut()==Status.PAS_COMMENCE||p.getStatut()==Status.COMMENCE)
 			return null;
 		for(Joueur j: listerJoueurPartieCourante()){
 			//TODO Mettre 4 dés pour chaque joueur
-			/*TODO Mettre 3 cartes pour chaque joueur. 2 solutions:
-			Soit on initialise d'abord la pile avec toutes les cartes, et on fait piocher chaque joueur 3 fois d'affilée
-			Soit on donne d'abord les 3 cartes à chaque joueur, puis on initialise la pioche avec le reste.*/
+			for(int i = 0; i<nbCartesParJoueur;i++){
+				piocherCarte(j);
+			}
 			p.setStatut(Status.COMMENCE);
 			partieDaoImpl.mettreAJour(p);
 		}
 		
 		
-		//TODO définir le joueur courant
 		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
 		partieDaoImpl.mettreAJour(p);
-		return joueurPartieDaoImpl.getJoueurCourant().getJoueur();
+		return p;
 	}
 	
 	public void terminerTour(){
