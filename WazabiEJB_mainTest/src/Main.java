@@ -21,9 +21,6 @@ public class Main {
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 			Joueur joueur1 = gestionPartie.inscrire("test1", "test1");
 			Joueur joueur2 = gestionPartie.inscrire("test2", "test2");
-			ArrayList<Carte> cartes = new ArrayList<>();
-			cartes.add(new Carte(0, 1, null, 0));
-			cartes.add(new Carte(2, 3, null, 1));
 			//Partie partie1 = gestionPartie.enregistrerPartie("partie1", new Date(), Sens.HORAIRE, joueur1, null, null,
 			//		Status.PAS_COMMENCE);
 			//TODO supprimer la ligne du haut. L'enregistrement se fera dans la méthode rejoindrePartie(Joueur j)
@@ -32,7 +29,7 @@ public class Main {
 			//partie1.setCourant(joueurPartie1);
 			Partie p1 = gestionPartie.rejoindrePartie(joueur1);
 			Partie p2 = gestionPartie.rejoindrePartie(joueur2);
-			p1.setCartes(cartes);
+			//p1.setCartes(cartes);
 			
 			System.out.println("Historique des parties de joueur1 (partie1): ");
 			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {
