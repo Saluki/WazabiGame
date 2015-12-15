@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ovh.gorillahack.wazabi.domaine.Joueur;
+
 @WebFilter(urlPatterns = { "/app/*", "/api/*" })
 public class AuthFilter implements Filter {
 
@@ -23,9 +25,7 @@ public class AuthFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		Boolean session = (Boolean) httpRequest.getSession().getAttribute("authentificated");
-
-		if (session != null && (Boolean) session) {
+		if (httpRequest.getSession().getAttribute("authentificated") != null) {
 			chain.doFilter(request, response);
 			return;
 		}

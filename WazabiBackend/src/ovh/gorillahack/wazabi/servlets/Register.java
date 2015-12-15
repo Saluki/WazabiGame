@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ipl.mock.MockInterfaceGestionPartie;
+
+import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 import ovh.gorillahack.wazabi.utils.Utils;
 
 @WebServlet(urlPatterns = "/register.html")
@@ -18,7 +20,7 @@ public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private MockInterfaceGestionPartie gestionPartie;
+	private GestionPartie gestionPartie;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -51,12 +53,8 @@ public class Register extends HttpServlet {
 		
 		final ServletContext context = getServletContext();
 		synchronized (context) {
-
-			if (gestionPartie.verificationPseudo(pseudo)) {
-				
-				// TODO Verifier si inscription reussie
-				gestionPartie.inscription(pseudo, password);
-				
+			Joueur joueur = gestionPartie.inscrire(pseudo, password);
+		if ( joueur != null) {
 				request.getSession().setAttribute("authentificated", true);
 				response.sendRedirect("app/dashboard.html");
 				return;

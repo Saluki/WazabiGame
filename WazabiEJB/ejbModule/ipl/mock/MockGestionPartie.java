@@ -1,12 +1,18 @@
 package ipl.mock;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
 
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+
+import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.De.Valeur;
+import ovh.gorillahack.wazabi.domaine.Joueur;
 
 @Singleton
 @Startup
@@ -160,6 +166,31 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	public List<De> lancerDes(Joueur joueur) {
+		// TODO Auto-generated method stub
+		List<De> listeRetour = new ArrayList<De>();
+		listeRetour.add(new De(De.Valeur.WAZABI));
+		listeRetour.add(new De(De.Valeur.PIOCHE));
+		listeRetour.add(new De(De.Valeur.DE));
+		return listeRetour;
+	}
+
+	@Override
+	public Map<String, String> carteJouer(int carte) {
+		// TODO Auto-generated method stub
+		// on va regarder a la premiere carte
+			HashMap<String, String> map = new HashMap<String, String>();
+				// 1iere carte
+				map.put("name", "Card A");
+				map.put("description", "Description of A");
+				map.put("image", "/image/pic1.png");
+				map.put("effect", "2");
+				map.put("cost", "3");
+				map.put("input", "true");
+			return map;
 	}
 
 }

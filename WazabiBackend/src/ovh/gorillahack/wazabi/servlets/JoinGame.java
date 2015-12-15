@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ipl.mock.MockInterfaceGestionPartie;
+import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 /**
  * Servlet implementation class JoinGame
@@ -18,12 +20,14 @@ import ipl.mock.MockInterfaceGestionPartie;
 public class JoinGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
-	private MockInterfaceGestionPartie  gestionPartie ;
+	private GestionPartie  gestionPartie ;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if(gestionPartie.etatPartie().equals("COMMENCE")){
+		Joueur joueur = (Joueur)request.getSession().getAttribute("authentificated");
+		Partie partie = gestionPartie.rejoindrePartie(joueur);
+		if(partie.getStatut().equals(Partie.Status.COMMENCE)){
 				response.sendRedirect(request.getContextPath() +"/app/dashboard.html");
-		}else if(gestionPartie.etatPartie().equals("EN_ATTENTE")){
+		}else if(partie.getStatut().equals(Partie.Status.EN_ATTENTE)){
 			response.sendRedirect(request.getContextPath() +"/app/game.html");
 		}else{
 			getServletContext().getNamedDispatcher("app.create").forward(request, response);
@@ -32,11 +36,9 @@ public class JoinGame extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	String partie = request.getParameter("nom");
-	System.out.println("------------------------------------passer---------------------------------------------");
+		String partie = request.getParameter("nom");
 		synchronized(getServletContext()){
-			
-			if( gestionPartie.createPartie(partie)){
+			if( gestionPartie.creerPartie(partie) != null){
 				getServletContext().getNamedDispatcher("app.game").forward(request, response);
 				return;
 			}else{

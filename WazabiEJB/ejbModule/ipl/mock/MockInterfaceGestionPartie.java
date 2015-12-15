@@ -1,8 +1,13 @@
 package ipl.mock;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import javax.ejb.Remote;
+
+import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Joueur;
 
 @Remote
 public interface MockInterfaceGestionPartie {
@@ -13,5 +18,6 @@ public interface MockInterfaceGestionPartie {
 	public Stack pileInformation();
 	EtatPartie etatPartie();
 	public boolean createPartie(String partie);
-
+	public  List<De> lancerDes(Joueur joueur);
+	public Map<String, String> carteJouer(int carte);
 }

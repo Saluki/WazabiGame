@@ -22,13 +22,12 @@ public class GuestFilter implements Filter {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-		Boolean isAuthenticated = (Boolean) httpRequest.getSession().getAttribute("authentificated");
-
-		if (isAuthenticated != null && isAuthenticated) {
+		
+		if (httpRequest.getSession().getAttribute("authentificated") != null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/dashboard.html");
 			return;
 		}
+			
 
 		chain.doFilter(request, response);
 		return;
