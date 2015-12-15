@@ -75,7 +75,7 @@ public interface GestionPartie {
 	 * 
 	 * @return Le Joueur qui commencera la partie.
 	 */
-	public Joueur commencerPartie();
+	public void commencerPartie();
 	
 	/**
 	 * 
@@ -119,4 +119,21 @@ public interface GestionPartie {
 	 * @return La partie ainsi creee
 	 */
 	public Partie creerPartie(String nom);
+	
+	/**
+	 * 
+	 * Permet de recuperer les adversaires du joueur courant
+	 * 
+	 * @return
+	 */
+	public List<Joueur> getAdversaires(Joueur j);
+	
+	/**
+	 * 
+	 * Permet de recuperer le joueur courant de la partie courante
+	 * 
+	 * @return Le joueur courant
+	 */
+	public Joueur getJoueurCourant();
+	
 }

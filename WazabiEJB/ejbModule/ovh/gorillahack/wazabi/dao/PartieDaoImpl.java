@@ -39,15 +39,7 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 	
-	public Partie creerUnePartie(String nom) {
-		try {
-			InputStream is = new FileInputStream("wazabi.xml");
-		} catch (FileNotFoundException e) {
-			return null;
-		}
-		
-		
-		
+	public Partie creerUnePartie(String nom) {		
 		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 	}
 
@@ -59,6 +51,9 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 		}
 		jp.setPartie(p);
 		jp.setJoueur(j);
+		if(p.getCourant()==null){
+			p.setCourant(jp);
+		}
 		joueurPartieDao.enregistrer(jp);
 		return super.enregistrer(p);
 	}	

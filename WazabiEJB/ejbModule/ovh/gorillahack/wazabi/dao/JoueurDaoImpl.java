@@ -91,6 +91,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		
 		
 		//TODO définir le joueur courant
+		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
+		partieDaoImpl.mettreAJour(p);
 		return joueurPartieDaoImpl.getJoueurCourant().getJoueur();
 	}
 	
