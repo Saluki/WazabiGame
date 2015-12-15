@@ -78,31 +78,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public List<De> voirDes(Joueur j){
 		return null;
 	}
-	
-	public List<Joueur> listerJoueurPartieCourante() {
-		return super.liste("SELECT j FROM Joueur j WHERE EXISTS "
-				+ "(SELECT jp FROM JoueurPartie jp WHERE "
-				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)"
-				+ "AND jp.joueur = j.id_joueur)");
-	}
-	
-	public Partie commencerPartie(int nbCartesParJoueur) {
-		Partie p = partieDaoImpl.getPartieCourante();
-		if(p==null||p.getStatut()!=Status.EN_ATTENTE)
-			return null;
-		p.setStatut(Status.COMMENCE);
-		for(Joueur j: listerJoueurPartieCourante()){
-			//TODO Mettre 4 dés pour chaque joueur
-			for(int i = 0; i<nbCartesParJoueur;i++){
-				piocherCarte(j);
-			}
-		}
-				
-		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
-		partieDaoImpl.mettreAJour(p);
-		return p;
-	}
-	
+			
 	public void terminerTour(){
 		JoueurPartie courant = joueurPartieDaoImpl.getJoueurCourant();
 		Partie p = courant.getPartie();
@@ -133,5 +109,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			p.setStatut(Status.ANNULEE);
 			partieDaoImpl.mettreAJour(p);
 		}
+	}
+	
+	public List<Joueur> listerJoueurPartieCourante(){
+		return super.liste("SELECT j FROM Joueur j WHERE EXISTS "
+				+ "(SELECT jp FROM JoueurPartie jp WHERE "
+				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)"
+				+ "AND jp.joueur = j.id_joueur)");
 	}
 }

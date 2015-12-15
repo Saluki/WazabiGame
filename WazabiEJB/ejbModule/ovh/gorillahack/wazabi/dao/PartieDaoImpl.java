@@ -34,6 +34,9 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private FaceDaoImpl faceDaoImpl;
 	@EJB
 	private GestionPartie gestionPartie;
+	
+	@EJB
+	private JoueurDaoImpl joueurDaoImpl;
 
 	public PartieDaoImpl() {
 		super(Partie.class);
@@ -75,4 +78,26 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	public Partie getPartieCourante() {
 		return super.recherche("SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie) FROM Partie p)");
 	}
+	
+	public List<Joueur> listerJoueurPartieCourante() {
+		return joueurDaoImpl.listerJoueurPartieCourante();
+	}
+	
+	public Partie commencerPartie(int nbCartesParJoueur) {
+		Partie p = getPartieCourante();
+		if(p==null||p.getStatut()!=Status.EN_ATTENTE)
+			return null;
+		p.setStatut(Status.COMMENCE);
+		for(Joueur j: listerJoueurPartieCourante()){
+			//TODO Mettre 4 dés pour chaque joueur
+			for(int i = 0; i<nbCartesParJoueur;i++){
+				joueurDaoImpl.piocherCarte(j);
+			}
+		}
+				
+		p.setCourant(joueurPartieDao.getJoueurCourant());
+		super.mettreAJour(p);
+		return p;
+	}
+
 }

@@ -94,7 +94,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public List<Joueur> listerJoueurPartieCourante() {
-		return joueurDaoImpl.listerJoueurPartieCourante();
+		return partieDaoImpl.listerJoueurPartieCourante();
 	}
 	
 	@Override
@@ -106,7 +106,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void commencerPartie() {
-		partieCourante = joueurDaoImpl.commencerPartie(nbCartesParJoueurs);
+		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs);
 	}
 
 	@Override
