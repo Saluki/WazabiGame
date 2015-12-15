@@ -4,12 +4,17 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
+
+/**
+ * Une instance d'un dé, contient le résultat du lancer
+ * @author Alexandre
+ *
+ */
 @Entity
 @Table(name="DE", schema="WAZABI")
 public class De implements Serializable {
 	private static final long serialVersionUID = 3574469498462219396L;
-
-	public enum Valeur {WAZABI, PIOCHE, DE}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

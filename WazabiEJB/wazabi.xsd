@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="wazabi">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="de" />
+				<xs:element ref="carte" minOccurs="1" maxOccurs="24"/>
+			</xs:sequence>
+			<xs:attribute name="but" type="xs:string" />
+			<xs:attribute name="nbCartesParJoueur" type="xs:int"
+				use="required" />
+			<xs:attribute name="nbCartesTotal" type="xs:int" use="required" />
+			<xs:attribute name="minJoueurs" type="xs:int" use="required" />
+			<xs:attribute name="maxJoueurs" type="xs:int" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="de">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="face" maxOccurs="6" />
+			</xs:sequence>
+			<xs:attribute name="nbParJoueur" type="xs:int" use="required" />
+			<xs:attribute name="nbTotalDes" type="xs:int" use="required" />
+
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="carte">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="figure" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="ref" type="xs:string"></xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="cout" type="xs:int" use="required" />
+			<xs:attribute name="nb" type="xs:int" use="required" />
+			<xs:attribute name="effet" type="xs:string" use="required" />
+			<xs:attribute name="codeEffet" type="xs:int" use="required" />
+			<xs:attribute name="src" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="face">
+		<xs:complexType>
+			<xs:attribute name="figure" type="xs:string" use="required" />
+			<xs:attribute name="identif" type="xs:string" use="required" />
+			<xs:attribute name="src" type="xs:string" />
+			<xs:attribute name="nbFaces" use="required" type="deType" />
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="deType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1" />
+			<xs:maxInclusive value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

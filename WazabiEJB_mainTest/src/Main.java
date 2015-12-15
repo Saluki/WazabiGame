@@ -1,16 +1,9 @@
-import java.util.ArrayList;
-import java.util.Date;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
-import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 public class Main {
@@ -30,9 +23,9 @@ public class Main {
 					"test1 test d'inscription (doit rater) : " + ((gestionPartie.inscrire("test1", "test1") != null)
 							? "Inscription réussie" : "Inscription ratée"));
 			
-			ArrayList<Carte> cartes = new ArrayList<>();
-			cartes.add(new Carte(0, 1, null, 0));
-			cartes.add(new Carte(2, 3, null, 1));
+			//ArrayList<Carte> cartes = new ArrayList<>();
+			//cartes.add(new Carte(0, 1, null, 0));
+			//cartes.add(new Carte(2, 3, null, 1));
 			Partie partie1 = gestionPartie.creerPartie("HELLO");
 			System.out.println(partie1.getNom());
 			gestionPartie.rejoindrePartie(joueur1);

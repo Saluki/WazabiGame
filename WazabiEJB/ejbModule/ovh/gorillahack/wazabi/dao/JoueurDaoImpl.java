@@ -111,4 +111,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			joueurPartieDaoImpl.mettreAJour(courant);
 		}
 	}
+	
+	public void deconnecter(Joueur j){
+		super.supprimer(j.getId_joueur());
+	}
 }

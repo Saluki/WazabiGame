@@ -12,73 +12,110 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="CARTES", schema="WAZABI")
+@Table(name = "CARTES", schema = "WAZABI")
 public class Carte implements Serializable {
 	private static final long serialVersionUID = -6077579153718005022L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_carte;
-	
-	@Column (nullable=false)
+
+	@Column(nullable = false)
 	private int code_effet;
-	
-	@Column (nullable=false)
+
+	@Column
+	private String effet;
+
+	@Column(nullable = false)
 	private boolean input;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private int cout;
-	
+
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="id_partie")
+	@PrimaryKeyJoinColumn(name = "id_partie")
 	private Partie partie;
-	
+
 	@Column
 	private int ordre_pioche;
 
-	public Carte(int code_effet, int cout, Partie partie, int ordre_pioche) {
+	@Column
+	private String description;
+
+	public Carte(int code_effet, int cout, Partie partie, int ordre_pioche, String effet, String description) {
 		super();
 		this.code_effet = code_effet;
 		this.cout = cout;
 		this.partie = partie;
 		this.ordre_pioche = ordre_pioche;
+		this.effet = effet;
+		this.description = description;
 	}
+
+	public Carte(int code_effet, int cout, String effet, String description) {
+		super();
+		this.code_effet = code_effet;
+		this.cout = cout;
+		this.effet = effet;
+		this.description = description;
+	}
+
 	public Carte() {
 		super();
 	}
+
 	public int getId_carte() {
 		return id_carte;
 	}
+
 	public void setId_carte(int id_carte) {
 		this.id_carte = id_carte;
 	}
+
 	public int getCode_effet() {
 		return code_effet;
 	}
+
 	public void setCode_effet(int code_effet) {
 		this.code_effet = code_effet;
 	}
+
 	public int getCout() {
 		return cout;
 	}
+
 	public void setCout(int cout) {
 		this.cout = cout;
 	}
+
 	public Partie getPartie() {
 		return partie;
 	}
+
 	public void setPartie(Partie partie) {
 		this.partie = partie;
 	}
+
 	public int getOrdre_pioche() {
 		return ordre_pioche;
 	}
+
 	public void setOrdre_pioche(int ordre_pioche) {
 		this.ordre_pioche = ordre_pioche;
 	}
+
 	public boolean isInput() {
 		return input;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,6 +127,7 @@ public class Carte implements Serializable {
 		result = prime * result + ((partie == null) ? 0 : partie.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -113,5 +151,5 @@ public class Carte implements Serializable {
 		} else if (!partie.equals(other.partie))
 			return false;
 		return true;
-	}	
+	}
 }

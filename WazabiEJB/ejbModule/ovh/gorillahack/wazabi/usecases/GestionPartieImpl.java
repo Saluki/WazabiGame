@@ -1,8 +1,6 @@
 package ovh.gorillahack.wazabi.usecases;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -121,6 +119,13 @@ public class GestionPartieImpl implements GestionPartie {
 		return partieCourante;
 	}
 	
+
+	@Override
+	public void deconnecter(Joueur j){
+		joueurDaoImpl.deconnecter(j);
+		List<Joueur> joueursRestants = listerJoueurPartieCourante();
+	}
+	
 	private void recupererDonnees(){
 		partieCourante = partieDaoImpl.getPartieCourante();
 		List<Joueur> joueursDeLaPartie = listerJoueurPartieCourante();
@@ -135,4 +140,51 @@ public class GestionPartieImpl implements GestionPartie {
 		return partieCourante.getCourant().getJoueur();
 	}
 
+	public int getMin_joueurs() {
+		return min_joueurs;
+	}
+
+	public void setMin_joueurs(int min_joueurs) {
+		this.min_joueurs = min_joueurs;
+	}
+
+	public int getMax_joueurs() {
+		return max_joueurs;
+	}
+
+	public void setMax_joueurs(int max_joueurs) {
+		this.max_joueurs = max_joueurs;
+	}
+
+	public int getNbCartesParJoueurs() {
+		return nbCartesParJoueurs;
+	}
+
+	public void setNbCartesParJoueurs(int nbCartesParJoueurs) {
+		this.nbCartesParJoueurs = nbCartesParJoueurs;
+	}
+
+	public int getNbCartesTotal() {
+		return nbCartesTotal;
+	}
+
+	public void setNbCartesTotal(int nbCartesTotal) {
+		this.nbCartesTotal = nbCartesTotal;
+	}
+
+	public int getNbDesParJoueur() {
+		return nbDesParJoueur;
+	}
+
+	public void setNbDesParJoueur(int nbDesParJoueur) {
+		this.nbDesParJoueur = nbDesParJoueur;
+	}
+
+	public int getNbDesTotal() {
+		return nbDesTotal;
+	}
+
+	public void setNbDesTotal(int nbDesTotal) {
+		this.nbDesTotal = nbDesTotal;
+	}
 }
