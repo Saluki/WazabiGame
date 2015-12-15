@@ -91,16 +91,13 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		if(p==null||p.getStatut()!=Status.EN_ATTENTE)
 			return null;
 		p.setStatut(Status.COMMENCE);
-		/*for(Joueur j: listerJoueurPartieCourante()){
+		for(Joueur j: listerJoueurPartieCourante()){
 			//TODO Mettre 4 dés pour chaque joueur
 			for(int i = 0; i<nbCartesParJoueur;i++){
 				piocherCarte(j);
 			}
-			p.setStatut(Status.COMMENCE);
-			partieDaoImpl.mettreAJour(p);
-		}*/
-		
-		
+		}
+				
 		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
 		partieDaoImpl.mettreAJour(p);
 		return p;
