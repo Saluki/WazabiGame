@@ -153,7 +153,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void deconnecter(Joueur j){
-		joueurDaoImpl.deconnecter(j);
+		joueurDaoImpl.deconnecter(j,min_joueurs);
 		List<Joueur> joueursRestants = listerJoueurPartieCourante();
 	}
 	

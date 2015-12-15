@@ -121,7 +121,13 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		}
 	}
 	
-	public void deconnecter(Joueur j){
-		super.supprimer(j.getId_joueur());
+	public void deconnecter(Joueur j, int nombreJoueursMin){
+		Partie p = partieDaoImpl.getPartieCourante();
+		joueurPartieDaoImpl.supprimer(j.getId_joueur());
+		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
+		if(temp.size()<nombreJoueursMin){
+			p.setStatut(Status.ANNULEE);
+			partieDaoImpl.mettreAJour(p);
+		}
 	}
 }
