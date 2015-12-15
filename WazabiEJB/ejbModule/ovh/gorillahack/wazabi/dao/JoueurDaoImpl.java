@@ -34,6 +34,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	
 	@EJB
 	private JoueurPartieDaoImpl joueurPartieDaoImpl;
+	
+	@EJB
+	private CarteDaoImpl carteDaoImpl;
+	@EJB
+	private DeDaoImpl deDaoImpl;
+
 
 	public JoueurDaoImpl() {
 		super(Joueur.class);
@@ -76,49 +82,28 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 	
 	public List<De> voirDes(Joueur j){
-		return null;
+		return deDaoImpl.getDes(j);
 	}
 	
-	public List<Joueur> listerJoueurPartieCourante() {
-		return super.liste("SELECT j FROM Joueur j WHERE EXISTS "
-				+ "(SELECT jp FROM JoueurPartie jp WHERE "
-				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)"
-				+ "AND jp.joueur = j.id_joueur)");
+	public List<Carte> voirCartes(Joueur j){
+		return carteDaoImpl.getCartes(j);
 	}
-	
-	public Partie commencerPartie(int nbCartesParJoueur) {
-		Partie p = partieDaoImpl.getPartieCourante();
-		if(p==null||p.getStatut()==Status.PAS_COMMENCE||p.getStatut()==Status.COMMENCE)
-			return null;
-		/*for(Joueur j: listerJoueurPartieCourante()){
-			//TODO Mettre 4 dés pour chaque joueur
-			for(int i = 0; i<nbCartesParJoueur;i++){
-				piocherCarte(j);
-			}
-			p.setStatut(Status.COMMENCE);
-			partieDaoImpl.mettreAJour(p);
-		}*/
-		
-		
-		p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
-		partieDaoImpl.mettreAJour(p);
-		return p;
-	}
-	
-	public void terminerTour(){
+			
+	public Partie terminerTour(){
 		JoueurPartie courant = joueurPartieDaoImpl.getJoueurCourant();
-		Partie p = courant.getPartie();
+		Partie p = partieDaoImpl.getPartieCourante();
 		if(courant.getDes() == null){
 		} else if(courant.getDes().isEmpty()){
 			System.out.println("Le joueur " + courant.getJoueur().getPseudo()+" a gagné car il n'a plus de dés");
 			p.setStatut(Status.PAS_COMMENCE);
 			p.setVainqueur(courant.getJoueur());
-			partieDaoImpl.mettreAJour(p);
-			joueurPartieDaoImpl.mettreAJour(courant);
+			p = partieDaoImpl.mettreAJour(p);
 		} else{
 			courant.setOrdre_joueur(PartieDaoImpl.ordre++);
 			joueurPartieDaoImpl.mettreAJour(courant);
+			p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
 		}
+		return p;
 	}
 	
 	public void deconnecter(Joueur j, int nombreJoueursMin){
@@ -126,9 +111,21 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
-		if(temp.size()<nombreJoueursMin){
+		int nbJoueursRestants=0;
+		for(JoueurPartie jop: temp){
+			if(jop.estActif())
+				nbJoueursRestants++;
+		}
+		if(nbJoueursRestants<nombreJoueursMin){
 			p.setStatut(Status.ANNULEE);
 			partieDaoImpl.mettreAJour(p);
 		}
+	}
+	
+	public List<Joueur> listerJoueurPartieCourante(){
+		return super.liste("SELECT j FROM Joueur j WHERE EXISTS "
+				+ "(SELECT jp FROM JoueurPartie jp WHERE "
+				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)"
+				+ "AND jp.joueur = j.id_joueur)");
 	}
 }

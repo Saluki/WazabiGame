@@ -1,7 +1,10 @@
+import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.ValidationException;
@@ -15,6 +18,7 @@ public class Main {
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 			Joueur joueur1 = gestionPartie.inscrire("test1", "test1","test1");
 			Joueur joueur2 = gestionPartie.inscrire("test2", "test2","test2");
+			Joueur joueur3 = gestionPartie.inscrire("test3", "test3", "test3");
 			
 			System.out.println("test1 test de connexion : " + ((gestionPartie.seConnecter("test1", "test1") != null)
 					? "Connexion réussie" : "Connexion ratée"));
@@ -24,13 +28,11 @@ public class Main {
 					"test1 test d'inscription (doit rater) : " + ((gestionPartie.inscrire("test1", "test1","test1") != null)
 							? "Inscription réussie" : "Inscription ratée"));
 			
-			//ArrayList<Carte> cartes = new ArrayList<>();
-			//cartes.add(new Carte(0, 1, null, 0));
-			//cartes.add(new Carte(2, 3, null, 1));
 			Partie partie1 = gestionPartie.creerPartie("HELLO");
 			System.out.println(partie1.getNom());
 			gestionPartie.rejoindrePartie(joueur1);
 			gestionPartie.rejoindrePartie(joueur2);
+			gestionPartie.rejoindrePartie(joueur3);
 			
 			System.out.println("Historique des parties de joueur1 (partie1): ");
 			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {
@@ -48,8 +50,14 @@ public class Main {
 			}
 			
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo()
-					+ "commence");
+					+ " commence");
 			gestionPartie.commencerPartie();
+			/*List<De> des = gestionPartie.voirDes(joueur1);
+			for(De de: des){
+				System.out.println(de.getId_de());
+			}*/
+			gestionPartie.terminerTour();
+			System.out.println("C'est au tour de "+ gestionPartie.getJoueurCourant().getPseudo()+" de joueur");
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

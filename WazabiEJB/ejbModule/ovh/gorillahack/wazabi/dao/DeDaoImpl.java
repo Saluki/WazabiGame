@@ -3,6 +3,7 @@ package ovh.gorillahack.wazabi.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -20,17 +21,17 @@ public class DeDaoImpl extends DaoImpl<De> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
+	@EJB
+	private PartieDaoImpl partieDaoImpl;
+	
 	public DeDaoImpl() {
 		super(De.class);
 	}
 
 	public List<De> getDes(Joueur j) {
-		return /*
-				 * super.liste("SELECT d FROM De d WHERE EXISTS " +
-				 * "(SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1" +
-				 * " AND jp.partie = (SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie))))"
-				 * , j)
-				 */ null;
+		return super.liste("SELECT d FROM De d WHERE d IN"
+				+ " (SELECT jp.des FROM JoueurPartie jp WHERE jp.joueur=?1"
+				+ " AND jp.partie = ?2)", j, partieDaoImpl.getPartieCourante());
 	}
 
 	public List<De> creerDes(int nombre) {
