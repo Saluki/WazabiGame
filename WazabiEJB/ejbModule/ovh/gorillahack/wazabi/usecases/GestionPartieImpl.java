@@ -36,6 +36,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
+	private List<Carte> jeuDeCarte;
 	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -221,5 +222,16 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public Partie getPartieCourante(){
 		return partieCourante;
+	}
+
+	@Override
+	public List<Carte> getJeuDeCarte() {
+		return jeuDeCarte;
+	}
+
+	@Override
+	public void setJeuDeCarte(List<Carte> liste) {
+		this.jeuDeCarte = liste;
+		
 	}
 }
