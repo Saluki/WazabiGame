@@ -22,7 +22,7 @@
       "cost": 2,
       "input": false
     }],
-    "dices": ["A", "B", "C"]
+    "dices": ["PIOCHE", "DE", "DE"]
   },
   "challengers": [{
       "name": "Jack Forge",

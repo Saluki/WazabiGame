@@ -19,7 +19,9 @@ app.DiceView = Backbone.View.extend({
 
 	render : function() {
 		
-		this.$el.html(this.template(this.model.toJSON()));		
+		this.$el.html(this.template({
+			shortValue: this.model.getShortValue()	
+		}));
 		return this;
 	}
 

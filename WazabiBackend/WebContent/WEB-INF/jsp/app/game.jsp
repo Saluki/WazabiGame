@@ -57,7 +57,7 @@
 
 <script type="text/template" id="dice-view-template">
 	
-	<\%= value %>
+	<\%= shortValue %>
 
 </script>
 
