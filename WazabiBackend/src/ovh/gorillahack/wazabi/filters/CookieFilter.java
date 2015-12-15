@@ -15,17 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 public class CookieFilter implements Filter {
 
 	protected FilterConfig config;
-
+/*
+ * (non-Javadoc)
+ * description : Verifie que l'utilisateur accepte bien les cookies . En cas d'echec, un message lui est affiché.
+ * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+ */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		if(httpRequest.getCookies().length ==0){
-			chain.doFilter(request, response);
-			return;
-		}
 		if( !httpRequest.isRequestedSessionIdFromCookie() ) {
-			
 			request.setAttribute("errorMessage", "Activation des cookies obligatoire");
 			config.getServletContext().getNamedDispatcher("error.main").forward(request, response);
 			return;
@@ -33,7 +32,7 @@ public class CookieFilter implements Filter {
 		chain.doFilter(request, response);
 		
 	}
-	
+
 	public void init(FilterConfig config) throws ServletException {
 		this.config = config;
 	}

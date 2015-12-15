@@ -65,15 +65,15 @@ public class GestionPartieImpl implements GestionPartie {
     
     @Override
     public Joueur inscrire(String pseudo, String motdepasse,String motdepasseRepeat) throws ValidationException {
-    	if (!Utils.checkString(pseudo) || ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+    	if (!Utils.checkString(pseudo) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", pseudo)) {
     		throw new ValidationException("Format du pseudo invalide .");
 		}
 				
-		if (!Utils.checkString(motdepasse) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasse)) {
+		if (!Utils.checkString(motdepasse) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", motdepasse)) {
 			throw new ValidationException("Format du mot de passe invalide.");
 		}
 		
-		if (!motdepasse.equals(motdepasseRepeat) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasseRepeat)) {
+		if (!motdepasse.equals(motdepasseRepeat) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", motdepasseRepeat)) {
 			throw new ValidationException("Les deux mots de passe ne sont pas similaires.");
 		}
 		
@@ -130,11 +130,11 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Joueur seConnecter(String pseudo, String mdp)throws ValidationException {
-		if (!Utils.checkString(pseudo)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+		if (!Utils.checkString(pseudo)|| ! Pattern.matches("([a-zA-Z0-9]){1,250}", pseudo)) {
 			throw new ValidationException("Format du pseudo incorrecte.");
 		}
 
-		if (!Utils.checkString(mdp)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", mdp)) {
+		if (!Utils.checkString(mdp)|| ! Pattern.matches("([a-zA-Z0-9]){1,250}", mdp)) {
 			throw new ValidationException("Format du mot de passe incorrecte.");
 		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
@@ -142,7 +142,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) throws ValidationException {
-		if(! Utils.checkString(nom) || ! Pattern.matches("([a-z]|[0-9]){1,20}", nom))
+		if(! Utils.checkString(nom) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);

@@ -18,7 +18,10 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 public class AuthFilter implements Filter {
 
 	protected FilterConfig config;
-
+/**
+ * 
+ * description : Verifie que l'utilisateur est bien authentifié pour acceder aux pages protégées
+ */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 

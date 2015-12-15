@@ -20,7 +20,11 @@ public class ScoreBoard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private GestionPartie gestionPartie;
-
+	/**
+	 * description : Recupere la session de l'utilisateur et recupere l'historique de ses anciennes parties. 
+	 * 				Mets en attribut de la requete la liste et la renvoi a app.scoreboard
+	 * 
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		

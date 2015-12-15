@@ -16,8 +16,11 @@ import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 import ovh.gorillahack.wazabi.util.Utils;
 
+
+
 /**
- * Servlet implementation class JoinGame
+ * @author jvandera15
+ *
  */
 @WebServlet(urlPatterns ="/app/game.html")
 public class JoinGame extends HttpServlet {
@@ -25,6 +28,14 @@ public class JoinGame extends HttpServlet {
 	private ServletContext context;
 	@EJB
 	private GestionPartie  gestionPartie ;
+	
+	/**
+	 * description : permet au joueur de rejoindre la partie 
+	 * redirection : Si une partie est en cours, il est redirigé vers le dashboard.Si la partie est en attente de joueur, 
+	 * il est redirige vers le jeux . Si aucune partie n'a ete creer et que tout les parties sont fini, il est redirige vers la 
+	 * page lui permettant de creer une partie
+	 * 
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Joueur joueur = (Joueur)request.getSession().getAttribute("authentificated");
@@ -37,6 +48,12 @@ public class JoinGame extends HttpServlet {
 			response.sendRedirect(request.getContextPath() +"/app/game.html");
 	}
 
+	/**
+	 * description : reçoit un nom de partie en paramètre et le transfert a l'EJB pour creer une partie dans la base de donnée
+	 * exception : une ValidationException est lancé si le nom de la partie n'est pas de type String
+	 * redirection : Si la partie a bien été crée , la redirection est faite vers le jeux . Sinon la 
+	 *  			redirection est faite vers le dashboard
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		context = getServletContext();
@@ -60,6 +77,14 @@ public class JoinGame extends HttpServlet {
 		}
 	
 	}
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param message
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void redirectWithError(HttpServletRequest request, HttpServletResponse response, String message)
 			throws ServletException, IOException {
 
