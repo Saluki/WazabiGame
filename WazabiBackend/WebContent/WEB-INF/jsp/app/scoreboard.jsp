@@ -13,16 +13,30 @@
 	<c:when test="${ fn:length(requestScope.listeHistorique) == 0 }">
 		<b>Aucune partie</b>
 	</c:when>
-	<c:when test="${ fn:length(requestScope.listeHistorique) > 0 }">
-		<b>Nombre de parties: ${ fn:length(requestScope.listeHistorique) > 0 }</b>
+	<c:when test="${ fn:length(requestScope.listeHistorique) == 1 }">
+		<b>Une seule partie dans l'historique</b>
+	</c:when>
+	<c:when test="${ fn:length(requestScope.listeHistorique) > 1 }">
+		<b>${ fn:length(requestScope.listeHistorique) } parties dans l'historique</b>
 	</c:when>
 </c:choose>
 
 <br><br>
 
-<c:forEach items="${ requestScope.listeHistorique }">
-	PARTIE #<br>
+<table class="table">
+  <tr>
+    <th>Nom partie</th>
+    <th>Gagnant</th>
+    <th>Date de début</th>
+  </tr>
+  <c:forEach var="partie" items="${ requestScope.listeHistorique }">
+	<tr>
+		<td>${ partie.nom }</td>
+		<td>${ partie.vainqueur.pseudo }</td>
+		<td>${ partie.timestamp_creation }</td>
+	</tr>
 </c:forEach>
+</table>
 
 <!-- JS Dependencies -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>

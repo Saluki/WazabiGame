@@ -25,6 +25,7 @@ public class ScoreBoard extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authentificated");
+		
 		List<Partie> listeHistorique = gestionPartie.afficherHistorique(joueur);
 		request.setAttribute("listeHistorique", listeHistorique);
 		
