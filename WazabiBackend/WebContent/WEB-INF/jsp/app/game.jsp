@@ -6,7 +6,15 @@
 			
 <div id="board">
 	
-	<div id="player-view"></div>	
+	<div id="game-header" class="clearfix">
+		<div id="player-view"></div>	
+		<div id="actions-view">
+			<div id="btn-game-quit" class="btn btn-danger">
+				<i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Quitter la partie
+			</div>
+		</div>
+	</div>	
+		
 	<div id="cards-list-view" class="clearfix"></div>
 	<div id="dices-list-view" class="clearfix"></div>
 	<div id="challengers-list-view" class="clearfix"></div>
@@ -28,9 +36,9 @@
 	Joueur <b><\%= name %></b> 
 
 	<\% if( play ) { %>
-		peut jouer&nbsp;&nbsp;<i class="glyphicon glyphicon-play"></i>
+		peut jouer&nbsp;&nbsp;<i class="glyphicon glyphicon-play text-success"></i>
 	<\% } else { %>
-		est en attente&nbsp;&nbsp;<i class="glyphicon glyphicon-pause"></i>
+		est en attente&nbsp;&nbsp;<i class="glyphicon glyphicon-pause text-warning"></i>
 	<\% } %>
 	
 </script>
@@ -101,6 +109,7 @@
 <script src="js/game/views/DiceView.js"></script>
 <script src="js/game/views/DiceListView.js"></script>
 <script src="js/game/views/ChallengersListView.js"></script>
+<script src="js/game/views/QuitButtonView.js"></script>
 
 <!-- Other JS Components -->
 <script src="js/game/components/SchedulerClass.js"></script>
