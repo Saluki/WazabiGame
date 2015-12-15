@@ -100,6 +100,18 @@ public class Carte implements Serializable {
 	public boolean isInput() {
 		return input;
 	}
+	
+	public int getCodeEffet() {
+		return carteEffet.getCode_effet();
+	}
+	
+	public String getEffet() {
+		return carteEffet.getEffet();
+	}
+	
+	public String getDescription() {
+		return carteEffet.getDescription();
+	}
 
 	@Override
 	public int hashCode() {
