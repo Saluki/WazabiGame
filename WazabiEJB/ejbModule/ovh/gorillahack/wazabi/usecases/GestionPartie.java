@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remote;
+import javax.validation.ValidationException;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
@@ -25,8 +26,9 @@ public interface GestionPartie {
 	 *            Le mot de passe du compte qu'on souhaite créer.
 	 * @return Le joueur créé si l'inscription a réussi, null si l'inscription a
 	 *         échoué (ex : pseudo existe déjà).
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
 	 */
-	public Joueur inscrire(String pseudo, String motdepasse);
+	public Joueur inscrire(String pseudo, String motdepasse, String motdepasseRepeat)  throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
 	 * 
@@ -48,8 +50,9 @@ public interface GestionPartie {
 	 * @param motdepasse
 	 *            Le mot de passe à vérifier.
 	 * @return Le joueur si l'authentification a réussi, null sinon.
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
 	 */
-	public Joueur seConnecter(String pseudo, String mdp);
+	public Joueur seConnecter(String pseudo, String mdp) throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
 	 * 
@@ -123,8 +126,9 @@ public interface GestionPartie {
 	 * @param Le
 	 *            nom de la partie
 	 * @return La partie ainsi creee
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
 	 */
-	public Partie creerPartie(String nom);
+	public Partie creerPartie(String nom) throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
 	 * 
@@ -167,4 +171,5 @@ public interface GestionPartie {
 	public int getNbDesTotal();
 
 	public void setNbDesTotal(int nbDesTotal);
+
 }

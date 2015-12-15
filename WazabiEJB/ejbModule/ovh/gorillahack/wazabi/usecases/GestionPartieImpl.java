@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.usecases;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -8,6 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+
 
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
@@ -17,6 +19,8 @@ import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.ValidationException;
+import ovh.gorillahack.wazabi.util.Utils;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -60,7 +64,19 @@ public class GestionPartieImpl implements GestionPartie {
     }
     
     @Override
-    public Joueur inscrire(String pseudo, String motdepasse) {
+    public Joueur inscrire(String pseudo, String motdepasse,String motdepasseRepeat) throws ValidationException {
+    	if (!Utils.checkString(pseudo) || ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+    		throw new ValidationException("Format du pseudo invalide .");
+		}
+				
+		if (!Utils.checkString(motdepasse) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasse)) {
+			throw new ValidationException("Format du mot de passe invalide.");
+		}
+		
+		if (!motdepasse.equals(motdepasseRepeat) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasseRepeat)) {
+			throw new ValidationException("Les deux mots de passe ne sont pas similaires.");
+		}
+		
     	return joueurDaoImpl.inscrire(pseudo, motdepasse);
     }
         
@@ -113,12 +129,21 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Joueur seConnecter(String pseudo, String mdp) {
+	public Joueur seConnecter(String pseudo, String mdp)throws ValidationException {
+		if (!Utils.checkString(pseudo)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+			throw new ValidationException("Format du pseudo incorrecte.");
+		}
+
+		if (!Utils.checkString(mdp)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", mdp)) {
+			throw new ValidationException("Format du mot de passe incorrecte.");
+		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
 	
 	@Override
-	public Partie creerPartie(String nom) {
+	public Partie creerPartie(String nom) throws ValidationException {
+		if(! Utils.checkString(nom) || ! Pattern.matches("([a-z]|[0-9]){1,20}", nom))
+			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;

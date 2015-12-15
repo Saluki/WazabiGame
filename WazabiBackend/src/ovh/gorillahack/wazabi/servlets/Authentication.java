@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.utils.Utils;
+import ovh.gorillahack.wazabi.util.Utils;
 
 @WebServlet(urlPatterns = "/auth.html")
 public class Authentication extends HttpServlet {
@@ -40,16 +41,14 @@ public class Authentication extends HttpServlet {
 		String pseudo = request.getParameter("pseudo");
 		String password = request.getParameter("mot_de_passe");
 
-		if (!Utils.checkString(pseudo)) {
-			redirectWithError(request, response, "Format du pseudo invalide");
+		Joueur joueur;
+		try {
+			joueur = gestionPartie.seConnecter(pseudo, password);
+		} catch (ValidationException e) {
+			// TODO Auto-generated catch block
+			redirectWithError(request, response, e.getMessage());
 			return;
 		}
-
-		if (!Utils.checkString(password)) {
-			redirectWithError(request, response, "Format du mot de passe invalide");
-			return;
-		}
-		Joueur joueur = gestionPartie.seConnecter(pseudo, password);
 		if ( joueur != null) {
 			request.getSession().setAttribute("authentificated", joueur);
 			response.sendRedirect("app/dashboard.html");
