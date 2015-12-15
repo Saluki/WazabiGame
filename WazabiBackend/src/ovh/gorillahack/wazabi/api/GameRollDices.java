@@ -21,23 +21,29 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 public class GameRollDices extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
 	@EJB
 	private MockInterfaceGestionPartie gestionPartie;
 
-	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Return JSON dices result as an array
+
 		Joueur joueur = (Joueur) request.getAttribute("authentificated");
-		List<De> listeDe = gestionPartie.lancerDes(joueur);
+		List<De> listeDes = gestionPartie.lancerDes(joueur);
+		
+		response.getWriter().print(getJsonResponse(listeDes));
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected String getJsonResponse(List<De> listeDes) {
+		
 		JSONArray dices = new JSONArray();
-		for (De de : listeDe) {
-			dices.add(de.getValeur());
+		for (De de : listeDes) {
+			dices.add( de.getValeur().toString() );
 		}
 		JSONObject diceObject = new JSONObject();
 		diceObject.put("dices", dices);
-
-		response.getWriter().println(diceObject.toJSONString());
+		
+		return diceObject.toJSONString();
 	}
-
 }
