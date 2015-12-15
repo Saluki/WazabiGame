@@ -1,5 +1,8 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +39,15 @@ public class PartieDaoImpl extends DaoImpl<Partie>{
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 	
-	public Partie creerUnePartie(String nom){
+	public Partie creerUnePartie(String nom) {
+		try {
+			InputStream is = new FileInputStream("wazabi.xml");
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		
+		
+		
 		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 	}
 
