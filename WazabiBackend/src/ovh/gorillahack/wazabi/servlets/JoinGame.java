@@ -40,7 +40,7 @@ public class JoinGame extends HttpServlet {
 		// TODO Auto-generated method stub
 		context = getServletContext();
 		String partie = request.getParameter("nom");
-		if(! Utils.checkString(partie)){
+		if( !Utils.checkString(partie)){
 			redirectWithError(request, response, "Format de la partie invalide");
 			return;
 		}
@@ -50,7 +50,7 @@ public class JoinGame extends HttpServlet {
 				getServletContext().getNamedDispatcher("app.game").forward(request, response);
 				return;
 			}else{
-				request.setAttribute("message", "Une partie a été crée entre temps. Veuillez vous inscire a la partie");
+				request.setAttribute("message", "Une partie a ete cree entre temps. Veuillez vous inscire a la partie");
 				request.getServletContext().getNamedDispatcher("app.dashboard").forward(request, response);
 				return;
 			}
@@ -61,7 +61,7 @@ public class JoinGame extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setAttribute("errorMessage", message);
-		context.getNamedDispatcher("dashboard").forward(request, response);
+		context.getNamedDispatcher("app.dashboard").forward(request, response);
 	}
 
 }
