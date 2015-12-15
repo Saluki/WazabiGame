@@ -23,10 +23,11 @@ public class ScoreBoard extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Show scoreboard
+		
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authentificated");
 		List<Partie> listeHistorique = gestionPartie.afficherHistorique(joueur);
 		request.setAttribute("listeHistorique", listeHistorique);
+		
 		getServletContext().getNamedDispatcher("app.scoreboard").forward(request, response);
 	}
 

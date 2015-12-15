@@ -81,6 +81,7 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
 <script src="bower_components/backbone/backbone-min.js"></script>
+<script src="bower_components/alertify-js/build/alertify.min.js"></script>
 
 <!-- JS Models and Collections -->
 <script src="js/game/models/GameModel.js"></script>

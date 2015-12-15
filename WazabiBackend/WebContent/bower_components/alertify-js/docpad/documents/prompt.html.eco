@@ -1,0 +1,74 @@
+---
+layout: 'default'
+hljs: 	'light'
+component:	'prompt'
+---
+<section class="blue">
+    <div class="content">
+      <div class="grid two">
+        <div class="column">
+          <h1> Prompt Dialog</h1>
+          A prompt dialog is often used if you want the user to input a value.
+					When a prompt dialog pops up, the user will have to click either "OK" or "Cancel" to proceed after entering an input value.
+        </div>
+        <div class="right column">
+          <%- @partial('ad') %>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="dark">
+    <div class="content">
+      <!--Defult usage-->
+      <div class="segment has-menu">
+        <h1><i class="fa fa-flash"></i> Default usage</h1>
+        <hr />
+        <p>You create a prompt dialog by invoking <code> alertify.prompt(...)</code></p>
+
+        <div class="ui small info message">
+          <div class="content">
+            <p>
+              <i class="fa fa-info-circle"></i>
+              Calling <code>alertify.prompt()</code> the dialog parameter-less constructor will return the prompt dialog instance. You can use this syntax to modify dialog settings before showing it.
+              Also you can get the dialog instance (singletons only) by invoking <code>alertify.dialog('prompt');</code>
+            </p>
+          </div>
+        </div>
+
+<pre>
+<code class="lang-javascript">
+/*
+ * @title {String or DOMElement} The dialog title.
+ * @message {String or DOMElement} The dialog contents.
+ * @value {String} The default input value. 
+ * @onok {Function} Invoked when the user clicks OK button.
+ * @oncancel {Function} Invoked when the user clicks Cancel button or closes the dialog.
+ *
+ * alertify.prompt(title, message, value, onok, oncancel);
+ * 
+ * overloads:
+ *
+ * alertify.prompt(message);
+ * alertify.prompt(message, value);
+ * alertify.prompt(message, value, onok);
+ * alertify.prompt(message, value, onok, oncancel);
+ *
+ */  
+alertify.prompt('This is a prompt dialog!', 'some value', 
+	function(evt, value){ alertify.message('You entered: ' + value);}
+);
+</code> 
+</pre>
+        <div class="RIGHT">
+          <a class="button example" href="javascript:void(0);">
+            <span> Run </span>
+          </a>
+        </div>
+      </div>
+      <!--//Defult usage-->
+      
+      <%- @partial('menu', true) %>
+      
+    </div>
+  </section>
