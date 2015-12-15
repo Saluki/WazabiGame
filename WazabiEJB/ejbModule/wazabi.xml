@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wazabi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="wazabi.xsd"
+	but=" être le premier joueur à ne plus avoir de dé. "
+	nbCartesParJoueur="3" nbCartesTotal="36" minJoueurs="2" maxJoueurs="6">
+	<de nbParJoueur="4" nbTotalDes="24">
+		<face figure="wazabi" identif="w" src="images/" nbFaces="3"></face>
+		<face figure="dé" identif="d" nbFaces="1"></face>
+		<face figure="carte" identif="c" nbFaces="2"></face>
+	</de>
+
+	<carte cout="1" effet="Supprimez 1 de vos dés" src="images/"
+		codeEffet="1" nb="7">
+		Le dé est retiré de la partie.On ne peut pas jouer cette carte si on
+		obtient dans le même tour 2 figures
+		<figure ref="d" />
+		ou plus avec ses dés.
+	</carte>
+	<carte cout="2" effet="Changez de sens" src="images/" codeEffet="2"
+		nb="3">
+		Tous les joueurs donnent leurs dés à leur
+		voisin de gauche ou de
+		droite selon le choix du joueur qui pose la
+		carte. (Il doit lui aussi
+		donner ses dés).
+	</carte>
+	<carte cout="3" effet="Supprimez 2 de vos dés" src="images/"
+		codeEffet="3" nb="5">Les dés sont retirés de la
+		partie.
+	</carte>
+	<carte cout="3" effet="Donnez 1 de vos dés au joueur de votre choix"
+		src="images/" codeEffet="4" nb="3">
+		L’effet est indépendant des dés que vous avez peut-être déjà donnés
+		avec la ou les figure(s)
+		<figure ref="d" />
+		.
+	</carte>
+	<carte cout="1" effet="Prenez 1 carte au joueur de votre choix"
+		src="images/" codeEffet="5" nb="3">Le joueur vous présente ses cartes en
+		éventail faces cachées, prenez celle de votre choix. Si
+		aucun joueur
+		n’a de carte prenez-en une dans la pioche.
+	</carte>
+	<carte cout="1" effet="Le joueur de votre choix n’a plus qu’1 carte"
+		src="images/" codeEffet="6" nb="4">Le joueur choisi doit avoir au moins 2
+		cartes
+		en main. Il choisit alors la carte qu’il souhaite conserver et
+		se
+		défausse des autres.
+	</carte>
+
+	<carte cout="1" effet="Piochez 3 cartes dans la pioche" src="images/"
+		codeEffet="7" nb="3">
+		L’effet est indépendant des cartes que vous avez peut-être obtenues
+		avec la ou les figure(s)
+		<figure ref="c" />
+		.
+	</carte>
+
+	<carte cout="2" effet="Tous les joueurs sauf vous n’ont plus que 2 cartes"
+		src="images/" codeEffet="8" nb="4">Les joueurs ayant plus de 2 cartes
+		choisissent celles qu’ils souhaitent conserver et se défaussent des
+		autres.
+	</carte>
+
+	<carte cout="0" effet="Le joueur de votre choix passe son tour"
+		src="images/" codeEffet="9" nb="2">Posez la carte, face visible, devant le
+		joueur choisi qui la conserve jusqu’à ce qu’il ait passé son tour
+		puis la défausse. Plusieurs de ces cartes peuvent se cumuler devant
+		le
+		même joueur.
+	</carte>
+	<carte cout="0" effet="Rejouez et changement de sens" src="images/"
+		codeEffet="10" nb="2">Le joueur rejoue et la partie continue
+		dans le sens inverse.
+	</carte>
+
+</wazabi>

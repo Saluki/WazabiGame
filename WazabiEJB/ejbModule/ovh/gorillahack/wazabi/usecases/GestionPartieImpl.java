@@ -11,6 +11,7 @@ import javax.ejb.Startup;
 
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
+import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
@@ -37,6 +38,9 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
+	
+	@EJB
+	private XmlParserImpl xmlParserImpl;
 		
 	@PostConstruct
 	public void postconstruct() {
@@ -115,6 +119,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) {
+		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
 	}

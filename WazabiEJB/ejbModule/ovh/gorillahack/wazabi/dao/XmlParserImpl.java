@@ -8,7 +8,7 @@ import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,29 +24,29 @@ import org.xml.sax.SAXException;
 
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 import ovh.gorillahack.wazabi.usecases.GestionPartieImpl;
 
-/**
- * Session Bean implementation class XmlParserImpl
- */
-@Stateful
-@Local(Dao.class)
-@LocalBean
+@Local
+@Stateless
 public class XmlParserImpl {
 	@EJB
 	private FaceDaoImpl faceDaoImpl;
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
 	@EJB
-	private GestionPartieImpl gestionPartieImpl;
+	private GestionPartie gestionPartie;
+	@EJB
+	private DeDaoImpl deDaoImpl;
 
 	public XmlParserImpl() {
 		// TODO Auto-generated constructor stub
 	}
 
-	boolean chargerXML() {
+	public boolean chargerXML() {
 		try {
-			InputStream xmlFile = new FileInputStream("wazabi.xml");
+			ClassLoader loader = getClass().getClassLoader(); 
+	        InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document document = builder.parse(xmlFile);
@@ -61,23 +61,24 @@ public class XmlParserImpl {
 			Number minJoueurs = (Number) xpath.compile("@minJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
 			Number maxJoueurs = (Number) xpath.compile("@maxJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
 
-			gestionPartieImpl.setMin_joueurs(minJoueurs.intValue());
-			gestionPartieImpl.setMax_joueurs(maxJoueurs.intValue());
-			gestionPartieImpl.setNbCartesParJoueurs(nbCartesParJoueur.intValue());
-			gestionPartieImpl.setNbCartesTotal(nbCartesTotal.intValue());
-			
-			
+			gestionPartie.setMin_joueurs(minJoueurs.intValue());
+			gestionPartie.setMax_joueurs(maxJoueurs.intValue());
+			gestionPartie.setNbCartesParJoueurs(nbCartesParJoueur.intValue());
+			gestionPartie.setNbCartesTotal(nbCartesTotal.intValue());
 			
 			// on importe les dés et leurs faces
 			Node deNode = (Node) xpath.compile("/wazabi/de").evaluate(document, XPathConstants.NODE);
 			Number nbDesParJoueur = (Number) xpath.compile("@nbParJoueur").evaluate(deNode, XPathConstants.NUMBER);
 			Number nbTotalDes = (Number) xpath.compile("@nbTotalDes").evaluate(deNode, XPathConstants.NUMBER);
+			
+			gestionPartie.setNbDesParJoueur(nbDesParJoueur.intValue());
+			deDaoImpl.creerDes(nbTotalDes.intValue());
 
-			NodeList desNodes = (NodeList) xpath.compile(".face").evaluate(deNode, XPathConstants.NODESET);
+			NodeList desNodes = (NodeList) xpath.compile("./face").evaluate(deNode, XPathConstants.NODESET);
 			for (int i = 0; i < desNodes.getLength(); i++) {
 				Node faceNode = desNodes.item(i);
 				String valeur = (String) xpath.compile("@identif").evaluate(faceNode, XPathConstants.STRING);
-				Number nbFaces = (Number) xpath.compile("@nbTotalDes").evaluate(faceNode, XPathConstants.NUMBER);
+				Number nbFaces = (Number) xpath.compile("@nbFaces").evaluate(faceNode, XPathConstants.NUMBER);
 				Face face = null;
 				switch (valeur) {
 				case "w":
@@ -98,13 +99,13 @@ public class XmlParserImpl {
 			}
 
 			// on importe les cartes
-			NodeList cartesNodes = (NodeList) xpath.compile(".carte").evaluate(wazabiNode, XPathConstants.NODESET);
+			NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
 			for (int i = 0; i < cartesNodes.getLength(); i++) {
 				Node node = cartesNodes.item(i);
 				String description = (String) xpath.compile(".").evaluate(node, XPathConstants.STRING);
 				Number cout = (Number) xpath.compile("@cout").evaluate(node, XPathConstants.NUMBER);
 				String effet = (String) xpath.compile("@effet").evaluate(node, XPathConstants.STRING);
-				Number codeEffet = (Number) xpath.compile("@codeEfet").evaluate(node, XPathConstants.NUMBER);
+				Number codeEffet = (Number) xpath.compile("@codeEffet").evaluate(node, XPathConstants.NUMBER);
 				Number nb = (Number) xpath.compile("@nb").evaluate(node, XPathConstants.NUMBER);
 
 				carteDaoImpl.creerCartes(description, cout.intValue(), codeEffet.intValue(), effet, nb.intValue());
