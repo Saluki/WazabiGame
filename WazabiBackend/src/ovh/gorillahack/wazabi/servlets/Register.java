@@ -55,7 +55,7 @@ public class Register extends HttpServlet {
 		synchronized (context) {
 			Joueur joueur = gestionPartie.inscrire(pseudo, password);
 		if ( joueur != null) {
-				request.getSession().setAttribute("authentificated", true);
+				request.getSession().setAttribute("authentificated", joueur);
 				response.sendRedirect("app/dashboard.html");
 				return;
 				
