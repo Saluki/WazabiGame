@@ -39,7 +39,7 @@ app.BoardView = Backbone.View.extend({
 	hideWaitScreen : function() {
 		
 		this.$otherElements.show();
-		this.$waitingScreen.fadeOut('slow');
+		this.$waitingScreen.hide();
 	}
 
 });

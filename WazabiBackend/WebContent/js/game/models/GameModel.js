@@ -6,7 +6,7 @@ var app = app || {};
 app.GameModel = Backbone.Model.extend({
 	
 	defaults: {
-		'status': 'waiting',
+		'status': 'waiting'
 	},
 	
 	isWaiting: function() {

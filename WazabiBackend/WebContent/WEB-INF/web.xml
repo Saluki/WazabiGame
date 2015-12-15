@@ -25,24 +25,24 @@
     <jsp-file>/WEB-INF/jsp/app/dashboard.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>app.scoreboard</servlet-name>
-  	<jsp-file>/WEB-INF/jsp/app/scoreboard.jsp</jsp-file>
+    <servlet-name>app.scoreboard</servlet-name>
+    <jsp-file>/WEB-INF/jsp/app/scoreboard.jsp</jsp-file>
   </servlet>
   <servlet>
     <servlet-name>app.game</servlet-name>
     <jsp-file>/WEB-INF/jsp/app/game.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>app.create</servlet-name>
-  	<jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
+    <servlet-name>app.create</servlet-name>
+    <jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>api.mock</servlet-name>
-  	<jsp-file>/WEB-INF/jsp/api/mock.jsp</jsp-file>
+    <servlet-name>api.mock</servlet-name>
+    <jsp-file>/WEB-INF/jsp/api/mock.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>app.game</servlet-name>
-  	<url-pattern>/app/mock.html</url-pattern>
+    <servlet-name>app.game</servlet-name>
+    <url-pattern>/app/mock.html</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>index</servlet-name>
@@ -53,8 +53,8 @@
     <url-pattern>/app/dashboard.html</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>api.mock</servlet-name>
-  	<url-pattern>/api/mock</url-pattern>
+    <servlet-name>api.mock</servlet-name>
+    <url-pattern>/api/mock</url-pattern>
   </servlet-mapping>
   <session-config>
     <cookie-config>

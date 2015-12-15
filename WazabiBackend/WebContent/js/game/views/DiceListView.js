@@ -35,8 +35,23 @@ app.DiceListView = Backbone.View.extend({
 		this.$el.html('');
 	},
 
+	// TODO Check permissions, must be ROLL_DICE
 	rollDices: function() {
-		alert('Rolling dices...');
+		
+		// TODO Change status to ROLLING
+		
+		$.getJSON('api/game/rolldices', function(){
+			
+			// TODO Change game local status to CARD_PICKING
+			console.log('Dices rolled');
+			
+		}).fail(function(){
+			
+			// TODO Rechange back to ROLL_DICE
+			console.error('Unable to roll dices');
+			
+		});
+		
 	}
 	
 });

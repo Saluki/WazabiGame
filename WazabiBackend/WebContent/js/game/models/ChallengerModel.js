@@ -7,7 +7,7 @@ app.ChallengerModel = Backbone.Model.extend({
 	
 	defaults: {
 		'name': '',
-		'dices': new app.DiceCollection()
+		'dices': []
 	}
 	
 });
