@@ -14,7 +14,7 @@ public class Main {
 			GestionPartie gestionPartie = (GestionPartie) jndi
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 			Joueur joueur1 = gestionPartie.inscrire("test1", "test1","test1");
-			Joueur joueur2 = gestionPartie.inscrire("test2", "test2","test1");
+			Joueur joueur2 = gestionPartie.inscrire("test2", "test2","test2");
 			
 			System.out.println("test1 test de connexion : " + ((gestionPartie.seConnecter("test1", "test1") != null)
 					? "Connexion réussie" : "Connexion ratée"));

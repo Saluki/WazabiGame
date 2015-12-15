@@ -3,7 +3,9 @@ package ovh.gorillahack.wazabi.dao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -21,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
@@ -101,7 +104,10 @@ public class XmlParserImpl {
 
 			// on importe les cartes
 			NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
+			//on crée une hashmap afin de ne créer qu'une seule fois chaque CarteEffet
 			HashMap<Integer, CarteEffet> hashmap = new HashMap<Integer, CarteEffet>();
+			ArrayList<Carte> paquetDeCarte = new ArrayList<>();
+			
 			for (int i = 0; i < cartesNodes.getLength(); i++) {
 				Node node = cartesNodes.item(i);
 				String description = ((String) xpath.compile("normalize-space(.)").evaluate(node,
@@ -118,9 +124,10 @@ public class XmlParserImpl {
 					carteEffetDaoImpl.enregistrer(carteEffet);
 					hashmap.put(codeEffet.intValue(), carteEffet);
 				}
-				carteDaoImpl.creerCartes(cout.intValue(), carteEffet, nb.intValue());
-
+				List<Carte> cartes = carteDaoImpl.creerCartes(cout.intValue(), carteEffet, nb.intValue());
+				paquetDeCarte.addAll(cartes);
 			}
+			gestionPartie.setJeuDeCarte(paquetDeCarte);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
