@@ -136,4 +136,5 @@ public interface GestionPartie {
 	 */
 	public Joueur getJoueurCourant();
 	
+	public void deconnecter(Joueur j);
 }

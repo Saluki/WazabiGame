@@ -1,8 +1,6 @@
 package ovh.gorillahack.wazabi.usecases;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -121,6 +119,13 @@ public class GestionPartieImpl implements GestionPartie {
 		return partieCourante;
 	}
 	
+
+	@Override
+	public void deconnecter(Joueur j){
+		joueurDaoImpl.deconnecter(j);
+		List<Joueur> joueursRestants = listerJoueurPartieCourante();
+	}
+	
 	private void recupererDonnees(){
 		partieCourante = partieDaoImpl.getPartieCourante();
 		List<Joueur> joueursDeLaPartie = listerJoueurPartieCourante();
@@ -182,6 +187,4 @@ public class GestionPartieImpl implements GestionPartie {
 	public void setNbDesTotal(int nbDesTotal) {
 		this.nbDesTotal = nbDesTotal;
 	}
-
-	
 }

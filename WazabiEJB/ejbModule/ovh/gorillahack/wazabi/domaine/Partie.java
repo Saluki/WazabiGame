@@ -31,7 +31,7 @@ public class Partie implements Serializable {
 	}
 
 	public enum Status {
-		COMMENCE, PAS_COMMENCE, EN_ATTENTE
+		COMMENCE, PAS_COMMENCE, EN_ATTENTE, ANNULEE
 	}
 
 	@Id
