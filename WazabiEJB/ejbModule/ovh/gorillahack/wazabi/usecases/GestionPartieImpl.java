@@ -97,5 +97,10 @@ public class GestionPartieImpl implements GestionPartie {
 	public Joueur seConnecter(String pseudo, String mdp) {
 		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
+	
+	@Override
+	public Partie creerPartie(String nom) {
+		return partieDaoImpl.creerUnePartie(nom);
+	}
 
 }
