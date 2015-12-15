@@ -126,7 +126,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void terminerTour() {
-		joueurDaoImpl.terminerTour();
+		partieCourante = joueurDaoImpl.terminerTour();
 	}
 
 	@Override

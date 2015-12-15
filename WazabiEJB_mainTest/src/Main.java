@@ -56,6 +56,8 @@ public class Main {
 			for(De de: des){
 				System.out.println(de.getId_de());
 			}*/
+			gestionPartie.terminerTour();
+			System.out.println("C'est au tour de "+ gestionPartie.getJoueurCourant().getPseudo()+" de joueur");
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

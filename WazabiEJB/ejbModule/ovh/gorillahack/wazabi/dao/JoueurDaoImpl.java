@@ -89,20 +89,21 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return carteDaoImpl.getCartes(j);
 	}
 			
-	public void terminerTour(){
+	public Partie terminerTour(){
 		JoueurPartie courant = joueurPartieDaoImpl.getJoueurCourant();
-		Partie p = courant.getPartie();
+		Partie p = partieDaoImpl.getPartieCourante();
 		if(courant.getDes() == null){
 		} else if(courant.getDes().isEmpty()){
 			System.out.println("Le joueur " + courant.getJoueur().getPseudo()+" a gagné car il n'a plus de dés");
 			p.setStatut(Status.PAS_COMMENCE);
 			p.setVainqueur(courant.getJoueur());
-			partieDaoImpl.mettreAJour(p);
-			joueurPartieDaoImpl.mettreAJour(courant);
+			p = partieDaoImpl.mettreAJour(p);
 		} else{
 			courant.setOrdre_joueur(PartieDaoImpl.ordre++);
 			joueurPartieDaoImpl.mettreAJour(courant);
+			p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
 		}
+		return p;
 	}
 	
 	public void deconnecter(Joueur j, int nombreJoueursMin){
