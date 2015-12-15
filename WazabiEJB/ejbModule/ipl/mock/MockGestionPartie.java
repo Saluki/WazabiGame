@@ -11,7 +11,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import ovh.gorillahack.wazabi.domaine.De;
-import ovh.gorillahack.wazabi.domaine.De.Valeur;
+import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 
 @Singleton
@@ -172,9 +172,9 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	public List<De> lancerDes(Joueur joueur) {
 		// TODO Auto-generated method stub
 		List<De> listeRetour = new ArrayList<De>();
-		listeRetour.add(new De(De.Valeur.WAZABI));
-		listeRetour.add(new De(De.Valeur.PIOCHE));
-		listeRetour.add(new De(De.Valeur.DE));
+		listeRetour.add(new De(Face.Valeur.WAZABI));
+		listeRetour.add(new De(Face.Valeur.PIOCHE));
+		listeRetour.add(new De(Face.Valeur.DE));
 		return listeRetour;
 	}
 
