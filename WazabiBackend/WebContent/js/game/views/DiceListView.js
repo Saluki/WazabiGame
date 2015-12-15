@@ -50,11 +50,12 @@ app.DiceListView = Backbone.View.extend({
 			});
 			
 			app.playerDices.reset(tempDicesList);
+			alertify.success('Les des ont ete relances. <br>Choissisez maintenant une carte.');
 			
 		}).fail(function(){
 			
 			// TODO Rechange back to INTERACT = false;
-			console.error('Unable to roll dices');
+			alertify.alert('Desole, impossible de relancer les des');
 			
 		});
 		

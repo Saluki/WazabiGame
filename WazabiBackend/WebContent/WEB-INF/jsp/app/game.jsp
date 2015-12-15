@@ -113,6 +113,7 @@
 
 <!-- Other JS Components -->
 <script src="js/game/components/SchedulerClass.js"></script>
+<script src="js/game/components/Status.js"></script>
 
 <!-- JS Application -->
 <script src="js/game/app.js"></script>
