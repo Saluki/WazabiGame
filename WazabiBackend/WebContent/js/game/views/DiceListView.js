@@ -38,16 +38,22 @@ app.DiceListView = Backbone.View.extend({
 	// TODO Check permissions, must be ROLL_DICE
 	rollDices: function() {
 		
-		// TODO Change status to ROLLING
+		// TODO Change status to INTERACT = true;
 		
-		$.getJSON('api/game/rolldices', function(){
+		$.getJSON('api/game/rolldices', function(data){
 			
-			// TODO Change game local status to CARD_PICKING
-			console.log('Dices rolled');
+			// TODO Change game local status to CARD_PICKING and INTERACT = false;
+			
+			var tempDicesList = [];
+			_.each(data.dices, function(diceValue) {
+				tempDicesList.push( new app.DiceModel({ value:diceValue }) );
+			});
+			
+			app.playerDices.reset(tempDicesList);
 			
 		}).fail(function(){
 			
-			// TODO Rechange back to ROLL_DICE
+			// TODO Rechange back to INTERACT = false;
 			console.error('Unable to roll dices');
 			
 		});

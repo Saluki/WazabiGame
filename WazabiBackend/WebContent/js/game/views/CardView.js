@@ -24,10 +24,21 @@ app.CardView = Backbone.View.extend({
 		return this;
 	},
 	
+	// TODO Check permissions, must be CHOOSE_CARD
 	chooseCard : function(e) {
 		
-		alert('You choosed "' + this.model.get('name') + '"');
-		// console.log('Choosed card ' + this.model.get('name'));
+		// Put and remove interact lock
+		var apiUrl = 'api/game/playcard/' + this.model.get('effect');
+		$.getJSON(apiUrl, function(data){
+			
+			this.model.destroy();
+			this.remove();
+			
+			// Change to other status
+			
+		}, this).fail(function(){
+			console('Could not play card');
+		});
 	}
 
 });
