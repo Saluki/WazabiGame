@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 public class Logout extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
+/**
+ * description: desiditentifie l'utilisateur, en rendant sa session invalide et en lui donnant une nouvelle.
+ */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

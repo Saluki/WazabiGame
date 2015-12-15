@@ -36,6 +36,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
+	private List<Carte> jeuDeCarte;
 	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -105,7 +106,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void commencerPartie() {
-		joueurDaoImpl.commencerPartie();
+		partieCourante = joueurDaoImpl.commencerPartie(nbCartesParJoueurs);
 	}
 
 	@Override
@@ -142,7 +143,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) throws ValidationException {
-		if(! Utils.checkString(nom) || ! Pattern.matches("([a-z]|[0-9]){1,20}", nom))
+		if(! Utils.checkString(nom) || ! Pattern.matches("[A-Za-z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
@@ -152,8 +153,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void deconnecter(Joueur j){
-		joueurDaoImpl.deconnecter(j);
-		List<Joueur> joueursRestants = listerJoueurPartieCourante();
+		joueurDaoImpl.deconnecter(j,min_joueurs);
 	}
 	
 	private void recupererDonnees(){
@@ -216,5 +216,21 @@ public class GestionPartieImpl implements GestionPartie {
 
 	public void setNbDesTotal(int nbDesTotal) {
 		this.nbDesTotal = nbDesTotal;
+	}
+	
+	@Override
+	public Partie getPartieCourante(){
+		return partieCourante;
+	}
+
+	@Override
+	public List<Carte> getJeuDeCarte() {
+		return jeuDeCarte;
+	}
+
+	@Override
+	public void setJeuDeCarte(List<Carte> liste) {
+		this.jeuDeCarte = liste;
+		
 	}
 }

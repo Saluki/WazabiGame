@@ -145,8 +145,14 @@ public interface GestionPartie {
 	 * @return Le joueur courant
 	 */
 	public Joueur getJoueurCourant();
+	
+	public Partie getPartieCourante();
 
 	public void deconnecter(Joueur j);
+	
+	public List<Carte> getJeuDeCarte();
+	
+	public void setJeuDeCarte(List<Carte> liste);
 
 	public int getMin_joueurs();
 

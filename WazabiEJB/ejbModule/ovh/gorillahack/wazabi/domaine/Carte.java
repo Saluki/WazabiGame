@@ -32,18 +32,13 @@ public class Carte implements Serializable {
 	@Column(nullable = false)
 	private int cout;
 
-	@ManyToOne
-	@PrimaryKeyJoinColumn(name = "id_partie")
-	private Partie partie;
-
 	@Column
 	private int ordre_pioche;
 
-	public Carte(CarteEffet carteEffet, int cout, Partie partie, int ordre_pioche) {
+	public Carte(CarteEffet carteEffet, int cout, int ordre_pioche) {
 		super();
 		this.carteEffet = carteEffet;
 		this.cout = cout;
-		this.partie = partie;
 		this.ordre_pioche = ordre_pioche;
 	}
 
@@ -81,14 +76,6 @@ public class Carte implements Serializable {
 		this.cout = cout;
 	}
 
-	public Partie getPartie() {
-		return partie;
-	}
-
-	public void setPartie(Partie partie) {
-		this.partie = partie;
-	}
-
 	public int getOrdre_pioche() {
 		return ordre_pioche;
 	}
@@ -122,7 +109,6 @@ public class Carte implements Serializable {
 		result = prime * result + id_carte;
 		result = prime * result + (input ? 1231 : 1237);
 		result = prime * result + ordre_pioche;
-		result = prime * result + ((partie == null) ? 0 : partie.hashCode());
 		return result;
 	}
 
@@ -147,11 +133,6 @@ public class Carte implements Serializable {
 		if (input != other.input)
 			return false;
 		if (ordre_pioche != other.ordre_pioche)
-			return false;
-		if (partie == null) {
-			if (other.partie != null)
-				return false;
-		} else if (!partie.equals(other.partie))
 			return false;
 		return true;
 	}

@@ -29,6 +29,8 @@ public class JoueurPartie implements Serializable {
 	private int ordre_joueur;
 	@Column
 	private int compteur_sauts;
+	@Column
+	private boolean estActif;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -136,5 +138,17 @@ public class JoueurPartie implements Serializable {
 
 	public void setCartes(List<Carte> cartes) {
 		this.cartes = cartes;
+	}
+
+	public int getId_joueur_partie() {
+		return id_joueur_partie;
+	}
+	
+	public boolean estActif() {
+		return estActif;
+	}
+
+	public void setEstActif(boolean estActif) {
+		this.estActif = estActif;
 	}
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ApiResponseFilter implements Filter {
 
 	protected FilterConfig config;
-	
+
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		

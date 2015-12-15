@@ -41,14 +41,4 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 				 * ,j)
 				 */ null;
 	}
-
-	public List<Carte> creerCartes(int cout, CarteEffet carteEffet, int nombre) {
-		ArrayList<Carte> list = new ArrayList<>();
-		for (int i = 0; i < nombre; i++) {
-			Carte carte = new Carte(carteEffet, cout);
-			super.enregistrer(carte);
-			list.add(carte);
-		}
-		return list;
-	}
 }
