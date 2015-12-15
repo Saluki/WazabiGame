@@ -17,6 +17,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie>{
 	}
 	
 	public JoueurPartie getJoueurCourant(){
+		//TODO : gérer le sens (seulement en sens normal pour le moment
 		return super.recherche("SELECT jp FROM JoueurPartie jp WHERE jp.ordre_joueur ="
 				+ "(SELECT MIN(jp.ordre_joueur) FROM JoueurPartie jp WHERE "
 				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p))");

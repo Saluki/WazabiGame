@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,7 +17,7 @@ import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 
 @SuppressWarnings("serial")
-@Stateless
+@Stateful
 @Local(Dao.class)
 @LocalBean
 public class PartieDaoImpl extends DaoImpl<Partie>{
