@@ -66,15 +66,15 @@ public class GestionPartieImpl implements GestionPartie {
     
     @Override
     public Joueur inscrire(String pseudo, String motdepasse,String motdepasseRepeat) throws ValidationException {
-    	if (!Utils.checkString(pseudo) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", pseudo)) {
+    	if (!Utils.checkString(pseudo) || ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
     		throw new ValidationException("Format du pseudo invalide .");
 		}
 				
-		if (!Utils.checkString(motdepasse) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", motdepasse)) {
+		if (!Utils.checkString(motdepasse) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasse)) {
 			throw new ValidationException("Format du mot de passe invalide.");
 		}
 		
-		if (!motdepasse.equals(motdepasseRepeat) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", motdepasseRepeat)) {
+		if (!motdepasse.equals(motdepasseRepeat) || ! Pattern.matches("([a-z]|[0-9]){1,20}", motdepasseRepeat)) {
 			throw new ValidationException("Les deux mots de passe ne sont pas similaires.");
 		}
 		
@@ -106,7 +106,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void commencerPartie() {
-		joueurDaoImpl.commencerPartie();
+		partieCourante = joueurDaoImpl.commencerPartie(nbCartesParJoueurs);
 	}
 
 	@Override
@@ -131,11 +131,11 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Joueur seConnecter(String pseudo, String mdp)throws ValidationException {
-		if (!Utils.checkString(pseudo)|| ! Pattern.matches("([a-zA-Z0-9]){1,250}", pseudo)) {
+		if (!Utils.checkString(pseudo)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
 			throw new ValidationException("Format du pseudo incorrecte.");
 		}
 
-		if (!Utils.checkString(mdp)|| ! Pattern.matches("([a-zA-Z0-9]){1,250}", mdp)) {
+		if (!Utils.checkString(mdp)|| ! Pattern.matches("([a-z]|[0-9]){1,20}", mdp)) {
 			throw new ValidationException("Format du mot de passe incorrecte.");
 		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
@@ -143,7 +143,7 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public Partie creerPartie(String nom) throws ValidationException {
-		if(! Utils.checkString(nom) || ! Pattern.matches("([a-zA-Z0-9]){1,250}", nom))
+		if(! Utils.checkString(nom) || ! Pattern.matches("[A-Za-z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
@@ -154,7 +154,6 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public void deconnecter(Joueur j){
 		joueurDaoImpl.deconnecter(j,min_joueurs);
-		List<Joueur> joueursRestants = listerJoueurPartieCourante();
 	}
 	
 	private void recupererDonnees(){
@@ -217,6 +216,11 @@ public class GestionPartieImpl implements GestionPartie {
 
 	public void setNbDesTotal(int nbDesTotal) {
 		this.nbDesTotal = nbDesTotal;
+	}
+	
+	@Override
+	public Partie getPartieCourante(){
+		return partieCourante;
 	}
 
 	@Override

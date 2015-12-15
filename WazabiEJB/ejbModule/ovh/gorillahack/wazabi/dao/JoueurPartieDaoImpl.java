@@ -28,7 +28,11 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie>{
 	}
 	
 	public JoueurPartie getJoueurDeLaPartieCourante(Joueur j){
-		return super.recherche("SELECT jp FROM joueur jp WHERE jp.joueur = ?1"
-				+ "AND jp.partie=?2", j, partieDaoImpl.getPartieCourante());
+		return super.recherche("SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1"
+				+ " AND jp.partie=?2", j, partieDaoImpl.getPartieCourante());
+	}
+	
+	public void enleverJoueur(JoueurPartie j){
+		super.supprimer(j.getId_joueur_partie());
 	}
 }
