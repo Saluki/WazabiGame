@@ -26,6 +26,7 @@ $(function(){
 	app.playerCardsView = new app.CardListView({ collection:app.playerCards });
 	app.playerDicesView = new app.DiceListView({ collection:app.playerDices });
 	app.challengersView = new app.ChallengersListView({ collection:app.challengers });
+	app.quitButton      = new app.QuitButtonView();
 	
 	// Scheduler
 	app.scheduler = new app.SchedulerClass(5);

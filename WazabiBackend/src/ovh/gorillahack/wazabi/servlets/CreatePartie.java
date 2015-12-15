@@ -37,7 +37,7 @@ public class CreatePartie extends HttpServlet {
 				response.sendRedirect(request.getContextPath() +"/app/game.html");
 				return;
 			}else{
-				request.setAttribute("message", "Une partie a été crée entre temps. Veuillez vous inscire a la partie");
+				request.setAttribute("message", "Une partie a ï¿½tï¿½ crï¿½e entre temps. Veuillez vous inscire a la partie");
 				request.getServletContext().getNamedDispatcher("app.dashboard").forward(request, response);
 				return;
 			}
