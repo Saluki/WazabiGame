@@ -20,6 +20,7 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
+import ovh.gorillahack.wazabi.exception.QueryException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("serial")
@@ -58,9 +59,8 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		Collections.shuffle(cartes);
 		for (int i = 0; i < cartes.size(); i++) {
 			Carte carte = cartes.get(i);
-			carte.setOrdre_pioche(i);
 			carteDaoImpl.enregistrer(carte);
-			partie.ajouterCarteALaPioche(carte);
+			gestionPartie.ajouterCarteALaPioche(carte);
 		}
 		return partie;
 	}
@@ -115,6 +115,11 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);
 		return p;
+	}
+
+	public int getMaxOrdrePioche(Partie partie) throws QueryException {
+		return super.rechercheInt("SELECT MAX (c.ordre_pioche) FROM Partie p, Carte c "
+				+ "WHERE p.id_partie = ?1 AND c MEMBER OF p.pioche", partie);
 	}
 
 }

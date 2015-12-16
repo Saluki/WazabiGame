@@ -47,8 +47,10 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 			throw new NullPointerException();
 		// on sélectionne la carte avec l'ordre pioche minimal parmis toutes les
 		// cartes de la pioche.
-		Carte carte = super.rechercheLimit1("SELECT C FROM Carte C, Partie p WHERE p.id_partie = ?1 AND C MEMBER OF p.pioche "
-				+ "ORDER BY c.ordre_pioche ASC", partie.getId_partie());
+		Carte carte = super.rechercheLimit1(
+				"SELECT C FROM Carte C, Partie p WHERE p.id_partie = ?1 AND C MEMBER OF p.pioche "
+						+ "ORDER BY c.ordre_pioche ASC",
+				partie.getId_partie());
 		boolean piochageReussi = partie.supprimerCarteDeLaPioche(carte);
 		if (piochageReussi) {
 			joueur.ajouterCarte(carte);
@@ -56,6 +58,15 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 		} else {
 			return false;
 		}
+	}
 
+	public boolean retournerCarte(JoueurPartie joueur, Partie partie, Carte carte) {
+		if (partie == null || joueur == null)
+			throw new NullPointerException();
+		boolean succes = joueur.supprimerCarte(carte);
+		if (succes) {
+			partie.ajouterCarteALaPioche(carte);
+		}
+		return succes;
 	}
 }

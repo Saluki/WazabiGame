@@ -126,6 +126,17 @@ public interface GestionPartie {
 	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException;
 
 	/**
+	 * Permet à un joueur de retourner une carte dans la pioche.
+	 * 
+	 * @param j
+	 *            Le joueur qui se débarrasse de la carte.
+	 * @param c
+	 *            La carte dont il se débarrasse.
+	 * @return L'opération a réussi ou non.
+	 */
+	public boolean retournerCarteDansLaPioche(Joueur j, Carte c);
+
+	/**
 	 * 
 	 * Permet de terminer le tour du joueur courant.
 	 * 
@@ -179,6 +190,8 @@ public interface GestionPartie {
 	 * @return La partie courante.
 	 */
 	public Partie getPartieCourante() throws NoCurrentGameException;
+	
+	public boolean ajouterCarteALaPioche(Carte carte);
 
 	public void deconnecter(Joueur j) throws PlayerNotFoundException;
 

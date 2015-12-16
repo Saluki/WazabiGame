@@ -11,18 +11,20 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
+import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.CardNotFoundException;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
+import ovh.gorillahack.wazabi.exception.QueryException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.util.Utils;
@@ -47,6 +49,9 @@ public class GestionPartieImpl implements GestionPartie {
 	private JoueurDaoImpl joueurDaoImpl;
 
 	@EJB
+	private JoueurPartieDaoImpl joueurPartieDaoImpl;
+
+	@EJB
 	private PartieDaoImpl partieDaoImpl;
 
 	@EJB
@@ -66,7 +71,8 @@ public class GestionPartieImpl implements GestionPartie {
 	 * Default constructor.
 	 */
 	public GestionPartieImpl() {
-		// TODO Lors de la selection du joueur courant, il faut prendre en compte le champ "compteur_saut".
+		// TODO Lors de la selection du joueur courant, il faut prendre en
+		// compte le champ "compteur_saut".
 	}
 
 	@Override
@@ -87,50 +93,50 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException{
+	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException {
 		return partieDaoImpl.afficherHistorique(j);
 	}
 
 	@Override
-	public Partie rejoindrePartie(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
+	public Partie rejoindrePartie(Joueur j) throws PlayerNotFoundException, NoCurrentGameException {
 		partieCourante = partieDaoImpl.rejoindrePartie(j);
 		return partieCourante;
 	}
 
 	@Override
-	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
+	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException {
 		return partieDaoImpl.listerJoueurPartieCourante();
 	}
 
 	@Override
-	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
+	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException {
 		List<Joueur> adversaires = listerJoueurPartieCourante();
 		adversaires.remove(j);
 		return adversaires;
 	}
 
 	@Override
-	public void commencerPartie() throws NoCurrentGameException{
+	public void commencerPartie() throws NoCurrentGameException {
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 	}
 
 	@Override
-	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException{
+	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException {
 		return joueurDaoImpl.lancerDes(j);
 	}
 
 	@Override
-	public List<De> voirDes(Joueur j) throws PlayerNotFoundException{
+	public List<De> voirDes(Joueur j) throws PlayerNotFoundException {
 		return joueurDaoImpl.voirDes(j);
 	}
 
 	@Override
-	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException{
+	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException {
 		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
-	public void terminerTour() throws NoCurrentGameException{
+	public void terminerTour() throws NoCurrentGameException {
 		partieCourante = joueurDaoImpl.terminerTour();
 	}
 
@@ -161,7 +167,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public void deconnecter(Joueur j) throws PlayerNotFoundException{
+	public void deconnecter(Joueur j) throws PlayerNotFoundException {
 		joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
@@ -218,12 +224,12 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Partie getPartieCourante() throws NoCurrentGameException{
+	public Partie getPartieCourante() throws NoCurrentGameException {
 		return partieCourante;
 	}
 
 	@Override
-	public List<Carte> getJeuDeCarte() throws NoCurrentGameException{
+	public List<Carte> getJeuDeCarte() throws NoCurrentGameException {
 		return jeuDeCarte;
 	}
 
@@ -232,38 +238,61 @@ public class GestionPartieImpl implements GestionPartie {
 		this.jeuDeCarte = liste;
 
 	}
-	
+
 	@Override
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public void utiliserCarte(int id_carte) throws CardNotFoundException{
+	public void utiliserCarte(int id_carte) throws CardNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException{
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException{
+	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException{
+	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException {
 		return joueurDaoImpl.voirCartes(j);
 	}
-	
+
 	@Override
-	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException{
+	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException {
 		return 0;
+	}
+
+	@Override
+	public boolean retournerCarteDansLaPioche(Joueur joueur, Carte carte) {
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
+		boolean succes = jp.supprimerCarte(carte);
+		succes = succes && ajouterCarteALaPioche(carte);
+		return succes;
+	}
+
+	@Override
+	public boolean ajouterCarteALaPioche(Carte carte) {
+		int ordre_pioche;
+		try {
+			ordre_pioche = partieDaoImpl.getMaxOrdrePioche(partieCourante) + 1;
+			carte.setOrdre_pioche(ordre_pioche);
+			partieCourante.ajouterCarteALaPioche(carte);
+			return true;
+		} catch (QueryException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 }
