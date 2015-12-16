@@ -25,6 +25,8 @@ public class GameNext extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// TODO faire appelle a la GestionPartie pour le status
+		// gestionPartie.terminerTour();
+		
 		JSONObject jsonResponse = new JSONObject();
 		jsonResponse.put("status", true);
 		response.getWriter().println(jsonResponse.toJSONString());

@@ -125,7 +125,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Carte piocherUneCarte(Joueur j) throws PlayerNotFoundException{
+	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException{
 		return joueurDaoImpl.piocherCarte(j);
 	}
 

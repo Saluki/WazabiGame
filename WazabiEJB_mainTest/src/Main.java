@@ -58,6 +58,8 @@ public class Main {
 			 */
 			gestionPartie.terminerTour();
 			System.out.println("C'est au tour de " + gestionPartie.getJoueurCourant().getPseudo() + " de joueur");
+			System.out.println("Le joueur 2 pioche une carte : " + gestionPartie.piocherUneCarte(joueur2));
+			System.out.println("Le joueur 3 pioche une carte : " + gestionPartie.piocherUneCarte(joueur3));
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {

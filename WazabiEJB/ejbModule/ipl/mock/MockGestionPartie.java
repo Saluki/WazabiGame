@@ -177,9 +177,9 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	public List<De> lancerDes(Joueur joueur) {
 		// TODO Auto-generated method stub
 		List<De> listeRetour = new ArrayList<De>();
-		listeRetour.add(new De(Face.Valeur.WAZABI));
-		listeRetour.add(new De(Face.Valeur.PIOCHE));
 		listeRetour.add(new De(Face.Valeur.DE));
+		listeRetour.add(new De(Face.Valeur.DE));
+		listeRetour.add(new De(Face.Valeur.WAZABI));
 		return listeRetour;
 	}
 

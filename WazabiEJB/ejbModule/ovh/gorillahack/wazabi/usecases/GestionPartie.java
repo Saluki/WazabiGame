@@ -122,7 +122,8 @@ public interface GestionPartie {
 	 *            j: le joueur qui doit piocher la carte.
 	 * @return La carte que le joueur a piocher.
 	 */
-	public Carte piocherUneCarte(Joueur j) throws PlayerNotFoundException;
+
+	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
