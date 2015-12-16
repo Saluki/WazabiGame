@@ -114,6 +114,33 @@
 
 </script>
 
+<script type="text/template" id="prompt-player-template">
+
+	<label>Selectionnez un adversaire</label>
+	<select class="form-control" id="select-card-player">
+
+		<\% challengers.forEach(function(challenger){ %>
+			<option value="<\%= challenger.get('id') %>">
+				<\%= challenger.get('name') %>
+			</option>
+		<\% }); %>			
+
+	</select>
+
+</script>
+
+<script type="text/template" id="prompt-direction-template">
+
+	<label>Selectionnez une direction</label>
+	<select class="form-control" id="select-card-direction">
+
+		<option value="HORAIRE">Horaire</option>
+		<option value="ANTIHORAIRE">Antihoraire</option>	
+
+	</select>
+
+</script>
+
 <!-- JS Dependencies -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>

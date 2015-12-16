@@ -8,6 +8,9 @@ $(function(){
 	// Alertify settings
     alertify.set('notifier','position', 'top-right');
     alertify.defaults.glossary.title = 'Wazabi';
+    alertify.alert().setting({
+		'closable': false
+	});
 	
 	// Models
 	app.game       = new app.GameModel();

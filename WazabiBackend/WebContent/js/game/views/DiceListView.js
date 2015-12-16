@@ -91,10 +91,6 @@ app.DiceListView = Backbone.View.extend({
 		
 		alertify.alert(modalContent, function(){
 			view.giveDices(view);
-		})
-		.setting({
-			'closable': false,
-			'label': 'Donner aux adversaires'
 		});
 	},
 	

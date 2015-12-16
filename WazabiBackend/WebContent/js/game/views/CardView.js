@@ -10,6 +10,10 @@ app.CardView = Backbone.View.extend({
 	
 	template: _.template($('#card-view-template').html()),
 	
+	templatePromptPlayer: _.template($('#prompt-player-template').html()),
+	
+	templatePromptDirection: _.template($('#prompt-direction-template').html()),
+	
 	events : {
 		'click': 'chooseCard'
 	},
@@ -31,11 +35,29 @@ app.CardView = Backbone.View.extend({
 			return;
 		}
 		
-		if( this.model.get('input') ) {
+		var view = this;
+		// TODO Change status
+		
+		if( this.model.get('input')=='JOUEUR' ) {
 			
-			var that = this;
-			alertify.prompt('La carte a besoin d\'une valeur:', '', function(e, value){
-				that.sendCardToServer(that);
+			var modalContent = this.templatePromptPlayer({
+				'challengers': app.challengers
+			});
+			
+			alertify.alert(modalContent, function(){
+				
+				var formData = $('#select-card-player').val();
+				view.sendCardToServer(view, formData);
+			});
+		}
+		else if( this.model.get('input')=='SENS' ) {
+			
+			var modalContent = this.templatePromptDirection();
+			
+			alertify.alert(modalContent, function(){
+				
+				var formData = $('#select-card-direction').val();
+				view.sendCardToServer(view, formData);
 			});
 		}
 		else {
@@ -43,23 +65,32 @@ app.CardView = Backbone.View.extend({
 		}
 	},
 	
-	sendCardToServer: function(view) {
+	sendCardToServer: function(view, inputData) {
 		
 		app.Status.instance().set(app.Status.C.REQUESTING);
 		
 		$.ajax({
 			dataType: 'json',
 			method: 'POST',
-			url: 'api/game/playcard', // TODO Putting this in data + this.model.get('effect'),
-			context: view
+			url: 'api/game/playcard',
+			context: view,
+			data: {
+				effect: this.model.get('effect'),
+				inputData: inputData
+			}
 		})
-		.success(function(data){
+		.success(function(responseData){
 			
-			this.model.destroy();
-			this.remove();
-			
-			alertify.success('Traitement termine');
-			app.Status.instance().set(app.Status.C.ENDING);
+			if( responseData.succeed ) {
+	
+				alertify.success(responseData.message + '<br>Vous pouvez terminer votre tour.');
+				app.Status.instance().set(app.Status.C.ENDING);
+			}
+			else {
+				
+				alertify.alert('Erreur lors du traitement de la carte: ' + responseData.message);
+				app.Status.instance().set(app.Status.C.CHOOSE_CARD);
+			}
 			
 		})
 		.fail(function(){
