@@ -1,6 +1,5 @@
 package ovh.gorillahack.wazabi.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -10,8 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
-import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
+import ovh.gorillahack.wazabi.domaine.Partie;
 
 @Stateless
 @Local(Dao.class)
@@ -40,5 +40,22 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 				 * "AND jp.partie = (SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie))))"
 				 * ,j)
 				 */ null;
+	}
+
+	public boolean piocherCarte(JoueurPartie joueur, Partie partie) {
+		if (partie == null || joueur == null)
+			throw new NullPointerException();
+		// on sélectionne la carte avec l'ordre pioche minimal parmis toutes les
+		// cartes de la pioche.
+		Carte carte = super.rechercheLimit1("SELECT C FROM Carte C, Partie p WHERE p.id_partie = ?1 AND C MEMBER OF p.pioche "
+				+ "ORDER BY c.ordre_pioche ASC", partie.getId_partie());
+		boolean piochageReussi = partie.supprimerCarteDeLaPioche(carte);
+		if (piochageReussi) {
+			joueur.ajouterCarte(carte);
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 }

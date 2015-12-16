@@ -75,7 +75,7 @@ public class Partie implements Serializable {
 		this.sens = sens;
 		this.vainqueur = vainqueur;
 		if (pioche != null) {
-		this.pioche = pioche;
+			this.pioche = pioche;
 		} else {
 			this.pioche = new ArrayList<>();
 		}
@@ -159,9 +159,17 @@ public class Partie implements Serializable {
 	public void setPioche(List<Carte> pioche) {
 		this.pioche = pioche;
 	}
-	
+
 	public void ajouterCarteALaPioche(Carte carte) {
 		this.pioche.add(carte);
+	}
+
+	public boolean supprimerCarteDeLaPioche(Carte carte) {
+		if (carte == null) {
+			return false;
+		} else {
+			return pioche.remove(carte);
+		}
 	}
 
 	@Override
@@ -227,7 +235,5 @@ public class Partie implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
