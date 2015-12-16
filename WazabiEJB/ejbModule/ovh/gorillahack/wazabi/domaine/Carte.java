@@ -29,7 +29,7 @@ public class Carte implements Serializable {
 	@Column(nullable = false)
 	private boolean input;
 
-	@Column
+	@Column(unique=true)
 	private int ordre_pioche;
 
 	public Carte(CarteEffet carteEffet, int ordre_pioche) {
