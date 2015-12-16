@@ -88,6 +88,32 @@
 
 </script>
 
+<script type="text/template" id="give-dices-template">
+
+	Suite à votre combinaison de des, vous pouvez faire un don de des 
+	a certains adversaires. Choissisez les dans le formulaire: 
+	<br>
+
+	<\% for(i=0; i<number; i++) { %>
+
+	<div>
+		<br>
+		<label>Joueur</label>
+		<select class="form-control select-give-dice">
+
+			<\% challengers.forEach(function(challenger){ %>
+				<option value="0">
+					<\%= challenger.get('name') %>
+				</option>
+			<\% }); %>			
+
+		</select>
+	</div>
+
+	<\% } %>
+
+</script>
+
 <!-- JS Dependencies -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
