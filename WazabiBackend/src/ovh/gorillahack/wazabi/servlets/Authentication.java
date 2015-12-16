@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.util.Utils;
 
 @WebServlet(urlPatterns = "/auth.html")
 public class Authentication extends HttpServlet {
@@ -39,8 +38,8 @@ public class Authentication extends HttpServlet {
 /**
  * 
  * description : recuperation des paremetres pseudo et mot_de_passe afin de verifier si l'utilisateur a entre le bon mdp et le
- * 				bon pseudo . Si oui il est redirié vers le dashboard ,sinon il reste sur le page et un message d'erreur lui est affiché
- * exception : une Validation exception est lancé si il utilise un pseudo de plus de 20 caracteres ou si il utilise des caracteres speciaux
+ * 				bon pseudo . Si oui il est rediriï¿½ vers le dashboard ,sinon il reste sur le page et un message d'erreur lui est affichï¿½
+ * exception : une Validation exception est lancï¿½ si il utilise un pseudo de plus de 20 caracteres ou si il utilise des caracteres speciaux
  */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

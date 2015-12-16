@@ -69,7 +69,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		map.put("image", "/image/pic1.png");
 		map.put("effect", "2");
 		map.put("cost", "3");
-		map.put("input", "true");
+		map.put("input", "JOUEUR");
 
 		// ajout d'une map pour la carte 2
 		vecRetour.addElement(new HashMap<String, String>());
@@ -81,7 +81,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		map.put("image", "/image/pic2.png");
 		map.put("effect", "1");
 		map.put("cost", "2");
-		map.put("input", "false");
+		map.put("input", "SENS");
 
 		return vecRetour;
 	}

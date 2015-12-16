@@ -62,21 +62,14 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		}
 	}
 
-	public boolean piocherCarte(Joueur j) {
-		Partie partie = partieDaoImpl.getPartieCourante();
-		JoueurPartie joueurpartie = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		boolean succes = carteDaoImpl.piocherCarte(joueurpartie, partie);
-		if (succes) {
-			joueurPartieDaoImpl.enregistrer(joueurpartie);
-			partieDaoImpl.enregistrer(partie);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public List<De> lancerDes(Joueur j) {
-		return null;
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<De> des = jp.getDes();
+		for (int i = 0; i < des.size(); i++) {
+			De de = des.get(i);
+			deDaoImpl.lancerDe(de);
+		}
+		return des;
 	}
 
 	public List<De> voirDes(Joueur j) {
@@ -123,5 +116,33 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public List<Joueur> listerJoueurPartieCourante() {
 		return super.liste("SELECT j FROM Joueur j WHERE EXISTS " + "(SELECT jp FROM JoueurPartie jp WHERE "
 				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)" + "AND jp.joueur = j.id_joueur)");
+	}
+
+	public Carte piocherCarte(Joueur j) {
+		Partie p = partieDaoImpl.getPartieCourante();
+		List<Carte> pioche = p.getPioche();
+		Random rand = new Random();
+		Carte c = pioche.remove(rand.nextInt(pioche.size()-1));
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<Carte> cartes = jp.getCartes();
+		cartes.add(c);
+		jp.setCartes(cartes);
+		joueurPartieDaoImpl.enregistrer(jp);
+		partieDaoImpl.enregistrer(p);
+		return c;
+	}
+	
+	public Carte remettreCarte(Joueur j, Carte carte) {
+		Partie p = partieDaoImpl.getPartieCourante();
+		List<Carte> pioche = p.getPioche();
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<Carte> cartesJoueur = jp.getCartes();
+		cartesJoueur.remove(carte);
+		//jp.setCartes(cartesJoueur);
+		pioche.add(carte);
+		//p.setPioche(pioche);
+		joueurPartieDaoImpl.enregistrer(jp);
+		partieDaoImpl.enregistrer(p);
+		return carte;
 	}
 }

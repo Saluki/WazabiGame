@@ -33,7 +33,7 @@ public class Register extends HttpServlet {
 	}
 /**
  * Parametre : recupere le pseudo, mdp et le mdp a retaper
- * description : Inscrit le nouvelle utilisateur dans la base de donnée . Si l'inscription echoue , il reste sur la page
+ * description : Inscrit le nouvelle utilisateur dans la base de donnï¿½e . Si l'inscription echoue , il reste sur la page
  *				et un message lui est indiquer . Sinon il est rediriger directement dans le dashboard
  */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -17,8 +17,9 @@
 			</div>
 		</div>
 	</div>	
-		
-	<div id="cards-list-view" class="clearfix"></div>
+
+	<div id="wazabi-skip-tile" class="alert alert-warning"></div>		
+	<div id="cards-list-view"></div>
 	<div id="dices-list-view" class="clearfix"></div>
 	<div id="challengers-list-view" class="clearfix"></div>
 	
@@ -90,19 +91,19 @@
 
 <script type="text/template" id="give-dices-template">
 
-	Suite à votre combinaison de des, vous pouvez faire un don de des 
-	a certains adversaires. Choissisez les dans le formulaire: 
+	Suite à votre combinaison de des, vous pouvez faire un <b>don de des 
+	a certains adversaires</b>. Choissisez-les dans le formulaire: 
 	<br>
 
 	<\% for(i=0; i<number; i++) { %>
 
 	<div>
 		<br>
-		<label>Joueur</label>
+		<label>Joueur #<\%= i+1 %></label>
 		<select class="form-control select-give-dice">
 
 			<\% challengers.forEach(function(challenger){ %>
-				<option value="0">
+				<option value="<\%= challenger.get('id') %>">
 					<\%= challenger.get('name') %>
 				</option>
 			<\% }); %>			
@@ -111,6 +112,33 @@
 	</div>
 
 	<\% } %>
+
+</script>
+
+<script type="text/template" id="prompt-player-template">
+
+	<label>Selectionnez un adversaire</label>
+	<select class="form-control" id="select-card-player">
+
+		<\% challengers.forEach(function(challenger){ %>
+			<option value="<\%= challenger.get('id') %>">
+				<\%= challenger.get('name') %>
+			</option>
+		<\% }); %>			
+
+	</select>
+
+</script>
+
+<script type="text/template" id="prompt-direction-template">
+
+	<label>Selectionnez une direction</label>
+	<select class="form-control" id="select-card-direction">
+
+		<option value="HORAIRE">Horaire</option>
+		<option value="ANTIHORAIRE">Antihoraire</option>	
+
+	</select>
 
 </script>
 

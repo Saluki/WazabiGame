@@ -116,17 +116,6 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet à un joueur de piocher une carte provenant de la pile.
-	 * 
-	 * @param Joueur
-	 *            j: le joueur qui doit piocher la carte.
-	 * @return La carte que le joueur a piocher.
-	 */
-
-	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException;
-
-	/**
-	 * 
 	 * Permet de terminer le tour du joueur courant.
 	 * 
 	 */
@@ -253,5 +242,9 @@ public interface GestionPartie {
 	 * @throws PlayerNotFoundException 
 	 */
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException, PlayerNotFoundException;
+
+	public Carte piocherUneCarte(Joueur joueur);
+	
+	public Carte remettreCarte(Joueur joueur, Carte carte);
 
 }

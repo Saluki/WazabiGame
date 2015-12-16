@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
+import ovh.gorillahack.wazabi.exception.QueryException;
+
 @SuppressWarnings("serial")
 public abstract class DaoImpl<E> implements Dao<E> {
 	private Class<E> entityClass;
@@ -95,6 +97,29 @@ public abstract class DaoImpl<E> implements Dao<E> {
 			return null;
 		} catch (NonUniqueResultException e) {
 			return null; // throw new InternalError();
+		}
+	}
+	
+	protected int rechercheInt(String queryString, Object... params) throws QueryException {
+		try {
+			TypedQuery<Integer> query = entityManager.createQuery(queryString, Integer.class);
+			int i = 0, j = 1;
+			while(i < params.length) {
+				if (params[i] instanceof Date ) {
+					query.setParameter(j, (Date)params[i], (TemporalType) params[i+1]);
+					i+=2; 
+				} else if (params[i] instanceof Calendar) {
+					query.setParameter(j, (Calendar)params[i], (TemporalType) params[i+1]);
+					i+=2; 
+				} else {
+					query.setParameter(j, params[i]);
+					i++; 
+				}
+				j++;
+			}
+			return query.getSingleResult();
+		} catch (NoResultException | NonUniqueResultException e) {
+			throw new QueryException(e);
 		}
 	}
 	

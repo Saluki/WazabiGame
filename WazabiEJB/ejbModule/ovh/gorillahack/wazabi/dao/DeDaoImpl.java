@@ -2,6 +2,7 @@ package ovh.gorillahack.wazabi.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 
 @Stateless
@@ -23,14 +25,15 @@ public class DeDaoImpl extends DaoImpl<De> {
 
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
-	
+	@EJB
+	private FaceDaoImpl faceDaoImpl;
+
 	public DeDaoImpl() {
 		super(De.class);
 	}
 
 	public List<De> getDes(Joueur j) {
-		return super.liste("SELECT d FROM De d WHERE d IN"
-				+ " (SELECT jp.des FROM JoueurPartie jp WHERE jp.joueur=?1"
+		return super.liste("SELECT d FROM De d WHERE d IN" + " (SELECT jp.des FROM JoueurPartie jp WHERE jp.joueur=?1"
 				+ " AND jp.partie = ?2)", j, partieDaoImpl.getPartieCourante());
 	}
 
@@ -41,5 +44,21 @@ public class DeDaoImpl extends DaoImpl<De> {
 			super.enregistrer(de);
 		}
 		return des;
+	}
+
+	public De lancerDe(De de) {
+		List<Face> list = faceDaoImpl.getAllFaces();
+		// on crée une liste contenant toutes les valeurs le nombre de fois
+		// qu'elles sont présentes sur le dé.
+		List<Face.Valeur> valeursList = new ArrayList<>();
+		for (Face face : list) {
+			for (int i = 0; i < face.getNbFaces(); i++) {
+				valeursList.add(face.getValeur_face());
+			}
+		}
+		Random random = new Random();
+		int index = random.nextInt(valeursList.size());
+		de.setValeur(valeursList.get(index));
+		return de;
 	}
 }

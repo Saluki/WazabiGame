@@ -18,17 +18,23 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 public class AuthFilter implements Filter {
 
 	protected FilterConfig config;
-/**
- * 
- * description : Verifie que l'utilisateur est bien authentifié pour acceder aux pages protégées
- */
+
+	/**
+	 * Verifie que l'utilisateur est bien authentifie.
+	 * 
+	 * Ce filtre permet de limit l'acces au pages protegees par l'application.
+	 * Si l'utilisateur n'est pas authentifie, il sera redirige vers la page de
+	 * login pour se connecter.
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
+		Object authObject = httpRequest.getSession().getAttribute("authenticated");
 
-		if (httpRequest.getSession().getAttribute("authenticated") != null) {
+		if (authObject != null && authObject instanceof Joueur) {
 			chain.doFilter(request, response);
 			return;
 		}

@@ -2,6 +2,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
@@ -59,7 +60,14 @@ public class Main {
 			gestionPartie.terminerTour();
 			System.out.println("C'est au tour de " + gestionPartie.getJoueurCourant().getPseudo() + " de joueur");
 			System.out.println("Le joueur 2 pioche une carte : " + gestionPartie.piocherUneCarte(joueur2));
-			System.out.println("Le joueur 3 pioche une carte : " + gestionPartie.piocherUneCarte(joueur3));
+			Carte carte = gestionPartie.piocherUneCarte(joueur3);
+			System.out.println("Le joueur 3 pioche une carte : " + carte);
+			//System.out.println("Le joueur 3 remet cette carte dans la pioche : " + gestionPartie.remettreCarte(joueur3, carte));
+			System.out.println("le joueur 1 lance ses dés : " + gestionPartie.lancerDes(joueur1));
+			System.out.println("le joueur 1 lance ses dés : " + gestionPartie.lancerDes(joueur1));
+			
+			//Carte carte = gestionPartie.voirCartes(joueur3).get(0);
+			//System.out.println("Le joueur 3 retourne une carte : " + carte.getCodeEffet() + gestionPartie.retournerCarteDansLaPioche(joueur3, carte));
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {

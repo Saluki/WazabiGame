@@ -36,10 +36,6 @@
     <servlet-name>app.create</servlet-name>
     <jsp-file>/WEB-INF/jsp/app/create.jsp</jsp-file>
   </servlet>
-  <servlet>
-    <servlet-name>api.mock</servlet-name>
-    <jsp-file>/WEB-INF/jsp/api/mock.jsp</jsp-file>
-  </servlet>
   <servlet-mapping>
     <servlet-name>app.game</servlet-name>
     <url-pattern>/app/mock.html</url-pattern>
@@ -53,10 +49,6 @@
     <url-pattern>/app/dashboard.html</url-pattern>
     <url-pattern>/app/</url-pattern>
     <url-pattern>/app</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>api.mock</servlet-name>
-    <url-pattern>/api/mock</url-pattern>
   </servlet-mapping>
   <session-config>
     <cookie-config>

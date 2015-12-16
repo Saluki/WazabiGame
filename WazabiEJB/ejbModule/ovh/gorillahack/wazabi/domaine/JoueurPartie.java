@@ -144,6 +144,10 @@ public class JoueurPartie implements Serializable {
 	public boolean ajouterCarte(Carte carte) {
 		return this.cartes.add(carte);
 	}
+	
+	public boolean supprimerCarte(Carte carte) {
+		return this.cartes.remove(carte);
+	}
 
 	public int getId_joueur_partie() {
 		return id_joueur_partie;

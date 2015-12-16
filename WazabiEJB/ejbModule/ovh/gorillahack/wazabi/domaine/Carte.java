@@ -28,7 +28,7 @@ public class Carte implements Serializable {
 	@JoinColumn(nullable = false, name="code_effet")
 	private CarteEffet carteEffet;
 
-	@Column(unique=true)
+	@Column
 	private int ordre_pioche;
 
 	public Carte(CarteEffet carteEffet, int ordre_pioche) {
@@ -119,6 +119,11 @@ public class Carte implements Serializable {
 		if (ordre_pioche != other.ordre_pioche)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Carte [id_carte=" + id_carte + ", carteEffet=" + carteEffet + ", ordre_pioche=" + ordre_pioche + "]";
 	}
 
 	
