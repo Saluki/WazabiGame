@@ -18,7 +18,6 @@ import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.CardNotFoundException;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
@@ -71,15 +70,15 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Joueur inscrire(String pseudo, String motdepasse, String motdepasseRepeat) throws ValidationException {
-		if (!Utils.checkString(pseudo) || !Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+		if (!Utils.checkString(pseudo) || !Pattern.matches("[a-zA-Z0-9]{1,20}", pseudo)) {
 			throw new ValidationException("Format du pseudo invalide .");
 		}
 
-		if (!Utils.checkString(motdepasse) || !Pattern.matches("([a-z]|[0-9]){1,20}", motdepasse)) {
+		if (!Utils.checkString(motdepasse) || !Pattern.matches("[a-zA-Z0-9]{1,20}", motdepasse)) {
 			throw new ValidationException("Format du mot de passe invalide.");
 		}
 
-		if (!motdepasse.equals(motdepasseRepeat) || !Pattern.matches("([a-z]|[0-9]){1,20}", motdepasseRepeat)) {
+		if (!motdepasse.equals(motdepasseRepeat) || !Pattern.matches("[a-zA-Z0-9]{1,20}", motdepasseRepeat)) {
 			throw new ValidationException("Les deux mots de passe ne sont pas similaires.");
 		}
 
@@ -88,23 +87,35 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException{
-		return partieDaoImpl.afficherHistorique(j);
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
+		List<Partie> listeRenv = partieDaoImpl.afficherHistorique(j);
+		return listeRenv ;
 	}
 
 	@Override
-	public Partie rejoindrePartie(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
-		partieCourante = partieDaoImpl.rejoindrePartie(j);
-		return partieCourante;
+	public void rejoindrePartie(Joueur j) throws NoCurrentGameException {
+		partieDaoImpl.rejoindrePartie(j);
+		int nbJoueursSalon = listerJoueurPartieCourante().size();
+		if(nbJoueursSalon>=min_joueurs)
+			commencerPartie();
 	}
 
 	@Override
-	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
-		return partieDaoImpl.listerJoueurPartieCourante();
+	public  List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
+		List<Joueur> listeRenv  = partieDaoImpl.listerJoueurPartieCourante();
+		if(  listeRenv.isEmpty())
+			throw new NoCurrentGameException("Aucune partie n'est en cours");
+		return listeRenv;
 	}
 
 	@Override
 	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		List<Joueur> adversaires = listerJoueurPartieCourante();
+		if(adversaires.isEmpty())
+			throw new NoCurrentGameException("Aucune partie n'est en cours");
 		adversaires.remove(j);
 		return adversaires;
 	}
@@ -112,21 +123,36 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public void commencerPartie() throws NoCurrentGameException{
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
+		if(partieCourante == null)
+			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
 	}
 
 	@Override
 	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException{
-		return joueurDaoImpl.lancerDes(j);
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
+		List<De> listeRenv = joueurDaoImpl.lancerDes(j);
+		if(listeRenv.isEmpty())
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
+		return listeRenv ;
 	}
 
 	@Override
 	public List<De> voirDes(Joueur j) throws PlayerNotFoundException{
-		return joueurDaoImpl.voirDes(j);
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
+		List<De> listeRenv = joueurDaoImpl.voirDes(j);
+		if(listeRenv.isEmpty())
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
+		return listeRenv ;
 	}
 
 	@Override
 	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return joueurDaoImpl.piocherCarte(j);
+		
 	}
 
 	@Override
@@ -136,11 +162,11 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Joueur seConnecter(String pseudo, String mdp) throws ValidationException {
-		if (!Utils.checkString(pseudo) || !Pattern.matches("([a-z]|[0-9]){1,20}", pseudo)) {
+		if (!Utils.checkString(pseudo) || !Pattern.matches("[a-zA-Z0-9]{1,20}", pseudo)) {
 			throw new ValidationException("Format du pseudo incorrecte.");
 		}
 
-		if (!Utils.checkString(mdp) || !Pattern.matches("([a-z]|[0-9]){1,20}", mdp)) {
+		if (!Utils.checkString(mdp) || !Pattern.matches("[a-zA-Z0-9]{1,20}", mdp)) {
 			throw new ValidationException("Format du mot de passe incorrecte.");
 		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
@@ -148,20 +174,19 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Partie creerPartie(String nom) throws ValidationException, XmlParsingException {
-		if (!Utils.checkString(nom) || !Pattern.matches("[A-Za-z0-9]{1,20}", nom))
+		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
-		try {
-			partieCourante = partieDaoImpl.creerUnePartie(nom);
-		} catch (NoCurrentGameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		partieCourante = partieDaoImpl.creerUnePartie(nom);
+
 		return partieCourante;
 	}
 
 	@Override
 	public void deconnecter(Joueur j) throws PlayerNotFoundException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
@@ -219,11 +244,13 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Partie getPartieCourante() throws NoCurrentGameException{
+		if(partieCourante==null)
+			throw new NoCurrentGameException();
 		return partieCourante;
 	}
 
 	@Override
-	public List<Carte> getJeuDeCarte() throws NoCurrentGameException{
+	public List<Carte> getJeuDeCarte() {
 		return jeuDeCarte;
 	}
 
@@ -234,7 +261,9 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 	
 	@Override
-	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException,PlayerNotFoundException {
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		// TODO Auto-generated method stub
 		
 	}
@@ -246,7 +275,9 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 	
 	@Override
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException{
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException, PlayerNotFoundException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		// TODO Auto-generated method stub
 		
 	}
@@ -259,11 +290,15 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return joueurDaoImpl.voirCartes(j);
 	}
 	
 	@Override
 	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException{
+		if(j == null)
+			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return 0;
 	}
 }

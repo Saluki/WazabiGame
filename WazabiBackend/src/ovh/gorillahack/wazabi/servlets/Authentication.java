@@ -58,7 +58,7 @@ public class Authentication extends HttpServlet {
 			return;
 		}
 		if ( joueur != null) {
-			request.getSession().setAttribute("authentificated", joueur);
+			request.getSession().setAttribute("authenticated", joueur);
 			response.sendRedirect("app/dashboard.html");
 			return;
 		}

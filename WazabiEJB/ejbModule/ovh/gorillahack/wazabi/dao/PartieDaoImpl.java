@@ -49,7 +49,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
-	public Partie creerUnePartie(String nom) throws NoCurrentGameException {
+	public Partie creerUnePartie(String nom)  {
 		Partie partie = super.enregistrer(
 				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 
@@ -65,11 +65,11 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		return partie;
 	}
 
-	public Partie rejoindrePartie(Joueur j) {
+	public void rejoindrePartie(Joueur j) throws NoCurrentGameException{
 		JoueurPartie jp = new JoueurPartie(ordre++, 0, null, null);
 		Partie p = getPartieCourante();
 		if (p == null || p.getStatut() == Partie.Status.PAS_COMMENCE) {
-			return null;
+			throw new NoCurrentGameException();
 		}
 		jp.setPartie(p);
 		jp.setJoueur(j);
@@ -77,7 +77,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 			p.setCourant(jp);
 		}
 		joueurPartieDao.enregistrer(jp);
-		return super.enregistrer(p);
+		super.enregistrer(p);
 	}
 
 	public List<Partie> afficherHistorique(Joueur j) {
@@ -100,7 +100,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		p.setStatut(Status.COMMENCE);
 		int cpt = 1;
 
-		for (Joueur j : listerJoueurPartieCourante()) {
+		/*for (Joueur j : listerJoueurPartieCourante()) {
 			List<De> des = new ArrayList<De>();
 			int nbDes = 0;
 			for (nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
@@ -110,7 +110,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 			for (int i = 0; i < nbCartesParJoueur; i++) {
 				joueurDaoImpl.piocherCarte(j);
 			}
-		}
+		}*/
 
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);

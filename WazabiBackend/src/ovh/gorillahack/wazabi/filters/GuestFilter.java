@@ -27,7 +27,7 @@ public class GuestFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
-		if (httpRequest.getSession().getAttribute("authentificated") != null) {
+		if (httpRequest.getSession().getAttribute("authenticated") != null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/dashboard.html");
 			return;
 		}

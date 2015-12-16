@@ -65,7 +65,7 @@ public interface GestionPartie {
 	 *            j: le joueur voulant rejoindre la partie.
 	 * @return La partie que viens de rejoindre le joueur.
 	 */
-	public Partie rejoindrePartie(Joueur j) throws NoCurrentGameException, PlayerNotFoundException;
+	public void rejoindrePartie(Joueur j) throws NoCurrentGameException;
 
 	/**
 	 * 
@@ -182,7 +182,7 @@ public interface GestionPartie {
 
 	public void deconnecter(Joueur j) throws PlayerNotFoundException;
 
-	public List<Carte> getJeuDeCarte() throws NoCurrentGameException;
+	public List<Carte> getJeuDeCarte() ;
 
 	public void setJeuDeCarte(List<Carte> liste);
 
@@ -226,8 +226,9 @@ public interface GestionPartie {
 	 *            l'id de la carte
 	 * @param j
 	 *            le joueur à qui les effets seront appliqués
+	 * @throws PlayerNotFoundException 
 	 */
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException;
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException, PlayerNotFoundException;
 
 	/**
 	 * 
@@ -249,7 +250,8 @@ public interface GestionPartie {
 	 * @param id_adversaires
 	 *            le tableau contenant les id des adversaires dont on doit
 	 *            distribuer les des.
+	 * @throws PlayerNotFoundException 
 	 */
-	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException, PlayerNotFoundException;
 
 }
