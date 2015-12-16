@@ -5,6 +5,7 @@ import javax.naming.NamingException;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
@@ -33,7 +34,7 @@ public class Main {
 			Partie partie1 = gestionPartie.creerPartie("HELLO");
 			System.out.println(partie1.getNom());
 			gestionPartie.rejoindrePartie(joueur1);
-			gestionPartie.rejoindrePartie(joueur2);
+			gestionPartie.rejoindrePartie(joueur1);
 			gestionPartie.rejoindrePartie(joueur3);
 
 			System.out.println("Historique des parties de joueur1 (partie1): ");
@@ -42,7 +43,7 @@ public class Main {
 			}
 
 			System.out.println("Historique des parties de joueur2 (partie1): ");
-			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {
+			for (Partie p : gestionPartie.afficherHistorique(joueur2)) {
 				System.out.println(p.getNom());
 			}
 
@@ -50,13 +51,13 @@ public class Main {
 			for (Joueur j : gestionPartie.listerJoueurPartieCourante()) {
 				System.out.println(j.getPseudo());
 			}
-
+			if(gestionPartie.getPartieCourante().getStatut()==Status.COMMENCE)
+				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
-			gestionPartie.commencerPartie();
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){
 			 * System.out.println(de.getId_de()); }
-			 */
+			 
 			gestionPartie.terminerTour();
 			System.out.println("C'est au tour de " + gestionPartie.getJoueurCourant().getPseudo() + " de joueur");
 			System.out.println("Le joueur 2 pioche une carte : " + gestionPartie.piocherUneCarte(joueur2));
@@ -68,14 +69,12 @@ public class Main {
 			
 			//Carte carte = gestionPartie.voirCartes(joueur3).get(0);
 			//System.out.println("Le joueur 3 retourne une carte : " + carte.getCodeEffet() + gestionPartie.retournerCarteDansLaPioche(joueur3, carte));
+			*/
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {
 			e.printStackTrace();
 		} catch (NoCurrentGameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PlayerNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -59,6 +59,12 @@ public class GestionPartieImpl implements GestionPartie {
 	@PostConstruct
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
+		try {
+			inscrire("em", "em", "em");
+			inscrire("mi", "mi", "mi");
+			inscrire("ol", "ol", "ol");
+		} catch (ValidationException e) {
+		}
 	}
 
 	@PreDestroy
@@ -92,16 +98,14 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
+	public List<Partie> afficherHistorique(Joueur j) {
 		List<Partie> listeRenv = partieDaoImpl.afficherHistorique(j);
 		return listeRenv ;
 	}
 
 	@Override
 	public void rejoindrePartie(Joueur j) throws NoCurrentGameException {
-		partieDaoImpl.rejoindrePartie(j);
+		partieCourante = partieDaoImpl.rejoindrePartie(j);
 		int nbJoueursSalon = listerJoueurPartieCourante().size();
 		if(nbJoueursSalon>=min_joueurs)
 			commencerPartie();
@@ -116,10 +120,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
-
+	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException{
 		List<Joueur> adversaires = listerJoueurPartieCourante();
 		if(adversaires.isEmpty())
 			throw new NoCurrentGameException("Aucune partie n'est en cours");
@@ -127,30 +128,28 @@ public class GestionPartieImpl implements GestionPartie {
 		return adversaires;
 	}
 
-	@Override
-	public void commencerPartie() throws NoCurrentGameException {
+	/**
+	 * 
+	 * Permet de commencer la partie courante si le nombre de joueur minimum est
+	 * atteint.
+	 * 
+	 * @return Le Joueur qui commencera la partie.
+	 */
+	private void commencerPartie() throws NoCurrentGameException {
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if(partieCourante == null)
 			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
 	}
 
 	@Override
-	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
+	public List<De> lancerDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.lancerDes(j);
-		if(listeRenv.isEmpty())
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return listeRenv ;
 	}
 
 	@Override
-	public List<De> voirDes(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
+	public List<De> voirDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.voirDes(j);
-		if(listeRenv.isEmpty())
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return listeRenv ;
 	}
 
@@ -178,15 +177,11 @@ public class GestionPartieImpl implements GestionPartie {
 		xmlParserImpl.chargerXML();
 		
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
-
 		return partieCourante;
 	}
 
 	@Override
-	public void deconnecter(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
-
+	public void deconnecter(Joueur j) {
 		joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
@@ -263,9 +258,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException,PlayerNotFoundException {
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
 		// TODO Auto-generated method stub
 
 	}
@@ -277,9 +270,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException, PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException{
 		// TODO Auto-generated method stub
 	}
 
@@ -290,18 +281,12 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
-
+	public List<Carte> voirCartes(Joueur j) {
 		return joueurDaoImpl.voirCartes(j);
 	}
 
 	@Override
-	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
-
+	public int getNombreDeToursAPasser(Joueur j) {
 		return 0;	// TODO
 	}
 

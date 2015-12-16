@@ -36,11 +36,9 @@ public class GameQuit extends HttpServlet {
 		JSONObject jsonResponse = new JSONObject();
 		Joueur joueurConnecte = (Joueur) request.getSession().getAttribute("authenticated");
 
-		try {
-			gestionPartie.deconnecter(joueurConnecte);
-		} catch (PlayerNotFoundException e) {
-			jsonResponse.put("status", false);
-		}
+
+		gestionPartie.deconnecter(joueurConnecte);
+
 		jsonResponse.put("status", true);
 
 		response.getWriter().print(jsonResponse.toJSONString());

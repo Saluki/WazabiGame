@@ -32,12 +32,9 @@ public class ScoreBoard extends HttpServlet {
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authentificated");
 		
 		List<Partie> listeHistorique = null;
-		try {
-			listeHistorique = gestionPartie.afficherHistorique(joueur);
-		} catch (PlayerNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		listeHistorique = gestionPartie.afficherHistorique(joueur);
+
 		request.setAttribute("listeHistorique", listeHistorique);
 		
 		getServletContext().getNamedDispatcher("app.scoreboard").forward(request, response);

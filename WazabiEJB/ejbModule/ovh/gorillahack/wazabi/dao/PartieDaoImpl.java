@@ -50,32 +50,35 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
-	public Partie creerUnePartie(String nom)  {
+	public Partie creerUnePartie(String nom) {
 		Partie partie = super.enregistrer(
 				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 
-		List<Carte> cartes = gestionPartie.getJeuDeCarte();
+		/*List<Carte> cartes = gestionPartie.getJeuDeCarte();
 		for (int i = 0; i < cartes.size(); i++) {
 			Carte carte = cartes.get(i);
 			carteDaoImpl.enregistrer(carte);
 			partie.ajouterCarteALaPioche(carte);
-		}
+		}*/
 		return partie;
 	}
 
-	public void rejoindrePartie(Joueur j) throws NoCurrentGameException{
-		JoueurPartie jp = new JoueurPartie(ordre++, 0, null, null);
-		Partie p = getPartieCourante();
-		if (p == null || p.getStatut() == Partie.Status.PAS_COMMENCE) {
-			throw new NoCurrentGameException();
+	public Partie rejoindrePartie(Joueur j) throws NoCurrentGameException {
+		if (joueurPartieDao.getJoueurDeLaPartieCourante(j) == null) {
+			JoueurPartie jp = new JoueurPartie(ordre++, 0, null, null);
+			Partie p = getPartieCourante();
+			if (p == null || p.getStatut() == Partie.Status.PAS_COMMENCE || p.getStatut() == Status.ANNULEE)
+				throw new NoCurrentGameException();
+
+			jp.setPartie(p);
+			jp.setJoueur(j);
+			if (p.getCourant() == null) {
+				p.setCourant(jp);
+			}
+			joueurPartieDao.enregistrer(jp);
+			return super.enregistrer(p);
 		}
-		jp.setPartie(p);
-		jp.setJoueur(j);
-		if (p.getCourant() == null) {
-			p.setCourant(jp);
-		}
-		joueurPartieDao.enregistrer(jp);
-		super.enregistrer(p);
+		return getPartieCourante();
 	}
 
 	public List<Partie> afficherHistorique(Joueur j) {
@@ -98,17 +101,13 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		p.setStatut(Status.COMMENCE);
 		int cpt = 1;
 
-		/*for (Joueur j : listerJoueurPartieCourante()) {
-			List<De> des = new ArrayList<De>();
-			int nbDes = 0;
-			for (nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
-				des.add(deDaoImpl.rechercher(cpt++));
-			}
-			joueurPartieDao.setDes(j, des);
-			for (int i = 0; i < nbCartesParJoueur; i++) {
-				joueurDaoImpl.piocherCarte(j);
-			}
-		}*/
+		/*
+		 * for (Joueur j : listerJoueurPartieCourante()) { List<De> des = new
+		 * ArrayList<De>(); int nbDes = 0; for (nbDes = 0; nbDes <
+		 * nbDesParJoueurs; nbDes++) { des.add(deDaoImpl.rechercher(cpt++)); }
+		 * joueurPartieDao.setDes(j, des); for (int i = 0; i <
+		 * nbCartesParJoueur; i++) { joueurDaoImpl.piocherCarte(j); } }
+		 */
 
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);

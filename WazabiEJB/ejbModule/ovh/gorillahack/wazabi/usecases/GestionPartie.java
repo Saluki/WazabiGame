@@ -41,7 +41,7 @@ public interface GestionPartie {
 	 *            j: le joueur dont on veux afficher l'historique.
 	 * @return
 	 */
-	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException;
+	public List<Partie> afficherHistorique(Joueur j);
 
 	/**
 	 * 
@@ -77,22 +77,13 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet de commencer la partie courante si le nombre de joueur minimum est
-	 * atteint.
-	 * 
-	 * @return Le Joueur qui commencera la partie.
-	 */
-	public void commencerPartie() throws NoCurrentGameException;
-
-	/**
-	 * 
 	 * Permet de lancer les des d'un joueur.
 	 * 
 	 * @param Joueur
 	 *            j: Le joueur dont on veux lancer les dés.
 	 * @return La liste des De que le joueur a obtenu.
 	 */
-	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException;
+	public List<De> lancerDes(Joueur j);
 
 	/**
 	 * 
@@ -102,7 +93,7 @@ public interface GestionPartie {
 	 *            j: Le joueur dont on veux récupérer les dés.
 	 * @return List<De> la liste des dés du joueur.
 	 */
-	public List<De> voirDes(Joueur j) throws PlayerNotFoundException;
+	public List<De> voirDes(Joueur j);
 
 	/**
 	 * 
@@ -112,7 +103,7 @@ public interface GestionPartie {
 	 *            j: Le joueur dont on veux récupérer les dés.
 	 * @return List<De> la liste des cartes du joueur.
 	 */
-	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException;
+	public List<Carte> voirCartes(Joueur j);
 
 	/**
 	 * 
@@ -141,7 +132,7 @@ public interface GestionPartie {
 	 * 
 	 * @return la liste des adversaires.
 	 */
-	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException;
+	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException;
 
 	/**
 	 * 
@@ -151,7 +142,7 @@ public interface GestionPartie {
 	 *            Le joueur dont on veut recuperer le nombre de tours a passer.
 	 * @return Le nombre de tours que le joueur doit passer.
 	 */
-	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException;
+	public int getNombreDeToursAPasser(Joueur j);
 
 	/**
 	 * 
@@ -169,7 +160,7 @@ public interface GestionPartie {
 	 */
 	public Partie getPartieCourante() throws NoCurrentGameException;
 
-	public void deconnecter(Joueur j) throws PlayerNotFoundException;
+	public void deconnecter(Joueur j);
 
 	public List<Carte> getJeuDeCarte() ;
 
@@ -217,7 +208,7 @@ public interface GestionPartie {
 	 *            le joueur à qui les effets seront appliqués
 	 * @throws PlayerNotFoundException 
 	 */
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException, PlayerNotFoundException;
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException;
 
 	/**
 	 * 
@@ -241,7 +232,7 @@ public interface GestionPartie {
 	 *            distribuer les des.
 	 * @throws PlayerNotFoundException 
 	 */
-	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException, PlayerNotFoundException;
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
 
 	public Carte piocherUneCarte(Joueur joueur);
 	
