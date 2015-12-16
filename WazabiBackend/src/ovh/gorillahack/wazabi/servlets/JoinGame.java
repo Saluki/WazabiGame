@@ -17,82 +17,16 @@ import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
-<<<<<<< HEAD
 @WebServlet(urlPatterns = "/app/game.html")
-=======
-@WebServlet(urlPatterns ="/app/game.html")
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 public class JoinGame extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-<<<<<<< HEAD
 	private GestionPartie gestionPartie;
-=======
-	private GestionPartie  gestionPartie ;
-	
-	/**
-	 * description : permet au joueur de rejoindre la partie 
-	 * redirection : Si une partie est en cours, il est redirigï¿½ vers le dashboard.Si la partie est en attente de joueur, 
-	 * il est redirige vers le jeux . Si aucune partie n'a ete creer et que tout les parties sont fini, il est redirige vers la 
-	 * page lui permettant de creer une partie
-	 * 
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Joueur joueur = (Joueur)request.getSession().getAttribute("authenticated");
-		Partie partie = null;
-		try {
-			partie = gestionPartie.rejoindrePartie(joueur);
-		} catch (NoCurrentGameException | PlayerNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(partie == null)
-			getServletContext().getNamedDispatcher("app.create").forward(request, response);
-		else if(partie.getStatut().equals(Partie.Status.COMMENCE))
-				response.sendRedirect(request.getContextPath() +"/app/dashboard.html");
-		else 
-			response.sendRedirect(request.getContextPath() +"/app/game.html");
-	}
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 
 	/**
-<<<<<<< HEAD
 	 * Permet au joueur de rejoindre la partie redirection.
-=======
-	 * description : reï¿½oit un nom de partie en paramï¿½tre et le transfert a l'EJB pour creer une partie dans la base de donnï¿½e
-	 * exception : une ValidationException est lancï¿½ si le nom de la partie n'est pas de type String
-	 * redirection : Si la partie a bien ï¿½tï¿½ crï¿½e , la redirection est faite vers le jeux . Sinon la 
-	 *  			redirection est faite vers le dashboard
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		context = getServletContext();
-		String partie = request.getParameter("nom");
-
-		
-		synchronized(getServletContext()){
-			try {
-				if( gestionPartie.creerPartie(partie) != null){
-					getServletContext().getNamedDispatcher("app.game").forward(request, response);
-					return;
-				}else{
-					request.setAttribute("message", "Une partie a ete cree entre temps. Veuillez vous inscire a la partie");
-					request.getServletContext().getNamedDispatcher("app.dashboard").forward(request, response);
-					return;
-				}
-			} catch (ValidationException e) {
-				redirectWithError(request, response, e.getMessage());
-			} catch (XmlParsingException e) {
-				redirectWithError(request, response, e.getMessage());
-			}
-		}
-	
-	}
-	/**
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 	 * 
 	 * Si une partie est en cours, il est redirigé vers le dashboard. Si la
 	 * partie est en attente de joueur, il est redirige vers le jeux. Si aucune

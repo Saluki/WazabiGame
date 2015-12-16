@@ -92,53 +92,34 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		List<Partie> listeRenv = partieDaoImpl.afficherHistorique(j);
 		return listeRenv ;
-=======
-	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException {
-		return partieDaoImpl.afficherHistorique(j);
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void rejoindrePartie(Joueur j) throws NoCurrentGameException {
 		partieDaoImpl.rejoindrePartie(j);
 		int nbJoueursSalon = listerJoueurPartieCourante().size();
 		if(nbJoueursSalon>=min_joueurs)
 			commencerPartie();
-=======
-	public Partie rejoindrePartie(Joueur j) throws PlayerNotFoundException, NoCurrentGameException {
-		partieCourante = partieDaoImpl.rejoindrePartie(j);
-		return partieCourante;
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 	}
 
 	@Override
-<<<<<<< HEAD
 	public  List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
 		List<Joueur> listeRenv  = partieDaoImpl.listerJoueurPartieCourante();
 		if(  listeRenv.isEmpty())
 			throw new NoCurrentGameException("Aucune partie n'est en cours");
 		return listeRenv;
-=======
-	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException {
-		return partieDaoImpl.listerJoueurPartieCourante();
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
-=======
-	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
+
 		List<Joueur> adversaires = listerJoueurPartieCourante();
 		if(adversaires.isEmpty())
 			throw new NoCurrentGameException("Aucune partie n'est en cours");
@@ -154,7 +135,6 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
@@ -162,14 +142,9 @@ public class GestionPartieImpl implements GestionPartie {
 		if(listeRenv.isEmpty())
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return listeRenv ;
-=======
-	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException {
-		return joueurDaoImpl.lancerDes(j);
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<De> voirDes(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
@@ -177,26 +152,10 @@ public class GestionPartieImpl implements GestionPartie {
 		if(listeRenv.isEmpty())
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
 		return listeRenv ;
-=======
-	public List<De> voirDes(Joueur j) throws PlayerNotFoundException {
-		return joueurDaoImpl.voirDes(j);
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
-	}
-
-	@Override
-<<<<<<< HEAD
-	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException{
-		if(j == null)
-			throw new PlayerNotFoundException("Le joueur n'existe pas");
-		return joueurDaoImpl.piocherCarte(j);
-		
 	}
 
 	@Override
 	public void terminerTour() throws NoCurrentGameException{
-=======
-	public void terminerTour() throws NoCurrentGameException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		partieCourante = joueurDaoImpl.terminerTour();
 	}
 
@@ -224,13 +183,10 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void deconnecter(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
-=======
-	public void deconnecter(Joueur j) throws PlayerNotFoundException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
+
 		joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
@@ -287,22 +243,16 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Partie getPartieCourante() throws NoCurrentGameException{
 		if(partieCourante==null)
 			throw new NoCurrentGameException();
-=======
-	public Partie getPartieCourante() throws NoCurrentGameException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
+		
 		return partieCourante;
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<Carte> getJeuDeCarte() {
-=======
-	public List<Carte> getJeuDeCarte() throws NoCurrentGameException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
+
 		return jeuDeCarte;
 	}
 
@@ -327,15 +277,10 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException, PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
-=======
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -345,31 +290,24 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
-=======
-	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
+
 		return joueurDaoImpl.voirCartes(j);
 	}
 
 	@Override
-<<<<<<< HEAD
 	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException{
 		if(j == null)
 			throw new PlayerNotFoundException("Le joueur n'existe pas");
-=======
-	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException {
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
-		return 0;
+
+		return 0;	// TODO
 	}
 
 	@Override
 	public Carte piocherUneCarte(Joueur joueur2) {
 		return joueurDaoImpl.piocherCarte(joueur2);
-		
 	}
 
 	@Override

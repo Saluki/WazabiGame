@@ -50,15 +50,10 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
-<<<<<<< HEAD
 	public Partie creerUnePartie(String nom)  {
 		Partie partie = super.enregistrer(
 				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 
-=======
-	public Partie creerUnePartie(String nom) throws NoCurrentGameException {
-		Partie partie = super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
->>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		List<Carte> cartes = gestionPartie.getJeuDeCarte();
 		for (int i = 0; i < cartes.size(); i++) {
 			Carte carte = cartes.get(i);
