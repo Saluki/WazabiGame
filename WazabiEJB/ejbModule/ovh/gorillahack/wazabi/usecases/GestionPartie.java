@@ -1,20 +1,19 @@
 
 package ovh.gorillahack.wazabi.usecases;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remote;
-import javax.validation.ValidationException;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.CardNotFoundException;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
+import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 
 @Remote
@@ -42,7 +41,7 @@ public interface GestionPartie {
 	 *            j: le joueur dont on veux afficher l'historique.
 	 * @return
 	 */
-	public List<Partie> afficherHistorique(Joueur j);
+	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
@@ -66,7 +65,7 @@ public interface GestionPartie {
 	 *            j: le joueur voulant rejoindre la partie.
 	 * @return La partie que viens de rejoindre le joueur.
 	 */
-	public Partie rejoindrePartie(Joueur j);
+	public Partie rejoindrePartie(Joueur j) throws NoCurrentGameException, PlayerNotFoundException;
 
 	/**
 	 * 
@@ -74,7 +73,7 @@ public interface GestionPartie {
 	 * 
 	 * @return La liste des joueurs de la partie courante.
 	 */
-	public List<Joueur> listerJoueurPartieCourante();
+	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException;
 
 	/**
 	 * 
@@ -83,7 +82,7 @@ public interface GestionPartie {
 	 * 
 	 * @return Le Joueur qui commencera la partie.
 	 */
-	public void commencerPartie();
+	public void commencerPartie() throws NoCurrentGameException;
 
 	/**
 	 * 
@@ -93,7 +92,7 @@ public interface GestionPartie {
 	 *            j: Le joueur dont on veux lancer les dés.
 	 * @return La liste des De que le joueur a obtenu.
 	 */
-	public List<De> lancerDes(Joueur j);
+	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
@@ -103,7 +102,7 @@ public interface GestionPartie {
 	 *            j: Le joueur dont on veux récupérer les dés.
 	 * @return List<De> la liste des dés du joueur.
 	 */
-	public List<De> voirDes(Joueur j);
+	public List<De> voirDes(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
@@ -113,7 +112,7 @@ public interface GestionPartie {
 	 *            j: Le joueur dont on veux récupérer les dés.
 	 * @return List<De> la liste des cartes du joueur.
 	 */
-	public List<Carte> voirCartes(Joueur j);
+	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
@@ -123,14 +122,14 @@ public interface GestionPartie {
 	 *            j: le joueur qui doit piocher la carte.
 	 * @return La carte que le joueur a piocher.
 	 */
-	public Carte piocherUneCarte(Joueur j);
+	public Carte piocherUneCarte(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
 	 * Permet de terminer le tour du joueur courant.
 	 * 
 	 */
-	public void terminerTour();
+	public void terminerTour() throws NoCurrentGameException;
 
 	/**
 	 * 
@@ -152,7 +151,7 @@ public interface GestionPartie {
 	 * 
 	 * @return la liste des adversaires.
 	 */
-	public List<Joueur> getAdversaires(Joueur j);
+	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException;
 
 	/**
 	 * 
@@ -162,7 +161,7 @@ public interface GestionPartie {
 	 *            Le joueur dont on veut recuperer le nombre de tours a passer.
 	 * @return Le nombre de tours que le joueur doit passer.
 	 */
-	public int getNombreDeToursAPasser(Joueur j);
+	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException;
 
 	/**
 	 * 
@@ -178,11 +177,11 @@ public interface GestionPartie {
 	 * 
 	 * @return La partie courante.
 	 */
-	public Partie getPartieCourante();
+	public Partie getPartieCourante() throws NoCurrentGameException;
 
-	public void deconnecter(Joueur j);
+	public void deconnecter(Joueur j) throws PlayerNotFoundException;
 
-	public List<Carte> getJeuDeCarte();
+	public List<Carte> getJeuDeCarte() throws NoCurrentGameException;
 
 	public void setJeuDeCarte(List<Carte> liste);
 
@@ -217,7 +216,7 @@ public interface GestionPartie {
 	 * @param id_carte
 	 *            l'id de la cart
 	 */
-	public void utiliserCarte(int id_carte);
+	public void utiliserCarte(int id_carte) throws CardNotFoundException;
 
 	/**
 	 * Permet d'utiliser une carte dont on doit choisir un joueur.
@@ -227,7 +226,7 @@ public interface GestionPartie {
 	 * @param j
 	 *            le joueur à qui les effets seront appliqués
 	 */
-	public void utiliserCarte(int id_carte, Joueur j);
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException;
 
 	/**
 	 * 
@@ -238,7 +237,7 @@ public interface GestionPartie {
 	 * @param sens
 	 *            Le sens
 	 */
-	public void utiliserCarte(int id_carte, Sens sens);
+	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException;
 
 	/**
 	 * 

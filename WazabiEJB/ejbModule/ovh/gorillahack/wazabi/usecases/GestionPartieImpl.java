@@ -19,7 +19,10 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.CardNotFoundException;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
+import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.util.Utils;
@@ -84,50 +87,50 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public List<Partie> afficherHistorique(Joueur j) {
+	public List<Partie> afficherHistorique(Joueur j) throws PlayerNotFoundException{
 		return partieDaoImpl.afficherHistorique(j);
 	}
 
 	@Override
-	public Partie rejoindrePartie(Joueur j) {
+	public Partie rejoindrePartie(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
 		partieCourante = partieDaoImpl.rejoindrePartie(j);
 		return partieCourante;
 	}
 
 	@Override
-	public List<Joueur> listerJoueurPartieCourante() {
+	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
 		return partieDaoImpl.listerJoueurPartieCourante();
 	}
 
 	@Override
-	public List<Joueur> getAdversaires(Joueur j) {
+	public List<Joueur> getAdversaires(Joueur j) throws PlayerNotFoundException, NoCurrentGameException{
 		List<Joueur> adversaires = listerJoueurPartieCourante();
 		adversaires.remove(j);
 		return adversaires;
 	}
 
 	@Override
-	public void commencerPartie() {
+	public void commencerPartie() throws NoCurrentGameException{
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 	}
 
 	@Override
-	public List<De> lancerDes(Joueur j) {
+	public List<De> lancerDes(Joueur j) throws PlayerNotFoundException{
 		return joueurDaoImpl.lancerDes(j);
 	}
 
 	@Override
-	public List<De> voirDes(Joueur j) {
+	public List<De> voirDes(Joueur j) throws PlayerNotFoundException{
 		return joueurDaoImpl.voirDes(j);
 	}
 
 	@Override
-	public Carte piocherUneCarte(Joueur j) {
+	public Carte piocherUneCarte(Joueur j) throws PlayerNotFoundException{
 		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
-	public void terminerTour() {
+	public void terminerTour() throws NoCurrentGameException{
 		partieCourante = joueurDaoImpl.terminerTour();
 	}
 
@@ -153,7 +156,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public void deconnecter(Joueur j) {
+	public void deconnecter(Joueur j) throws PlayerNotFoundException{
 		joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
@@ -210,12 +213,12 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Partie getPartieCourante() {
+	public Partie getPartieCourante() throws NoCurrentGameException{
 		return partieCourante;
 	}
 
 	@Override
-	public List<Carte> getJeuDeCarte() {
+	public List<Carte> getJeuDeCarte() throws NoCurrentGameException{
 		return jeuDeCarte;
 	}
 
@@ -232,30 +235,30 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 	
 	@Override
-	public void utiliserCarte(int id_carte) {
+	public void utiliserCarte(int id_carte) throws CardNotFoundException{
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void utiliserCarte(int id_carte, Joueur j) {
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException{
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void utiliserCarte(int id_carte, Sens sens) {
+	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException{
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public List<Carte> voirCartes(Joueur j) {
+	public List<Carte> voirCartes(Joueur j) throws PlayerNotFoundException{
 		return joueurDaoImpl.voirCartes(j);
 	}
 	
 	@Override
-	public int getNombreDeToursAPasser(Joueur j) {
-		return partieCourante.getCourant().getCompteur_sauts();
+	public int getNombreDeToursAPasser(Joueur j) throws PlayerNotFoundException{
+		return 0;
 	}
 }
