@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
+import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
@@ -40,7 +42,13 @@ public class JoinGame extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Joueur joueur = (Joueur)request.getSession().getAttribute("authentificated");
-		Partie partie = gestionPartie.rejoindrePartie(joueur);
+		Partie partie = null;
+		try {
+			partie = gestionPartie.rejoindrePartie(joueur);
+		} catch (NoCurrentGameException | PlayerNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(partie == null)
 			getServletContext().getNamedDispatcher("app.create").forward(request, response);
 		else if(partie.getStatut().equals(Partie.Status.COMMENCE))

@@ -45,9 +45,11 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	public Map<String, String> joueurInformation() {
 		// TODO Auto-generated method stub
+		//Recuperer Joueur courant
 		Map<String, String> mapRetour = new HashMap<String, String>();
 		mapRetour.put("name", "john Doe");
 		mapRetour.put("play", "true");
+		mapRetour.put("skip", "1");
 		return mapRetour;
 	}
 
@@ -121,20 +123,23 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		// 1ier challenger
 		Vector<String> nameChallenger = new Vector<String>();
 		nameChallenger.add("Jack Forge");
+		Vector<String> id = new Vector<String>();
+		id.add("1");
 		map.put("name", nameChallenger);
 		map.put("dices", desInformation(1));
-
+		map.put("id", id);
 		// ajout d'une map pour le challenger 2
 		vecRetour.addElement(new HashMap<String, Vector<String>>());
 
 		// 2ieme challenger
 		HashMap<String, Vector<String>> map2 = (HashMap<String, Vector<String>>) vecRetour.get(vecRetour.size() - 1);
-
+		Vector<String> id2 = new Vector<String>();
+		id.add("2");
 		Vector nameChallenger2 = new Vector<String>();
 		nameChallenger2.add("Alexandre Neil");
 		map2.put("name", nameChallenger2);
 		map2.put("dices", desInformation(2));
-
+		map2.put("id",id2);
 		return vecRetour;
 	}
 

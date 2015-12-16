@@ -1,6 +1,5 @@
 package ovh.gorillahack.wazabi.dao;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ import org.xml.sax.SAXException;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.CarteEffet;
+import ovh.gorillahack.wazabi.domaine.CarteEffet.Input;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
@@ -163,8 +163,9 @@ public class XmlParserImpl {
 	 * @param wazabiNode
 	 *            Le noeud racine de notre XML.
 	 * @throws XPathExpressionException
+	 * @throws XmlParsingException
 	 */
-	private void parseCartes(XPath xpath, Node wazabiNode) throws XPathExpressionException {
+	private void parseCartes(XPath xpath, Node wazabiNode) throws XPathExpressionException, XmlParsingException {
 		NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
 		// on crée une hashmap afin de ne créer qu'une seule fois
 		// chaque CarteEffet, ceux ci correspondant à un type de carte
@@ -175,17 +176,25 @@ public class XmlParserImpl {
 		// on itère sur les différents types de carte
 		for (int i = 0; i < cartesNodes.getLength(); i++) {
 			Node node = cartesNodes.item(i);
-			String description = ((String) xpath.compile("normalize-space(.)").evaluate(node, XPathConstants.STRING));
+			String description = (xpath.compile("normalize-space(.)").evaluate(node));
 			Number cout = (Number) xpath.compile("@cout").evaluate(node, XPathConstants.NUMBER);
-			String effet = (String) xpath.compile("@effet").evaluate(node, XPathConstants.STRING);
+			String effet = xpath.compile("@effet").evaluate(node);
 			Number codeEffet = (Number) xpath.compile("@codeEffet").evaluate(node, XPathConstants.NUMBER);
+			String inputString = xpath.compile("@input").evaluate(node);
 			Number nb = (Number) xpath.compile("@nb").evaluate(node, XPathConstants.NUMBER);
 
 			CarteEffet carteEffet = null;
 			if (hashmap.containsKey(codeEffet.intValue())) {
 				carteEffet = hashmap.get(codeEffet.intValue());
 			} else {
-				carteEffet = new CarteEffet(codeEffet.intValue(), effet, description, cout.intValue());
+				if (inputString == "") {
+					carteEffet = new CarteEffet(codeEffet.intValue(), effet, description, cout.intValue());
+				} else if (inputString.equals("aucun") || inputString.equals("sens") || inputString.equals("joueur")) {
+					Input input = Input.valueOf(inputString.toUpperCase());
+					carteEffet = new CarteEffet(codeEffet.intValue(), effet, description, cout.intValue(), input);
+				} else {
+					throw new XmlParsingException("Type d'input pour les cartes non renconnu : " + inputString);
+				}
 				// on enregistre les types de carte dans la DB.
 				carteEffetDaoImpl.enregistrer(carteEffet);
 				hashmap.put(codeEffet.intValue(), carteEffet);
