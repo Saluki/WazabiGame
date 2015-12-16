@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import ovh.gorillahack.wazabi.domaine.CarteEffet.Input;
+
 @Entity
 @Table(name = "CARTES", schema = "WAZABI")
 public class Carte implements Serializable {
@@ -25,9 +27,6 @@ public class Carte implements Serializable {
 	@OneToOne
 	@JoinColumn(nullable = false, name="code_effet")
 	private CarteEffet carteEffet;
-
-	@Column(nullable = false)
-	private boolean input;
 
 	@Column(unique=true)
 	private int ordre_pioche;
@@ -75,8 +74,8 @@ public class Carte implements Serializable {
 		this.ordre_pioche = ordre_pioche;
 	}
 
-	public boolean isInput() {
-		return input;
+	public Input getInput() {
+		return carteEffet.getInput();
 	}
 	
 	public int getCodeEffet() {
@@ -97,7 +96,6 @@ public class Carte implements Serializable {
 		int result = 1;
 		result = prime * result + ((carteEffet == null) ? 0 : carteEffet.hashCode());
 		result = prime * result + id_carte;
-		result = prime * result + (input ? 1231 : 1237);
 		result = prime * result + ordre_pioche;
 		return result;
 	}
@@ -117,8 +115,6 @@ public class Carte implements Serializable {
 		} else if (!carteEffet.equals(other.carteEffet))
 			return false;
 		if (id_carte != other.id_carte)
-			return false;
-		if (input != other.input)
 			return false;
 		if (ordre_pioche != other.ordre_pioche)
 			return false;
