@@ -254,4 +254,10 @@ public class GestionPartieImpl implements GestionPartie {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public int getNombreDeToursAPasser(Joueur j) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

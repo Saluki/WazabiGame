@@ -156,6 +156,16 @@ public interface GestionPartie {
 
 	/**
 	 * 
+	 * Permet de récupérer le nombre de tours qu'un joueur doit passer.
+	 * 
+	 * @param j
+	 *            Le joueur dont on veut recuperer le nombre de tours a passer.
+	 * @return Le nombre de tours que le joueur doit passer.
+	 */
+	public int getNombreDeToursAPasser(Joueur j);
+
+	/**
+	 * 
 	 * Permet de recuperer le joueur courant de la partie courante.
 	 * 
 	 * @return Le joueur courant.
@@ -229,13 +239,16 @@ public interface GestionPartie {
 	 *            Le sens
 	 */
 	public void utiliserCarte(int id_carte, Sens sens);
-	
+
 	/**
 	 * 
-	 * Permet de distribuer des dés à d'autres joueurs.  
+	 * Permet de distribuer des dés à d'autres joueurs.
 	 * 
-	 * @param j Le joueur courant
-	 * @param id_adversaires le tableau contenant les id des adversaires dont on doit distribuer les des.
+	 * @param j
+	 *            Le joueur courant
+	 * @param id_adversaires
+	 *            le tableau contenant les id des adversaires dont on doit
+	 *            distribuer les des.
 	 */
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
 
