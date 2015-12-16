@@ -17,14 +17,7 @@ import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
-import ovh.gorillahack.wazabi.util.Utils;
 
-
-
-/**
- * @author jvandera15
- *
- */
 @WebServlet(urlPatterns ="/app/game.html")
 public class JoinGame extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,14 +27,14 @@ public class JoinGame extends HttpServlet {
 	
 	/**
 	 * description : permet au joueur de rejoindre la partie 
-	 * redirection : Si une partie est en cours, il est redirigé vers le dashboard.Si la partie est en attente de joueur, 
+	 * redirection : Si une partie est en cours, il est redirigï¿½ vers le dashboard.Si la partie est en attente de joueur, 
 	 * il est redirige vers le jeux . Si aucune partie n'a ete creer et que tout les parties sont fini, il est redirige vers la 
 	 * page lui permettant de creer une partie
 	 * 
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Joueur joueur = (Joueur)request.getSession().getAttribute("authentificated");
+		Joueur joueur = (Joueur)request.getSession().getAttribute("authenticated");
 		Partie partie = null;
 		try {
 			partie = gestionPartie.rejoindrePartie(joueur);
@@ -58,9 +51,9 @@ public class JoinGame extends HttpServlet {
 	}
 
 	/**
-	 * description : reçoit un nom de partie en paramètre et le transfert a l'EJB pour creer une partie dans la base de donnée
-	 * exception : une ValidationException est lancé si le nom de la partie n'est pas de type String
-	 * redirection : Si la partie a bien été crée , la redirection est faite vers le jeux . Sinon la 
+	 * description : reï¿½oit un nom de partie en paramï¿½tre et le transfert a l'EJB pour creer une partie dans la base de donnï¿½e
+	 * exception : une ValidationException est lancï¿½ si le nom de la partie n'est pas de type String
+	 * redirection : Si la partie a bien ï¿½tï¿½ crï¿½e , la redirection est faite vers le jeux . Sinon la 
 	 *  			redirection est faite vers le dashboard
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

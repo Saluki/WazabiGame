@@ -17,8 +17,8 @@ public class GuestFilter implements Filter {
 
 	protected FilterConfig config;
 	/**
-	 * description : Redirige l'utilisateur authentifié vers la page index des joueurs authentifié : dashboard
-	 * 				Si l'utilisateur n'est pas authentifié il peut atteindre la page demandé
+	 * description : Redirige l'utilisateur authentifiï¿½ vers la page index des joueurs authentifiï¿½ : dashboard
+	 * 				Si l'utilisateur n'est pas authentifiï¿½ il peut atteindre la page demandï¿½
 	 * 
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -27,7 +27,7 @@ public class GuestFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
-		if (httpRequest.getSession().getAttribute("authentificated") != null) {
+		if (httpRequest.getSession().getAttribute("authenticated") != null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/dashboard.html");
 			return;
 		}
