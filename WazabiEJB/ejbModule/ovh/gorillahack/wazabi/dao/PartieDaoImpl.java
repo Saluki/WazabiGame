@@ -60,9 +60,9 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		for (int i = 0; i < cartes.size(); i++) {
 			Carte carte = cartes.get(i);
 			carteDaoImpl.enregistrer(carte);
-			gestionPartie.ajouterCarteALaPioche(carte);
+			gestionPartie.ajouterCarteALaPioche(carte, partie);
 		}
-		return partie;
+		return super.enregistrer(partie);
 	}
 
 	public Partie rejoindrePartie(Joueur j) {

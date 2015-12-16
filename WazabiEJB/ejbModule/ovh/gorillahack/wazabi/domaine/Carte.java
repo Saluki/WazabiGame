@@ -28,7 +28,7 @@ public class Carte implements Serializable {
 	@JoinColumn(nullable = false, name="code_effet")
 	private CarteEffet carteEffet;
 
-	@Column(unique=true)
+	@Column
 	private int ordre_pioche;
 
 	public Carte(CarteEffet carteEffet, int ordre_pioche) {

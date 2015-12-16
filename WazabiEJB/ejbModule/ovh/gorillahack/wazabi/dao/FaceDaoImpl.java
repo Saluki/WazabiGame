@@ -1,5 +1,7 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -17,5 +19,9 @@ public class FaceDaoImpl extends DaoImpl<Face>{
 	
     public FaceDaoImpl() {
     	super(Face.class);
+    }
+    
+    public List<Face> getAllFaces() {
+    	return super.liste("SELECT f FROM Face f");
     }
 }

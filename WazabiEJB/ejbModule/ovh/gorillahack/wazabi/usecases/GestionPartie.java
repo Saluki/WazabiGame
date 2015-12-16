@@ -134,7 +134,7 @@ public interface GestionPartie {
 	 *            La carte dont il se débarrasse.
 	 * @return L'opération a réussi ou non.
 	 */
-	public boolean retournerCarteDansLaPioche(Joueur j, Carte c);
+	public boolean retournerCarteDansLaPioche(Joueur j, Carte c, Partie partie);
 
 	/**
 	 * 
@@ -191,7 +191,7 @@ public interface GestionPartie {
 	 */
 	public Partie getPartieCourante() throws NoCurrentGameException;
 	
-	public boolean ajouterCarteALaPioche(Carte carte);
+	public boolean ajouterCarteALaPioche(Carte carte, Partie partie);
 
 	public void deconnecter(Joueur j) throws PlayerNotFoundException;
 

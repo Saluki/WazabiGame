@@ -44,6 +44,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbDesParJoueur;
 	private int nbDesTotal;
 	private List<Carte> jeuDeCarte;
+	private static int ordre_pioche = 0;
 
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -274,25 +275,24 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public boolean retournerCarteDansLaPioche(Joueur joueur, Carte carte) {
+	public boolean retournerCarteDansLaPioche(Joueur joueur, Carte carte, Partie partie) {
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
 		boolean succes = jp.supprimerCarte(carte);
-		succes = succes && ajouterCarteALaPioche(carte);
+		succes = succes && ajouterCarteALaPioche(carte, partie);
 		return succes;
 	}
 
 	@Override
-	public boolean ajouterCarteALaPioche(Carte carte) {
-		int ordre_pioche;
-		try {
-			ordre_pioche = partieDaoImpl.getMaxOrdrePioche(partieCourante) + 1;
-			carte.setOrdre_pioche(ordre_pioche);
-			partieCourante.ajouterCarteALaPioche(carte);
+	public boolean ajouterCarteALaPioche(Carte carte, Partie partie) {
+		//try {
+			//ordre_pioche = partieDaoImpl.getMaxOrdrePioche(partieCourante) + 1;
+			carte.setOrdre_pioche(ordre_pioche++);
+			partie.ajouterCarteALaPioche(carte);
 			return true;
-		} catch (QueryException e) {
+		/*} catch (QueryException e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
 
 	}
 }

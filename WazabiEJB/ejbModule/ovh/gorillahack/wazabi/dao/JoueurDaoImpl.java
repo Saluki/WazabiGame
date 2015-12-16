@@ -76,7 +76,13 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public List<De> lancerDes(Joueur j) {
-		return null;
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<De> des = jp.getDes();
+		for (int i = 0; i < des.size(); i++) {
+			De de = des.get(i);
+			deDaoImpl.lancerDe(de);
+		}
+		return des;
 	}
 
 	public List<De> voirDes(Joueur j) {

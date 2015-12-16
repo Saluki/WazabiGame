@@ -74,5 +74,7 @@ public class De implements Serializable {
 		return true;
 	}
 	
-	
+	public String toString() {
+		return "Dé (valeur : "+ getValeur()+ " )";
+	}
 }
