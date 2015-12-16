@@ -251,13 +251,11 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@Override
 	public List<Carte> voirCartes(Joueur j) {
-		// TODO Auto-generated method stub
-		return null;
+		return joueurDaoImpl.voirCartes(j);
 	}
 	
 	@Override
 	public int getNombreDeToursAPasser(Joueur j) {
-		// TODO Auto-generated method stub
-		return 0;
+		return partieCourante.getCourant().getCompteur_sauts();
 	}
 }
