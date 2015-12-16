@@ -116,28 +116,6 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet à un joueur de piocher une carte provenant de la pile.
-	 * 
-	 * @param Joueur
-	 *            j: le joueur qui doit piocher la carte.
-	 * @return La carte que le joueur a piocher.
-	 */
-
-	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException;
-
-	/**
-	 * Permet à un joueur de retourner une carte dans la pioche.
-	 * 
-	 * @param j
-	 *            Le joueur qui se débarrasse de la carte.
-	 * @param c
-	 *            La carte dont il se débarrasse.
-	 * @return L'opération a réussi ou non.
-	 */
-	public boolean retournerCarteDansLaPioche(Joueur j, Carte c, Partie partie);
-
-	/**
-	 * 
 	 * Permet de terminer le tour du joueur courant.
 	 * 
 	 */
@@ -190,8 +168,6 @@ public interface GestionPartie {
 	 * @return La partie courante.
 	 */
 	public Partie getPartieCourante() throws NoCurrentGameException;
-	
-	public boolean ajouterCarteALaPioche(Carte carte, Partie partie);
 
 	public void deconnecter(Joueur j) throws PlayerNotFoundException;
 
@@ -264,5 +240,9 @@ public interface GestionPartie {
 	 *            distribuer les des.
 	 */
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
+
+	public Carte piocherUneCarte(Joueur joueur);
+	
+	public Carte remettreCarte(Joueur joueur, Carte carte);
 
 }

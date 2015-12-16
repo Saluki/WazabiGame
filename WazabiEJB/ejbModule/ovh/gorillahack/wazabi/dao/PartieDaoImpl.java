@@ -51,18 +51,14 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private EntityManager entityManager;
 
 	public Partie creerUnePartie(String nom) throws NoCurrentGameException {
-		Partie partie = super.enregistrer(
-				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
-
+		Partie partie = super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 		List<Carte> cartes = gestionPartie.getJeuDeCarte();
-		// on mélange les cartes
-		Collections.shuffle(cartes);
 		for (int i = 0; i < cartes.size(); i++) {
 			Carte carte = cartes.get(i);
 			carteDaoImpl.enregistrer(carte);
-			gestionPartie.ajouterCarteALaPioche(carte, partie);
+			partie.ajouterCarteALaPioche(carte);
 		}
-		return super.enregistrer(partie);
+		return partie;
 	}
 
 	public Partie rejoindrePartie(Joueur j) {

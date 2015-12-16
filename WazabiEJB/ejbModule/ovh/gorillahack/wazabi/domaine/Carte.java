@@ -121,6 +121,11 @@ public class Carte implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Carte [id_carte=" + id_carte + ", carteEffet=" + carteEffet + ", ordre_pioche=" + ordre_pioche + "]";
+	}
+
 	
 
 

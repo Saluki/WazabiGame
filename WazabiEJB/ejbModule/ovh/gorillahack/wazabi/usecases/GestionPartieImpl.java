@@ -17,14 +17,12 @@ import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.exception.CardNotFoundException;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
-import ovh.gorillahack.wazabi.exception.QueryException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.util.Utils;
@@ -129,11 +127,6 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public List<De> voirDes(Joueur j) throws PlayerNotFoundException {
 		return joueurDaoImpl.voirDes(j);
-	}
-
-	@Override
-	public boolean piocherUneCarte(Joueur j) throws PlayerNotFoundException {
-		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
@@ -275,24 +268,13 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public boolean retournerCarteDansLaPioche(Joueur joueur, Carte carte, Partie partie) {
-		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
-		boolean succes = jp.supprimerCarte(carte);
-		succes = succes && ajouterCarteALaPioche(carte, partie);
-		return succes;
+	public Carte piocherUneCarte(Joueur joueur2) {
+		return joueurDaoImpl.piocherCarte(joueur2);
+		
 	}
 
 	@Override
-	public boolean ajouterCarteALaPioche(Carte carte, Partie partie) {
-		//try {
-			//ordre_pioche = partieDaoImpl.getMaxOrdrePioche(partieCourante) + 1;
-			carte.setOrdre_pioche(ordre_pioche++);
-			partie.ajouterCarteALaPioche(carte);
-			return true;
-		/*} catch (QueryException e) {
-			e.printStackTrace();
-			return false;
-		}*/
-
+	public Carte remettreCarte(Joueur joueur, Carte carte) {
+		return joueurDaoImpl.remettreCarte(joueur, carte);
 	}
 }
