@@ -19,6 +19,7 @@ import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("serial")
@@ -48,7 +49,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
-	public Partie creerUnePartie(String nom) {
+	public Partie creerUnePartie(String nom) throws NoCurrentGameException {
 		Partie partie = super.enregistrer(
 				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 

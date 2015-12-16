@@ -9,6 +9,7 @@ app.Status = (function() {
 		WAITING		: 'WAITING',
 		ROLL_DICE	: 'ROLL_DICE',
 		REQUESTING	: 'REQUESTING',
+		GIVE_DICES	: 'GIVE_DICES',
 		CHOOSE_CARD : 'CHOOSE_CARD',
 		ENDING		: 'ENDING'
 	}

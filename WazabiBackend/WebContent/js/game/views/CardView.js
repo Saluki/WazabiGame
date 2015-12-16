@@ -49,7 +49,8 @@ app.CardView = Backbone.View.extend({
 		
 		$.ajax({
 			dataType: 'json',
-			url: 'api/game/playcard/' + this.model.get('effect'),
+			method: 'POST',
+			url: 'api/game/playcard', // TODO Putting this in data + this.model.get('effect'),
 			context: view
 		})
 		.success(function(data){

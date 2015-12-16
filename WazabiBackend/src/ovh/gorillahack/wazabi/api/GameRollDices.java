@@ -24,6 +24,7 @@ public class GameRollDices extends HttpServlet {
 	
 	@EJB
 	private MockInterfaceGestionPartie gestionPartie;
+	// TODO Remove mock
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

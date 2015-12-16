@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @WebServlet(urlPatterns = "/app/scoreboard.html")
@@ -30,7 +31,13 @@ public class ScoreBoard extends HttpServlet {
 		
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authentificated");
 		
-		List<Partie> listeHistorique = gestionPartie.afficherHistorique(joueur);
+		List<Partie> listeHistorique = null;
+		try {
+			listeHistorique = gestionPartie.afficherHistorique(joueur);
+		} catch (PlayerNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		request.setAttribute("listeHistorique", listeHistorique);
 		
 		getServletContext().getNamedDispatcher("app.scoreboard").forward(request, response);

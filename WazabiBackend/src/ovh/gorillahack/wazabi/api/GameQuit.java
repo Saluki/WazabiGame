@@ -27,6 +27,7 @@ public class GameQuit extends HttpServlet {
 		// TODO faire appelle a la GestionPartie pour le status
 		JSONObject jsonResponse = new JSONObject();
 		jsonResponse.put("status", true);
+		
 		response.getWriter().println(jsonResponse.toJSONString());
 	}
 
