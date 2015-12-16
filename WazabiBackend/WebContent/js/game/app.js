@@ -40,6 +40,28 @@ $(function(){
 		alertify.success('C\'est maintenant a vous de jouer! Relancer les des en cliquant dessus...');
 	});
 	
+	// Updating skip number
+	app.mainPlayer.on('change:skip', function(){
+		
+		var nbSkips = app.mainPlayer.get('skip');
+		
+		if( nbSkips>0 ) {
+			
+			var displayText = '<b>Perdu!</b> Vous ne pourrez pas jouer pendant ' + nbSkips + ' tours';
+			
+			if( nbSkips==1 ) {
+				displayText = '<b>Attention!</b> Vous ne pourrez pas jouer au prochain tour';
+			}
+			
+			$('#wazabi-skip-tile').html(displayText);
+
+			$('#wazabi-skip-tile').css('display', 'block');
+		}
+		else {
+			$('#wazabi-skip-tile').css('display', 'none');
+		}		
+	});
+	
 	// Scheduler
 	app.scheduler = new app.SchedulerClass(5);
 	app.scheduler.registerListener(app.registerSchedulerListeners);
@@ -53,6 +75,7 @@ app.registerSchedulerListeners = function(statusData) {
 	
 	app.mainPlayer.set('name', statusData.player.name);
 	app.mainPlayer.set('play', statusData.player.play);
+	app.mainPlayer.set('skip', parseInt(statusData.player.skip));
 	
 	app.playerCards.reset(statusData.hand.cards);
 	

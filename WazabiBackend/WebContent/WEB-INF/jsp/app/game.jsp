@@ -17,8 +17,9 @@
 			</div>
 		</div>
 	</div>	
-		
-	<div id="cards-list-view" class="clearfix"></div>
+
+	<div id="wazabi-skip-tile" class="alert alert-warning"></div>		
+	<div id="cards-list-view"></div>
 	<div id="dices-list-view" class="clearfix"></div>
 	<div id="challengers-list-view" class="clearfix"></div>
 	

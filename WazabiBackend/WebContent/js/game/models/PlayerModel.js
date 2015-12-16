@@ -7,7 +7,8 @@ app.PlayerModel = Backbone.Model.extend({
 	
 	defaults: {
 		'name': '',
-		'play': false
+		'play': false,
+		'skip': 0
 	}
 	
 });
