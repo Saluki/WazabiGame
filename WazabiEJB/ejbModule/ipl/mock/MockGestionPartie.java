@@ -134,7 +134,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 		// 2ieme challenger
 		HashMap<String, Vector<String>> map2 = (HashMap<String, Vector<String>>) vecRetour.get(vecRetour.size() - 1);
 		Vector<String> id2 = new Vector<String>();
-		id.add("2");
+		id2.add("2");
 		Vector nameChallenger2 = new Vector<String>();
 		nameChallenger2.add("Alexandre Neil");
 		map2.put("name", nameChallenger2);

@@ -83,10 +83,12 @@ public class GameStatus extends HttpServlet {
 			JSONArray desChallenger = new JSONArray();
 			Map<String, Vector<String>> mapChallenger = challengerInfo.get(i);
 			challenger.put("name", mapChallenger.get("name").get(0));
+			challenger.put("id", mapChallenger.get("id").get(0));
 			for (int j = 0; j < mapChallenger.get("dices").size(); j++) {
 				desChallenger.add(mapChallenger.get("dices").get(j));
 			}
 			challenger.put("dices", desChallenger);
+			
 			challengers.add(challenger);
 		}
 		statusObject.put("challengers", challengers);

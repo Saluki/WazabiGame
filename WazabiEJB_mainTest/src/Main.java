@@ -4,6 +4,8 @@ import javax.naming.NamingException;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
+import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
@@ -59,6 +61,12 @@ public class Main {
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {
+			e.printStackTrace();
+		} catch (NoCurrentGameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PlayerNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
