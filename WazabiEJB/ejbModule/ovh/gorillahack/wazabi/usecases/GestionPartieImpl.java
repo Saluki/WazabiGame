@@ -151,7 +151,12 @@ public class GestionPartieImpl implements GestionPartie {
 		if (!Utils.checkString(nom) || !Pattern.matches("[A-Za-z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
-		partieCourante = partieDaoImpl.creerUnePartie(nom);
+		try {
+			partieCourante = partieDaoImpl.creerUnePartie(nom);
+		} catch (NoCurrentGameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return partieCourante;
 	}
 

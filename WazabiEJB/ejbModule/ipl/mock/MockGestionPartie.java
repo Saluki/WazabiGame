@@ -45,6 +45,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	public Map<String, String> joueurInformation() {
 		// TODO Auto-generated method stub
+		//Recuperer Joueur courant
 		Map<String, String> mapRetour = new HashMap<String, String>();
 		mapRetour.put("name", "john Doe");
 		mapRetour.put("play", "true");
