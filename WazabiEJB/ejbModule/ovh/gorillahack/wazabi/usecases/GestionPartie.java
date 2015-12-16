@@ -112,7 +112,7 @@ public interface GestionPartie {
 	 *            j: le joueur qui doit piocher la carte.
 	 * @return La carte que le joueur a piocher.
 	 */
-	public Carte piocherUneCarte(Joueur j);
+	public boolean piocherUneCarte(Joueur j);
 
 	/**
 	 * 

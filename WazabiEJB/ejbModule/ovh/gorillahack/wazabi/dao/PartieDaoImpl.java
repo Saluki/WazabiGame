@@ -37,7 +37,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private FaceDaoImpl faceDaoImpl;
 	@EJB
 	private GestionPartie gestionPartie;
-	
+
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 
@@ -47,9 +47,11 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
+
 	public Partie creerUnePartie(String nom) {
-		Partie partie = super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
-		
+		Partie partie = super.enregistrer(
+				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
+
 		List<Carte> cartes = gestionPartie.getJeuDeCarte();
 		// on mélange les cartes
 		Collections.shuffle(cartes);
@@ -70,7 +72,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		}
 		jp.setPartie(p);
 		jp.setJoueur(j);
-		if(p.getCourant()==null){
+		if (p.getCourant() == null) {
 			p.setCourant(jp);
 		}
 		joueurPartieDao.enregistrer(jp);
@@ -85,30 +87,30 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	public Partie getPartieCourante() {
 		return super.recherche("SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie) FROM Partie p)");
 	}
-	
+
 	public List<Joueur> listerJoueurPartieCourante() {
 		return joueurDaoImpl.listerJoueurPartieCourante();
 	}
-	
+
 	public Partie commencerPartie(int nbCartesParJoueur, int nbDesParJoueurs) {
 		Partie p = getPartieCourante();
-		if(p==null||p.getStatut()!=Status.EN_ATTENTE)
+		if (p == null || p.getStatut() != Status.EN_ATTENTE)
 			return null;
 		p.setStatut(Status.COMMENCE);
-		int cpt=1;
+		int cpt = 1;
 
-		for(Joueur j: listerJoueurPartieCourante()){
+		for (Joueur j : listerJoueurPartieCourante()) {
 			List<De> des = new ArrayList<De>();
-			int nbDes=0;
-			for(nbDes=0; nbDes<nbDesParJoueurs; nbDes++){
+			int nbDes = 0;
+			for (nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
 				des.add(deDaoImpl.rechercher(cpt++));
 			}
-			joueurPartieDao.setDes(j,des);
-			for(int i = 0; i<nbCartesParJoueur;i++){
+			joueurPartieDao.setDes(j, des);
+			for (int i = 0; i < nbCartesParJoueur; i++) {
 				joueurDaoImpl.piocherCarte(j);
 			}
 		}
-				
+
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);
 		return p;

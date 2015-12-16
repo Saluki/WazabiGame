@@ -120,7 +120,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Carte piocherUneCarte(Joueur j) {
+	public boolean piocherUneCarte(Joueur j) {
 		return joueurDaoImpl.piocherCarte(j);
 	}
 
