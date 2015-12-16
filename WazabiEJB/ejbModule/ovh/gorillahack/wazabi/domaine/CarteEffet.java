@@ -4,21 +4,31 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CARTES_EFFETS", schema = "WAZABI")
 public class CarteEffet implements Serializable {
+
+	public enum Input {
+		AUCUN, SENS, JOUEUR
+	}
+
 	private static final long serialVersionUID = -310800064904728041L;
 	@Id
 	private int code_effet;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String effet;
 	@Column
 	private String description;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private int cout;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Input input;
 
 	public CarteEffet(int code_effet, String effet, String description, int cout) {
 		super();
@@ -26,8 +36,18 @@ public class CarteEffet implements Serializable {
 		this.effet = effet;
 		this.description = description;
 		this.cout = cout;
+		this.input = Input.AUCUN;
 	}
 	
+	public CarteEffet(int code_effet, String effet, String description, int cout, Input input) {
+		super();
+		this.code_effet = code_effet;
+		this.effet = effet;
+		this.description = description;
+		this.cout = cout;
+		this.input = input;
+	}
+
 	public CarteEffet() {
 		super();
 	}
@@ -50,6 +70,14 @@ public class CarteEffet implements Serializable {
 
 	public void setCout(int cout) {
 		this.cout = cout;
+	}
+
+	public Input getInput() {
+		return input;
+	}
+
+	public void setInput(Input input) {
+		this.input = input;
 	}
 
 	@Override

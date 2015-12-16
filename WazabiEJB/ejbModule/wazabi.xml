@@ -17,7 +17,7 @@
 		ou plus avec ses dés.
 	</carte>
 	<carte cout="2" effet="Changez de sens" src="images/" codeEffet="2"
-		nb="3">
+		nb="3" input="sens">
 		Tous les joueurs donnent leurs dés à leur
 		voisin de gauche ou de
 		droite selon le choix du joueur qui pose la
@@ -29,20 +29,20 @@
 		partie.
 	</carte>
 	<carte cout="3" effet="Donnez 1 de vos dés au joueur de votre choix"
-		src="images/" codeEffet="4" nb="3">
+		src="images/" codeEffet="4" nb="3" input="joueur">
 		L’effet est indépendant des dés que vous avez peut-être déjà donnés
 		avec la ou les figure(s)
 		<figure ref="d" />
 		.
 	</carte>
 	<carte cout="1" effet="Prenez 1 carte au joueur de votre choix"
-		src="images/" codeEffet="5" nb="3">Le joueur vous présente ses cartes en
+		src="images/" codeEffet="5" nb="3" input="joueur">Le joueur vous présente ses cartes en
 		éventail faces cachées, prenez celle de votre choix. Si
 		aucun joueur
 		n’a de carte prenez-en une dans la pioche.
 	</carte>
 	<carte cout="1" effet="Le joueur de votre choix n’a plus qu’1 carte"
-		src="images/" codeEffet="6" nb="4">Le joueur choisi doit avoir au moins 2
+		src="images/" codeEffet="6" nb="4" input="joueur">Le joueur choisi doit avoir au moins 2
 		cartes
 		en main. Il choisit alors la carte qu’il souhaite conserver et
 		se
@@ -64,7 +64,7 @@
 	</carte>
 
 	<carte cout="0" effet="Le joueur de votre choix passe son tour"
-		src="images/" codeEffet="9" nb="2">Posez la carte, face visible, devant le
+		src="images/" codeEffet="9" nb="2" input="joueur">Posez la carte, face visible, devant le
 		joueur choisi qui la conserve jusqu’à ce qu’il ait passé son tour
 		puis la défausse. Plusieurs de ces cartes peuvent se cumuler devant
 		le
