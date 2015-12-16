@@ -29,23 +29,18 @@ public class Carte implements Serializable {
 	@Column(nullable = false)
 	private boolean input;
 
-	@Column(nullable = false)
-	private int cout;
-
 	@Column
 	private int ordre_pioche;
 
-	public Carte(CarteEffet carteEffet, int cout, int ordre_pioche) {
+	public Carte(CarteEffet carteEffet, int ordre_pioche) {
 		super();
 		this.carteEffet = carteEffet;
-		this.cout = cout;
 		this.ordre_pioche = ordre_pioche;
 	}
 
-	public Carte(CarteEffet carteEffet, int cout) {
+	public Carte(CarteEffet carteEffet) {
 		super();
 		this.carteEffet = carteEffet;
-		this.cout = cout;
 	}
 
 	public Carte() {
@@ -69,11 +64,7 @@ public class Carte implements Serializable {
 	}
 
 	public int getCout() {
-		return cout;
-	}
-
-	public void setCout(int cout) {
-		this.cout = cout;
+		return carteEffet.getCout();
 	}
 
 	public int getOrdre_pioche() {
@@ -105,7 +96,6 @@ public class Carte implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((carteEffet == null) ? 0 : carteEffet.hashCode());
-		result = prime * result + cout;
 		result = prime * result + id_carte;
 		result = prime * result + (input ? 1231 : 1237);
 		result = prime * result + ordre_pioche;
@@ -125,8 +115,6 @@ public class Carte implements Serializable {
 			if (other.carteEffet != null)
 				return false;
 		} else if (!carteEffet.equals(other.carteEffet))
-			return false;
-		if (cout != other.cout)
 			return false;
 		if (id_carte != other.id_carte)
 			return false;

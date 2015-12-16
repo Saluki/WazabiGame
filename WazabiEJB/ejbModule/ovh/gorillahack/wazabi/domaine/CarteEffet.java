@@ -10,18 +10,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CARTES_EFFETS", schema = "WAZABI")
 public class CarteEffet implements Serializable {
+	private static final long serialVersionUID = -310800064904728041L;
 	@Id
 	private int code_effet;
-	@Column
+	@Column(nullable=false)
 	private String effet;
 	@Column
 	private String description;
+	@Column(nullable=false)
+	private int cout;
 
-	public CarteEffet(int code_effet, String effet, String description) {
+	public CarteEffet(int code_effet, String effet, String description, int cout) {
 		super();
 		this.code_effet = code_effet;
 		this.effet = effet;
 		this.description = description;
+		this.cout = cout;
 	}
 	
 	public CarteEffet() {
@@ -38,6 +42,14 @@ public class CarteEffet implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public int getCout() {
+		return cout;
+	}
+
+	public void setCout(int cout) {
+		this.cout = cout;
 	}
 
 	@Override

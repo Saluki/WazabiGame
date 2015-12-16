@@ -14,6 +14,7 @@ import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.XmlParsingException;
 
 @Remote
 public interface GestionPartie {
@@ -26,9 +27,10 @@ public interface GestionPartie {
 	 *            Le mot de passe du compte qu'on souhaite créer.
 	 * @return Le joueur créé si l'inscription a réussi, null si l'inscription a
 	 *         échoué (ex : pseudo existe déjà).
-	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
 	 */
-	public Joueur inscrire(String pseudo, String motdepasse, String motdepasseRepeat)  throws ovh.gorillahack.wazabi.exception.ValidationException;
+	public Joueur inscrire(String pseudo, String motdepasse, String motdepasseRepeat)
+			throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
 	 * 
@@ -50,7 +52,7 @@ public interface GestionPartie {
 	 * @param motdepasse
 	 *            Le mot de passe à vérifier.
 	 * @return Le joueur si l'authentification a réussi, null sinon.
-	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
 	 */
 	public Joueur seConnecter(String pseudo, String mdp) throws ovh.gorillahack.wazabi.exception.ValidationException;
 
@@ -123,12 +125,15 @@ public interface GestionPartie {
 	 * 
 	 * Permet de creer une partie selon le nom passe en parametre
 	 * 
-	 * @param Le
-	 *            nom de la partie
+	 * @param nom
+	 *            Le nom de la partie
 	 * @return La partie ainsi creee
-	 * @throws ovh.gorillahack.wazabi.exception.ValidationException 
+	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
+	 * @throws XmlParsingException
+	 *             Si le parsing du XML a échoué.
 	 */
-	public Partie creerPartie(String nom) throws ovh.gorillahack.wazabi.exception.ValidationException;
+	public Partie creerPartie(String nom)
+			throws ovh.gorillahack.wazabi.exception.ValidationException, XmlParsingException;
 
 	/**
 	 * 
@@ -145,13 +150,13 @@ public interface GestionPartie {
 	 * @return Le joueur courant
 	 */
 	public Joueur getJoueurCourant();
-	
+
 	public Partie getPartieCourante();
 
 	public void deconnecter(Joueur j);
-	
+
 	public List<Carte> getJeuDeCarte();
-	
+
 	public void setJeuDeCarte(List<Carte> liste);
 
 	public int getMin_joueurs();

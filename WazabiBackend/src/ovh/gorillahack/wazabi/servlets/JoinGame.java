@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.ValidationException;
+import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 import ovh.gorillahack.wazabi.util.Utils;
 
@@ -71,7 +72,8 @@ public class JoinGame extends HttpServlet {
 					return;
 				}
 			} catch (ValidationException e) {
-				// TODO Auto-generated catch block
+				redirectWithError(request, response, e.getMessage());
+			} catch (XmlParsingException e) {
 				redirectWithError(request, response, e.getMessage());
 			}
 		}

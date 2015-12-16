@@ -27,6 +27,7 @@ import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
+import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @Local
@@ -44,108 +45,171 @@ public class XmlParserImpl {
 	private DeDaoImpl deDaoImpl;
 
 	public XmlParserImpl() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public boolean chargerXML() {
-		try {
-			ClassLoader loader = getClass().getClassLoader();
-			InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+	/**
+	 * Charge le fichier wazabi.xml contenant la paramétrisation de la partie,
+	 * insère les valeurs dans la DB au moyen des DAO et insère le jeu de carte
+	 * dans le singleton GestionPartie.
+	 * 
+	 * @throws XmlParsingException
+	 */
+	public void chargerXML() throws XmlParsingException {
+		ClassLoader loader = getClass().getClassLoader();
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		XPath xpath = XPathFactory.newInstance().newXPath();
+
+		// le fichier xml doit être dans le dossier source pour être chargé.
+		try (InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");) {
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document document = builder.parse(xmlFile);
 
-			XPath xpath = XPathFactory.newInstance().newXPath();
 			Node wazabiNode = (Node) xpath.compile("wazabi").evaluate(document, XPathConstants.NODE);
 
 			// on importe les paramètres généraux
-			Number nbCartesParJoueur = (Number) xpath.compile("@nbCartesParJoueur").evaluate(wazabiNode,
-					XPathConstants.NUMBER);
-			Number nbCartesTotal = (Number) xpath.compile("@nbCartesTotal").evaluate(wazabiNode, XPathConstants.NUMBER);
-			Number minJoueurs = (Number) xpath.compile("@minJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
-			Number maxJoueurs = (Number) xpath.compile("@maxJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
-
-			gestionPartie.setMin_joueurs(minJoueurs.intValue());
-			gestionPartie.setMax_joueurs(maxJoueurs.intValue());
-			gestionPartie.setNbCartesParJoueurs(nbCartesParJoueur.intValue());
-			gestionPartie.setNbCartesTotal(nbCartesTotal.intValue());
+			parseParametres(xpath, wazabiNode);
 
 			// on importe les dés et leurs faces
 			Node deNode = (Node) xpath.compile("/wazabi/de").evaluate(document, XPathConstants.NODE);
-			Number nbDesParJoueur = (Number) xpath.compile("@nbParJoueur").evaluate(deNode, XPathConstants.NUMBER);
-			Number nbTotalDes = (Number) xpath.compile("@nbTotalDes").evaluate(deNode, XPathConstants.NUMBER);
-
-			gestionPartie.setNbDesParJoueur(nbDesParJoueur.intValue());
-			deDaoImpl.creerDes(nbTotalDes.intValue());
-
-			NodeList desNodes = (NodeList) xpath.compile("./face").evaluate(deNode, XPathConstants.NODESET);
-			for (int i = 0; i < desNodes.getLength(); i++) {
-				Node faceNode = desNodes.item(i);
-				String valeur = (String) xpath.compile("@identif").evaluate(faceNode, XPathConstants.STRING);
-				Number nbFaces = (Number) xpath.compile("@nbFaces").evaluate(faceNode, XPathConstants.NUMBER);
-				Face face = null;
-				switch (valeur) {
-				case "w":
-					face = new Face(Valeur.WAZABI, nbFaces.intValue());
-					break;
-				case "d":
-					face = new Face(Valeur.DE, nbFaces.intValue());
-					break;
-				case "c":
-					face = new Face(Valeur.PIOCHE, nbFaces.intValue());
-					break;
-				default:
-					//
-				}
-				if (face != null) {
-					faceDaoImpl.enregistrer(face);
-				}
-			}
+			parseDes(xpath, deNode);
 
 			// on importe les cartes
-			NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
-			//on crée une hashmap afin de ne créer qu'une seule fois chaque CarteEffet
-			HashMap<Integer, CarteEffet> hashmap = new HashMap<Integer, CarteEffet>();
-			ArrayList<Carte> paquetDeCarte = new ArrayList<>();
-			
-			for (int i = 0; i < cartesNodes.getLength(); i++) {
-				Node node = cartesNodes.item(i);
-				String description = ((String) xpath.compile("normalize-space(.)").evaluate(node,
-						XPathConstants.STRING));
-				Number cout = (Number) xpath.compile("@cout").evaluate(node, XPathConstants.NUMBER);
-				String effet = (String) xpath.compile("@effet").evaluate(node, XPathConstants.STRING);
-				Number codeEffet = (Number) xpath.compile("@codeEffet").evaluate(node, XPathConstants.NUMBER);
-				Number nb = (Number) xpath.compile("@nb").evaluate(node, XPathConstants.NUMBER);
-				CarteEffet carteEffet = null;
-				if (hashmap.containsKey(codeEffet.intValue())) {
-					carteEffet = hashmap.get(codeEffet.intValue());
-				} else {
-					carteEffet = new CarteEffet(codeEffet.intValue(), effet, description);
-					carteEffetDaoImpl.enregistrer(carteEffet);
-					hashmap.put(codeEffet.intValue(), carteEffet);
-				}
-				paquetDeCarte.addAll(creerCartes(cout.intValue(), carteEffet, nb.intValue()));
-			}
-			gestionPartie.setJeuDeCarte(paquetDeCarte);
+			parseCartes(xpath, wazabiNode);
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
+		} catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
+			throw new XmlParsingException(e);
 		}
-		return true;
 	}
-	
-	public List<Carte> creerCartes(int cout, CarteEffet carteEffet, int nombre) {
-		ArrayList<Carte> list = new ArrayList<>();
+
+	/**
+	 * Parse tous les paramètres de partie contenus dans le fichier XML et les
+	 * sets dans GestionPartie.
+	 * 
+	 * @param xpath
+	 *            Une instance de l'évaluateur XPath.
+	 * @param wazabiNode
+	 *            Le noeud racine de notre XML.
+	 * @throws XPathExpressionException
+	 */
+	private void parseParametres(XPath xpath, Node wazabiNode) throws XPathExpressionException {
+		Number nbCartesParJoueur = (Number) xpath.compile("@nbCartesParJoueur").evaluate(wazabiNode,
+				XPathConstants.NUMBER);
+		Number nbCartesTotal = (Number) xpath.compile("@nbCartesTotal").evaluate(wazabiNode, XPathConstants.NUMBER);
+		Number minJoueurs = (Number) xpath.compile("@minJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
+		Number maxJoueurs = (Number) xpath.compile("@maxJoueurs").evaluate(wazabiNode, XPathConstants.NUMBER);
+
+		gestionPartie.setMin_joueurs(minJoueurs.intValue());
+		gestionPartie.setMax_joueurs(maxJoueurs.intValue());
+		gestionPartie.setNbCartesParJoueurs(nbCartesParJoueur.intValue());
+		gestionPartie.setNbCartesTotal(nbCartesTotal.intValue());
+	}
+
+	/**
+	 * Parse les définitions de dés et des faces contenues dans le XML et insère
+	 * le nombre spécifié dans la DB et enregistre les définitions des faces
+	 * dans la DB, ces dernières servant à calculer les probabilités que cette
+	 * face soit obtenue au lancer.
+	 * 
+	 * @param xpath
+	 *            Une instance de l'évaluateur XPath.
+	 * @param deNode
+	 *            Le noeud wazabi/de de notre XML.
+	 * @throws XPathExpressionException
+	 * @throws XmlParsingException
+	 *             Si un identifiant de face inconnu est rencontré.
+	 */
+	private void parseDes(XPath xpath, Node deNode) throws XPathExpressionException, XmlParsingException {
+		Number nbDesParJoueur = (Number) xpath.compile("@nbParJoueur").evaluate(deNode, XPathConstants.NUMBER);
+		Number nbTotalDes = (Number) xpath.compile("@nbTotalDes").evaluate(deNode, XPathConstants.NUMBER);
+
+		gestionPartie.setNbDesParJoueur(nbDesParJoueur.intValue());
+		deDaoImpl.creerDes(nbTotalDes.intValue());
+
+		// on itère sur chaque face du xml et on les enregistre dans la DB
+		NodeList facesNodes = (NodeList) xpath.compile("./face").evaluate(deNode, XPathConstants.NODESET);
+		for (int i = 0; i < facesNodes.getLength(); i++) {
+			Node faceNode = facesNodes.item(i);
+			Number nbFaces = (Number) xpath.compile("@nbFaces").evaluate(faceNode, XPathConstants.NUMBER);
+
+			String valeur = (String) xpath.compile("@identif").evaluate(faceNode, XPathConstants.STRING);
+			Face face = null;
+			// on utilise l'attribut identif pour déterminer la face
+			switch (valeur) {
+			case "w":
+				face = new Face(Valeur.WAZABI, nbFaces.intValue());
+				break;
+			case "d":
+				face = new Face(Valeur.DE, nbFaces.intValue());
+				break;
+			case "c":
+				face = new Face(Valeur.PIOCHE, nbFaces.intValue());
+				break;
+			default:
+				throw new XmlParsingException("Identifiant de face inconnu : " + valeur);
+			}
+			if (face != null) {
+				// on enregistre dans la DB
+				faceDaoImpl.enregistrer(face);
+			}
+		}
+	}
+
+	/**
+	 * Parse les définitions de cartes contenues dans le XML, crée un jeu de
+	 * carte correspondant et le set dans GestionPartie.
+	 * 
+	 * @param xpath
+	 *            Une instance de l'évaluateur XPath.
+	 * @param wazabiNode
+	 *            Le noeud racine de notre XML.
+	 * @throws XPathExpressionException
+	 */
+	private void parseCartes(XPath xpath, Node wazabiNode) throws XPathExpressionException {
+		NodeList cartesNodes = (NodeList) xpath.compile("./carte").evaluate(wazabiNode, XPathConstants.NODESET);
+		// on crée une hashmap afin de ne créer qu'une seule fois
+		// chaque CarteEffet, ceux ci correspondant à un type de carte
+		// (unique donc)
+		HashMap<Integer, CarteEffet> hashmap = new HashMap<Integer, CarteEffet>();
+		ArrayList<Carte> paquetDeCarte = new ArrayList<>();
+
+		// on itère sur les différents types de carte
+		for (int i = 0; i < cartesNodes.getLength(); i++) {
+			Node node = cartesNodes.item(i);
+			String description = ((String) xpath.compile("normalize-space(.)").evaluate(node, XPathConstants.STRING));
+			Number cout = (Number) xpath.compile("@cout").evaluate(node, XPathConstants.NUMBER);
+			String effet = (String) xpath.compile("@effet").evaluate(node, XPathConstants.STRING);
+			Number codeEffet = (Number) xpath.compile("@codeEffet").evaluate(node, XPathConstants.NUMBER);
+			Number nb = (Number) xpath.compile("@nb").evaluate(node, XPathConstants.NUMBER);
+
+			CarteEffet carteEffet = null;
+			if (hashmap.containsKey(codeEffet.intValue())) {
+				carteEffet = hashmap.get(codeEffet.intValue());
+			} else {
+				carteEffet = new CarteEffet(codeEffet.intValue(), effet, description, cout.intValue());
+				// on enregistre les types de carte dans la DB.
+				carteEffetDaoImpl.enregistrer(carteEffet);
+				hashmap.put(codeEffet.intValue(), carteEffet);
+			}
+			paquetDeCarte.addAll(creerCartes(carteEffet, nb.intValue()));
+		}
+		// on ne les enregistre pas dans la DB, cela se fait à la création d'une
+		// partie, les cartes étant liées à celle-ci.
+		gestionPartie.setJeuDeCarte(paquetDeCarte);
+	}
+
+	/**
+	 * Crée un certain nombre de cartes.
+	 * 
+	 * @param carteEffet
+	 *            Le type de cartes désiré.
+	 * @param nombre
+	 *            Le nombre de cartes désiré.
+	 * @return Une liste contenant les cartes demandées.
+	 */
+	private List<Carte> creerCartes(CarteEffet carteEffet, int nombre) {
+		ArrayList<Carte> list = new ArrayList<>(nombre);
 		for (int i = 0; i < nombre; i++) {
-			Carte carte = new Carte(carteEffet, cout);
+			Carte carte = new Carte(carteEffet);
 			list.add(carte);
 		}
 		return list;
