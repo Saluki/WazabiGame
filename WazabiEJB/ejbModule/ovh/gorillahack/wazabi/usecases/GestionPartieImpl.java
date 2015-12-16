@@ -17,7 +17,9 @@ import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.util.Utils;
@@ -61,7 +63,7 @@ public class GestionPartieImpl implements GestionPartie {
 	 * Default constructor.
 	 */
 	public GestionPartieImpl() {
-		// TODO Auto-generated constructor stub
+		// TODO Lors de la selection du joueur courant, il faut prendre en compte le champ "compteur_saut".
 	}
 
 	@Override
@@ -221,5 +223,35 @@ public class GestionPartieImpl implements GestionPartie {
 	public void setJeuDeCarte(List<Carte> liste) {
 		this.jeuDeCarte = liste;
 
+	}
+	
+	@Override
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void utiliserCarte(int id_carte) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void utiliserCarte(int id_carte, Joueur j) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void utiliserCarte(int id_carte, Sens sens) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<Carte> voirCartes(Joueur j) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -14,6 +14,7 @@ import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
+import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 
 @Remote
@@ -106,6 +107,16 @@ public interface GestionPartie {
 
 	/**
 	 * 
+	 * Permet de récuperer la liste des cartes d'un joueur.
+	 * 
+	 * @param Joueur
+	 *            j: Le joueur dont on veux récupérer les dés.
+	 * @return List<De> la liste des cartes du joueur.
+	 */
+	public List<Carte> voirCartes(Joueur j);
+
+	/**
+	 * 
 	 * Permet à un joueur de piocher une carte provenant de la pile.
 	 * 
 	 * @param Joueur
@@ -137,20 +148,26 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet de recuperer les adversaires du joueur courant
+	 * Permet de recuperer les adversaires du joueur courant.
 	 * 
-	 * @return
+	 * @return la liste des adversaires.
 	 */
 	public List<Joueur> getAdversaires(Joueur j);
 
 	/**
 	 * 
-	 * Permet de recuperer le joueur courant de la partie courante
+	 * Permet de recuperer le joueur courant de la partie courante.
 	 * 
-	 * @return Le joueur courant
+	 * @return Le joueur courant.
 	 */
 	public Joueur getJoueurCourant();
 
+	/**
+	 * 
+	 * Permet de recuperer la partie courante.
+	 * 
+	 * @return La partie courante.
+	 */
 	public Partie getPartieCourante();
 
 	public void deconnecter(Joueur j);
@@ -182,5 +199,44 @@ public interface GestionPartie {
 	public int getNbDesTotal();
 
 	public void setNbDesTotal(int nbDesTotal);
+
+	/**
+	 * 
+	 * Permet d'utiliser une carte dont aucun input est requis
+	 * 
+	 * @param id_carte
+	 *            l'id de la cart
+	 */
+	public void utiliserCarte(int id_carte);
+
+	/**
+	 * Permet d'utiliser une carte dont on doit choisir un joueur.
+	 * 
+	 * @param id_carte
+	 *            l'id de la carte
+	 * @param j
+	 *            le joueur à qui les effets seront appliqués
+	 */
+	public void utiliserCarte(int id_carte, Joueur j);
+
+	/**
+	 * 
+	 * Permet d'utiliser une carte qui modifiera le sens de la partie.
+	 * 
+	 * @param id_carte
+	 *            L'id de la carte
+	 * @param sens
+	 *            Le sens
+	 */
+	public void utiliserCarte(int id_carte, Sens sens);
+	
+	/**
+	 * 
+	 * Permet de distribuer des dés à d'autres joueurs.  
+	 * 
+	 * @param j Le joueur courant
+	 * @param id_adversaires le tableau contenant les id des adversaires dont on doit distribuer les des.
+	 */
+	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
 
 }
