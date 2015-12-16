@@ -98,7 +98,7 @@
 
 	<div>
 		<br>
-		<label>Joueur</label>
+		<label>Joueur #<\%= i+1 %></label>
 		<select class="form-control select-give-dice">
 
 			<\% challengers.forEach(function(challenger){ %>

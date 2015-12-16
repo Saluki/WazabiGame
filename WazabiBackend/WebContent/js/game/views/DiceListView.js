@@ -80,6 +80,10 @@ app.DiceListView = Backbone.View.extend({
 			'value' : 'DE'
 		}).length;
 		
+		if( numberDices==0 ) {
+			return;
+		}
+		
 		var modalContent = view.giveDicesTemplate({
 			'number' : numberDices,
 			'challengers' : app.challengers
@@ -90,7 +94,7 @@ app.DiceListView = Backbone.View.extend({
 		})
 		.setting({
 			'closable': false,
-			'label': 'Donner au adversaires'
+			'label': 'Donner aux adversaires'
 		});
 	},
 	
