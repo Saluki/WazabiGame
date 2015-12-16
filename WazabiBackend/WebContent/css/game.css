@@ -64,7 +64,6 @@ body {
 	height: 200px;
 	border: 5px solid grey;
 	margin-left: 20px;
-	margin-top: 20px;
 	background: #ffffff;
 	display: inline-block;
 }
@@ -86,6 +85,15 @@ body {
 	
 	padding: 10px;
 	font-style: italic;
+}
+
+#wazabi-skip-tile {
+	
+	border: 1px solid lightgrey;
+	margin: 20px auto;
+	padding: 20px;
+	width: 400px;
+	text-align: center;
 }
 
 #dices-list-view {
