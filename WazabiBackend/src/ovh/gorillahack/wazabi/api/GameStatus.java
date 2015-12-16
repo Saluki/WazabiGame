@@ -33,7 +33,7 @@ public class GameStatus extends HttpServlet {
 
 		JSONObject statusObject = new JSONObject();
 
-		// information a resortir de la base de donnée
+		// information a resortir de la base de donnï¿½e
 		Stack pile = gestionPartie.pileInformation();
 		// strucutre de la pile :
 		// 4)Vector<Map<String, Vector<String>>>
@@ -57,7 +57,7 @@ public class GameStatus extends HttpServlet {
 			// carte
 			JSONObject card = new JSONObject();
 			Map<String, String> mapCarte = carteInfo.get(i);
-			// ajout des cartes dans la clé cards
+			// ajout des cartes dans la clï¿½ cards
 			card.putAll(mapCarte);
 			cards.add(card);
 
@@ -65,7 +65,7 @@ public class GameStatus extends HttpServlet {
 
 		hand.put("cards", cards);
 
-		// rajout des dés dans hand
+		// rajout des dï¿½s dans hand
 		JSONArray des = new JSONArray();
 		for (int i = 0; i < desJoueurs.size(); i++) {
 			des.add(desJoueurs.get(i));

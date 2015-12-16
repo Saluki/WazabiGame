@@ -90,8 +90,8 @@
 
 <script type="text/template" id="give-dices-template">
 
-	Suite à votre combinaison de des, vous pouvez faire un don de des 
-	a certains adversaires. Choissisez les dans le formulaire: 
+	Suite à votre combinaison de des, vous pouvez faire un <b>don de des 
+	a certains adversaires</b>. Choissisez-les dans le formulaire: 
 	<br>
 
 	<\% for(i=0; i<number; i++) { %>
@@ -102,7 +102,7 @@
 		<select class="form-control select-give-dice">
 
 			<\% challengers.forEach(function(challenger){ %>
-				<option value="0">
+				<option value="<\%= challenger.get('id') %>">
 					<\%= challenger.get('name') %>
 				</option>
 			<\% }); %>			

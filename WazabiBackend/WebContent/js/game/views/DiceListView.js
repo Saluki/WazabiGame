@@ -96,7 +96,12 @@ app.DiceListView = Backbone.View.extend({
 	
 	giveDices: function(view) {
 		
-		console.log("Requesting give....");
+		if( !app.Status.instance().is(app.Status.C.GIVE_DICES) ) {
+			alertify.warning('Vous ne pouvez pas donner des aux adversaires pour l\'instant');
+			return;
+		}
+		
+		app.Status.instance().set(app.Status.C.REQUESTING);
 		
 		var challengersId = [];
 		$('.select-give-dice').each(function(){
@@ -106,7 +111,9 @@ app.DiceListView = Backbone.View.extend({
 		$.ajax({
 			'url': 'api/game/givedices',
 			'method': 'POST',
-			'data': challengersId,
+			'data': {
+				challengers: challengersId,
+			},
 			'dataType': 'json'
 		})
 		.success(function(data){
@@ -114,7 +121,7 @@ app.DiceListView = Backbone.View.extend({
 			if( data.status==true ) {
 				
 				// TODO Remove dices in collection
-				alertify.success('Vous pouvez maintenant choisir une carte ou terminer votre tour');
+				alertify.success('Bien joue! Vous pouvez maintenant choisir une carte ou terminer votre tour...');
 				app.Status.instance().set(app.Status.C.CHOOSE_CARD);
 			}
 			else {
