@@ -81,6 +81,8 @@ app.DiceListView = Backbone.View.extend({
 		}).length;
 		
 		if( numberDices==0 ) {
+			
+			app.Status.instance().set(app.Status.C.CHOOSE_CARD);
 			return;
 		}
 		
@@ -100,19 +102,22 @@ app.DiceListView = Backbone.View.extend({
 			alertify.warning('Vous ne pouvez pas donner des aux adversaires pour l\'instant');
 			return;
 		}
+				
+		var strChallengers = "";
+		$('.select-give-dice').each(function(){			
+			strChallengers += $(this).val() + "-";
+		});
+		
+		// Remove last '-'
+		strChallengers = strChallengers.substring(0, strChallengers.length-1);
 		
 		app.Status.instance().set(app.Status.C.REQUESTING);
-		
-		var stringifiedChallengers = "";
-		$('.select-give-dice').each(function(){			
-			stringifiedChallengers.append(" "+$(this).val());
-		});
 		
 		$.ajax({
 			'url': 'api/game/givedices',
 			'method': 'POST',
 			'data': {
-				challengers: stringifiedChallengers,
+				challengers: strChallengers,
 			},
 			'dataType': 'json'
 		})
@@ -127,14 +132,16 @@ app.DiceListView = Backbone.View.extend({
 			else {
 				
 				alertify.error('Impossible d\'appliquer les changements');
-				app.Status.instance().set(app.Status.C.GIVE_DICES);
+				app.Status.instance().set(app.Status.C.CHOOSE_CARD);
+				// TODO Should be C.GIVE_DICES, but cannot relaunch the modal
 			}
 			
 		})
 		.fail(function(){
 			
 			alertify.error('Impossible d\'appliquer les changements');
-			app.Status.instance().set(app.Status.C.GIVE_DICES);
+			app.Status.instance().set(app.Status.C.CHOOSE_CARD);
+			// TODO Should be C.GIVE_DICES, but cannot relaunch the modal
 			
 		});
 	}
