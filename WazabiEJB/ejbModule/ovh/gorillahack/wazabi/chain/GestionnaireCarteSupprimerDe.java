@@ -2,10 +2,8 @@ package ovh.gorillahack.wazabi.chain;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
-import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 
 // implémentée
 public class GestionnaireCarteSupprimerDe extends GestionnaireCarte {
@@ -29,6 +27,7 @@ public class GestionnaireCarteSupprimerDe extends GestionnaireCarte {
 		for (int i = 0; i < 2; i++) {
 			gp.supprimerDe(courant);
 		}
+		gp.remettreCarte(gp.getJoueurCourant(), c);
 		return true;
 	}
 

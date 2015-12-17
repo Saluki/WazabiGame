@@ -43,15 +43,17 @@ public abstract class GestionnaireCarte {
 
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		int ce = c.getCodeEffet();
-		if (effetJoueur.contains(ce) || effetSens.contains(ce))
+		if (effetJoueur.contains(ce) || effetSens.contains(ce)) {
+			System.out.println("Carte id " + c.getId_carte() + " a été skipped.");
 			return false;
+		}
 		if (this.next != null)
 			return next.utiliserCarte(c);
 		return false;
 	}
 
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
-		if (!effetJoueur.contains(c.getCodeEffet()))
+		if (!effetSens.contains(c.getCodeEffet()))
 			return false;
 		if (next != null)
 			return next.utiliserCarte(c, sens);
