@@ -42,6 +42,7 @@ public abstract class GestionnaireCarte {
 	public abstract boolean validerCarte(Carte c);
 
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
+		System.out.println("Passage par " + this.getClass());
 		int ce = c.getCodeEffet();
 		if (effetJoueur.contains(ce) || effetSens.contains(ce)) {
 			System.out.println("Carte id " + c.getId_carte() + " a été skipped.");
