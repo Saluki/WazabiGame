@@ -19,7 +19,7 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 	
 	@Override
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
-		return gp.laisserAdversaireAvecDeuxCartes(c);
+		return super.utiliserCarte(c);
 
 	}
 	
@@ -28,7 +28,8 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 		if(!validerCarte(c))
 			return super.utiliserCarte(c, j);
 		//TODO ne laisser qu'une carte à un adversaire
-		return super.utiliserCarte(c, j);
+		gp.laisserAdversaireAvecDeuxCartes(c);
+		return true;
 	}
 	
 	@Override
