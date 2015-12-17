@@ -42,16 +42,19 @@ public abstract class GestionnaireCarte {
 	public abstract boolean validerCarte(Carte c);
 
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
+		System.out.println("Passage par " + this.getClass());
 		int ce = c.getCodeEffet();
-		if (effetJoueur.contains(ce) || effetSens.contains(ce))
+		if (effetJoueur.contains(ce) || effetSens.contains(ce)) {
 			return false;
+		}
 		if (this.next != null)
 			return next.utiliserCarte(c);
 		return false;
 	}
 
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
-		if (!effetJoueur.contains(c.getCodeEffet()))
+		System.out.println("Passage par " + this.getClass());
+		if (!effetSens.contains(c.getCodeEffet()))
 			return false;
 		if (next != null)
 			return next.utiliserCarte(c, sens);
@@ -59,6 +62,7 @@ public abstract class GestionnaireCarte {
 	}
 
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
+		System.out.println("Passage par " + this.getClass());
 		if (!effetJoueur.contains(c.getCodeEffet()))
 			return false;
 		if (next != null)

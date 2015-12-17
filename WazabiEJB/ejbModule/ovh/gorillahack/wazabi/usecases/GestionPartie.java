@@ -20,7 +20,7 @@ import ovh.gorillahack.wazabi.exception.XmlParsingException;
 public interface GestionPartie {
 
 	/**
-	 * Permet d'inscrire un joueur dans l'application. 
+	 * Permet d'inscrire un joueur dans l'application.
 	 *
 	 * @param pseudo
 	 *            Le pseudo du compte qu'on souhaite créer.
@@ -151,7 +151,8 @@ public interface GestionPartie {
 	/**
 	 * Permet de deconnecter un joueur de la partie courante.
 	 * 
-	 * @param j Le joueur que l'on veut deconnecter.
+	 * @param j
+	 *            Le joueur que l'on veut deconnecter.
 	 */
 	public void deconnecter(Joueur j);
 
@@ -169,9 +170,11 @@ public interface GestionPartie {
 	public void setMax_joueurs(int max_joueurs);
 
 	/**
-	 * Permet de recuperer le nombre de cartes distribues au debut de partie a chaque joueur.
+	 * Permet de recuperer le nombre de cartes distribues au debut de partie a
+	 * chaque joueur.
 	 * 
-	 * @return Le nombre de cartes distribues au debut de partie a chaque joueur.
+	 * @return Le nombre de cartes distribues au debut de partie a chaque
+	 *         joueur.
 	 */
 	public int getNbCartesParJoueurs();
 
@@ -187,7 +190,8 @@ public interface GestionPartie {
 	public void setNbCartesTotal(int nbCartesTotal);
 
 	/**
-	 * Permet de recuperer le nombre de des distribues au debut de partie a chaque joueur.
+	 * Permet de recuperer le nombre de des distribues au debut de partie a
+	 * chaque joueur.
 	 * 
 	 * @return le nombre de des par joueur.
 	 */
@@ -259,6 +263,7 @@ public interface GestionPartie {
 	Carte piocherUneCarteChezUnJoueur(Carte c);
 
 	public boolean passerTour(Carte c, Joueur j);
+
 	public void supprimerDe(Joueur joueur);
 
 	/**
@@ -270,8 +275,18 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
-	
+
 	public void setPioche(List<Carte> pioche);
-	
+
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
+
+	/**
+	 * Renvoie le nombre de dés wazabi que le joueur a actuellement. Le joueur
+	 * ne doit pas spécifiquement être le joueur courant bien que ça n'ait pas
+	 * d'intérêt si ce n'est pas le cas.
+	 * 
+	 * @param joueur
+	 * @return
+	 */
+	public int getNbWazabi(Joueur joueur);
 }
