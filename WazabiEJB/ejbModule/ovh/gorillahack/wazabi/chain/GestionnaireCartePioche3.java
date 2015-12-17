@@ -4,7 +4,6 @@ package ovh.gorillahack.wazabi.chain;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 
 public class GestionnaireCartePioche3 extends GestionnaireCarte{
 	public GestionnaireCartePioche3(GestionnaireCarte next) {

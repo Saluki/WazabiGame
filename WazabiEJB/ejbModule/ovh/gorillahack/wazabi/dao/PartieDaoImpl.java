@@ -1,10 +1,8 @@
 package ovh.gorillahack.wazabi.dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -21,7 +19,6 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
-import ovh.gorillahack.wazabi.exception.QueryException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("serial")
@@ -93,26 +90,26 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		p.setStatut(Status.COMMENCE);
 
 		//Attribution des dés
-		/*int cpt=0;
+		int cpt=1;
 		for (Joueur j : listerJoueurPartieCourante()) {
 			List<De> des = new ArrayList<De>();
-			int nbDes = 0;
-			for (nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
-				des.add(deDaoImpl.rechercher(cpt++));
+			for (int nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
+				des.add(deDaoImpl.rechercher(cpt));
+				cpt++;
 			}
 			joueurPartieDao.setDes(j, des);
-		}*/
+		}
 
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);
 		return p;
 	}
 
-	public void enregistrerPioche(List<Carte> pioche) {
+	public Partie enregistrerPioche(List<Carte> pioche) {
 		Partie p = getPartieCourante();
-		Collections.shuffle(pioche);
-		for (Carte c : pioche)
-			p.ajouterCarteALaPioche(c);
-		super.enregistrer(p);
+		for (int i = 0; i<pioche.size(); i++){
+			p.ajouterCarteALaPioche(pioche.get(i));
+		}
+		return super.enregistrer(p);
 	}
 }

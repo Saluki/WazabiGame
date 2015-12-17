@@ -33,8 +33,9 @@ public class DeDaoImpl extends DaoImpl<De> {
 	}
 
 	public List<De> getDes(Joueur j) {
-		return super.liste("SELECT d FROM De d WHERE d IN" + " (SELECT jp.des FROM JoueurPartie jp WHERE jp.joueur=?1"
-				+ " AND jp.partie = ?2)", j, partieDaoImpl.getPartieCourante());
+		/*return super.liste("SELECT d FROM De d MEMBER OF (SELECT jp.des FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = ?2)"
+				, null);*/
+		return new ArrayList<De>();
 	}
 
 	public List<De> creerDes(int nombre) {
@@ -55,10 +56,12 @@ public class DeDaoImpl extends DaoImpl<De> {
 			for (int i = 0; i < face.getNbFaces(); i++) {
 				valeursList.add(face.getValeur_face());
 			}
-		}
+		}		
 		Random random = new Random();
 		int index = random.nextInt(valeursList.size());
+		System.out.println(valeursList.get(index));
 		de.setValeur(valeursList.get(index));
+		mettreAJour(de);
 		return de;
 	}
 }
