@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import ovh.gorillahack.wazabi.exception.CardNotFoundException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("unchecked")
@@ -83,6 +82,7 @@ public class GamePlayCard extends HttpServlet {
 	protected void throwJsonError(HttpServletResponse response, String message) throws IOException {
 
 		jsonResponse.put("succeed", false);
+		jsonResponse.put("message", message);
 		response.getWriter().println(jsonResponse.toJSONString());
 	}
 

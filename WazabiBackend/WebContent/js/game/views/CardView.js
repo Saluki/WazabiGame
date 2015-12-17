@@ -29,9 +29,14 @@ app.CardView = Backbone.View.extend({
 	},
 	
 	chooseCard : function(e) {
-				
+		
 		if( !app.Status.instance().is(app.Status.C.CHOOSE_CARD) ) {
 			alertify.warning('Vous ne pouvez pas choisir de carte pour l\'instant');
+			return;
+		}
+		
+		if( app.playerDices.countWazabis()<this.model.get('cost') ) {
+			alertify.warning('Desole, vous n\'avez pas assez de ressources pour choisir cette carte...');
 			return;
 		}
 		
