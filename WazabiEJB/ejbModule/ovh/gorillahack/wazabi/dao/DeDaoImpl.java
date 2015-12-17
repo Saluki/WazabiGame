@@ -34,7 +34,7 @@ public class DeDaoImpl extends DaoImpl<De> {
 
 	public List<De> getDes(Joueur j) {
 		return super.liste("SELECT d FROM De d, JoueurPartie jp WHERE d MEMBER OF jp.des "
-				+ "AND jp.joueur=?1 AND jp.partie=?2", j, partieDaoImpl.getPartieCourante()); 
+				+ "AND jp.joueur=?1 AND jp.partie=?2", j, partieDaoImpl.getPartieCourante());
 	}
 
 	public List<De> creerDes(int nombre) {

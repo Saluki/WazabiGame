@@ -135,6 +135,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 	
 	public Carte remettreCarte(Joueur j, Carte carte) {
+		/*System.out.println("Id_jp:"+jp.getId_joueur_partie());
+		joueurPartieDaoImpl.mettreAJour(jp);
+		partieDaoImpl.mettreAJour(p);
+		p.ajouterCarteALaPioche(carte);*/
+
+		
 		Partie p = partieDaoImpl.getPartieCourante();
 		p.ajouterCarteALaPioche(carte);
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
@@ -143,11 +149,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		joueurPartieDaoImpl.enregistrer(jp);
 		partieDaoImpl.enregistrer(p);
 		return carte;
-	}		System.out.println("Id_jp:"+jp.getId_joueur_partie());
-		joueurPartieDaoImpl.mettreAJour(jp);
-		partieDaoImpl.mettreAJour(p);
-		p.ajouterCarteALaPioche(carte);
-
+	}
 
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
 		// TODO Auto-generated method stub

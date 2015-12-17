@@ -2,6 +2,7 @@ package ovh.gorillahack.wazabi.dao;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -16,6 +17,8 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 @Local(Dao.class)
 @LocalBean
 public class CarteDaoImpl extends DaoImpl<Carte> {
+	@EJB
+	PartieDaoImpl partieDaoImpl;
 	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
 
@@ -32,12 +35,7 @@ public class CarteDaoImpl extends DaoImpl<Carte> {
 	 * @return La liste des cartes du joueur.
 	 */
 	public List<Carte> getCartes(Joueur j) {
-		return /*
-				 * super.liste("SELECT c FROM Carte c " +
-				 * "WHERE EXISTS (SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1"
-				 * +
-				 * "AND jp.partie = (SELECT p FROM Partie p WHERE p.id_partie = (SELECT MAX(p.id_partie))))"
-				 * ,j)
-				 */ null;
+		return super.liste("SELECT c FROM Carte c, JoueurPartie jp WHERE c MEMBER OF jp.cartes "
+				+ "AND jp.joueur=?1 AND jp.partie=?2", j, partieDaoImpl.getPartieCourante());
 	}
 }
