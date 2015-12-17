@@ -89,7 +89,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		p = partieDaoImpl.recharger(p.getId_partie());
 		if (courant.getDes() == null) {
 		} else if (courant.getDes().isEmpty()) {
-			System.out.println("Le joueur " + courant.getJoueur().getPseudo() + " a gagné car il n'a plus de dés");
 			p.setStatut(Status.PAS_COMMENCE);
 			p.setVainqueur(courant.getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
@@ -97,10 +96,19 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
+				while(suivant.getCompteur_sauts()>0){
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+					joueurPartieDaoImpl.mettreAJour(suivant);
+					suivant = joueurPartieDaoImpl.getJoueurSuivant(suivant, p);
+				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
-				System.out.println("Sens antihoraire");
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
+				while(suivant.getCompteur_sauts()>0){
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+					joueurPartieDaoImpl.mettreAJour(suivant);
+					suivant = joueurPartieDaoImpl.getJoueurPrecedent(suivant, p);
+				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			}
 			System.out.println(p.getCourant());

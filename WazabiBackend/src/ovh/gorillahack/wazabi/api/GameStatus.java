@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
@@ -109,8 +110,21 @@ public class GameStatus extends HttpServlet {
 	protected void addPlayerHand(Joueur joueurSession) {
 
 		JSONArray cardsObject = new JSONArray();
-		// TODO Get cards
-
+		List<Carte> cardList = gestionPartie.voirCartes(joueurSession);
+		for(Carte card : cardList) {
+			
+			JSONObject cardJsonObject = new JSONObject();
+			cardJsonObject.put("id", card.getId_carte());
+			cardJsonObject.put("name", card.getCarteEffet().getEffet());
+			cardJsonObject.put("description", card.getDescription());
+			cardJsonObject.put("image", "");	// TODO
+			cardJsonObject.put("effect", card.getCodeEffet());
+			cardJsonObject.put("cost", card.getCout());
+			cardJsonObject.put("input", card.getInput().toString());
+			
+			cardsObject.add(cardJsonObject);
+		}
+		
 		JSONArray dicesArray = new JSONArray();
 		List<De> playerDices = gestionPartie.voirDes(joueurSession);
 		for(De de : playerDices) {
