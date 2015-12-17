@@ -228,11 +228,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	}
 
-	public boolean laisserToutLesAdversairesAvecDeuxCartes(Carte carte) {
-		// TODO Auto-generated method stub
+	public boolean laisserToutLesAdversairesAvecDeuxCartes() {
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
-		// utilisation de la carte du joueur receveur
-		remettreCarte(joueurReceveur.getJoueur(), carte);
 
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
 		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
@@ -246,7 +243,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				Carte c = listeCarteCible.get((int) (Math.random() * (listeCarteCible.size() - 1)));
 				remettreCarte(joueurCible.getJoueur(), c);
 			}
-
 		}
 		return true;
 	}

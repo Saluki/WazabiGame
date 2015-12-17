@@ -28,6 +28,7 @@ import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
@@ -56,7 +57,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbDesTotal;
 	private List<Carte> pioche;
 	private GestionnaireCarte gc;
-	
+
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 
@@ -68,7 +69,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@EJB
 	private XmlParserImpl xmlParserImpl;
-	
+
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
 
@@ -98,7 +99,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public GestionPartieImpl() {
 		// TODO Lors de la selection du joueur courant, il faut prendre en
 		// compte le champ "compteur_saut".
-		//TODO lorsque la partie est terminee, le dernier joueur gagne
+		// TODO lorsque la partie est terminee, le dernier joueur gagne
 	}
 
 	@Override
@@ -156,8 +157,10 @@ public class GestionPartieImpl implements GestionPartie {
 	 * @return Le Joueur qui commencera la partie.
 	 */
 	private void commencerPartie() throws NoCurrentGameException {
-		/*TODO faudra reinitialiser toutes les données si on veut pouvoir reutiliser le même paquet de cartes
-		(ex id_joueur, id_partie, ...)*/
+		/*
+		 * TODO faudra reinitialiser toutes les données si on veut pouvoir
+		 * reutiliser le même paquet de cartes (ex id_joueur, id_partie, ...)
+		 */
 		partieDaoImpl.enregistrerPioche(pioche);
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
@@ -326,9 +329,8 @@ public class GestionPartieImpl implements GestionPartie {
 	public Carte piocherUneCarteChezUnJoueur(Carte c) {
 		// TODO Auto-generated method stub
 		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
-		
-	}
 
+	}
 
 	@Override
 	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
@@ -338,14 +340,13 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c) {
-		// TODO Auto-generated method stub
-	 return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes(c);
+		return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes();
 	}
 
 	@Override
 	public boolean passerTour(Carte c, Joueur j) {
 		// TODO Auto-generated method stub
-		return joueurDaoImpl.passerTour(c,j);
+		return joueurDaoImpl.passerTour(c, j);
 	}
 
 	@Override
@@ -379,14 +380,26 @@ public class GestionPartieImpl implements GestionPartie {
 		}
 		return suivant.getJoueur();
 	}
-	
+
 	public void changementDeSens(Sens sens) throws NoCurrentGameException {
 		partieCourante.setSens(sens);
 		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
 	}
 
-	public void setPioche(List<Carte> pioche){
+	public void setPioche(List<Carte> pioche) {
 		this.pioche = pioche;
 	}
-	
+
+	@Override
+	public int getNbWazabi(Joueur joueur) {
+		int count = 0;
+		List<De> des = joueurDaoImpl.voirDes(joueur);
+		for (De de : des) {
+			if (de.getValeur() == Valeur.WAZABI) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 }
