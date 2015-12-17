@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.usecases;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -41,8 +42,6 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
-	private List<Carte> jeuDeCarte;
-	private static int ordre_pioche = 0;
 
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -78,6 +77,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public GestionPartieImpl() {
 		// TODO Lors de la selection du joueur courant, il faut prendre en
 		// compte le champ "compteur_saut".
+		//TODO lorsque la partie est terminee, le dernier joueur gagne
 	}
 
 	@Override
@@ -129,13 +129,15 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	/**
-	 * 
 	 * Permet de commencer la partie courante si le nombre de joueur minimum est
 	 * atteint.
 	 * 
 	 * @return Le Joueur qui commencera la partie.
 	 */
 	private void commencerPartie() throws NoCurrentGameException {
+		/*TODO faudra reinitialiser toutes les données si on veut pouvoir reutiliser le même paquet de cartes
+		(ex id_joueur, id_partie, ...)*/
+		melangerPioche();
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
 			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
@@ -163,10 +165,6 @@ public class GestionPartieImpl implements GestionPartie {
 		if (!Utils.checkString(pseudo) || !Pattern.matches("[a-zA-Z0-9]{1,20}", pseudo)) {
 			throw new ValidationException("Format du pseudo incorrecte.");
 		}
-
-		if (!Utils.checkString(mdp) || !Pattern.matches("[a-zA-Z0-9]{1,20}", mdp)) {
-			throw new ValidationException("Format du mot de passe incorrecte.");
-		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
 
@@ -175,7 +173,6 @@ public class GestionPartieImpl implements GestionPartie {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
-
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
 	}
@@ -241,20 +238,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie getPartieCourante() throws NoCurrentGameException {
 		if (partieCourante == null)
 			throw new NoCurrentGameException();
-
 		return partieCourante;
-	}
-
-	@Override
-	public List<Carte> getJeuDeCarte() {
-
-		return jeuDeCarte;
-	}
-
-	@Override
-	public void setJeuDeCarte(List<Carte> liste) {
-		this.jeuDeCarte = liste;
-
 	}
 
 	@Override
@@ -277,7 +261,6 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -291,13 +274,50 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Carte piocherUneCarte(Joueur joueur2) {
-		return joueurDaoImpl.piocherCarte(joueur2);
+	public Carte piocherUneCarte(Joueur j) {
+		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override
 	public Carte remettreCarte(Joueur joueur, Carte carte) {
 		return joueurDaoImpl.remettreCarte(joueur, carte);
+	}
+
+	@Override
+	public Carte piocherUneCarteChezUnJoueur(Carte c) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
+		
+	}
+
+
+	@Override
+	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.laisserAdversaireAvecDeuxCartes(c);
+	}
+
+	@Override
+	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c) {
+		// TODO Auto-generated method stub
+	 return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes(c);
+	}
+
+	@Override
+	public boolean passerTour(Carte c, Joueur j) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.passerTour(c,j);
+	}
+	/**
+	 * Permet de melanger la pioche de la partie de manière aléatoire.
+	 * 
+	 * @throws NoCurrentGameException
+	 */
+	private void melangerPioche() throws NoCurrentGameException{
+		Partie p = getPartieCourante();
+		List<Carte> pioche = p.getPioche();
+		Collections.shuffle(pioche);
+		partieCourante = partieDaoImpl.enregistrerPioche(pioche);
 	}
 
 	@Override
@@ -333,4 +353,5 @@ public class GestionPartieImpl implements GestionPartie {
 		return suivant.getJoueur();
 	}
 
+	
 }

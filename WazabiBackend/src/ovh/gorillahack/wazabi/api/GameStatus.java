@@ -140,7 +140,7 @@ public class GameStatus extends HttpServlet {
 			JSONObject challengerObject = new JSONObject();
 			challengerObject.put("name", challenger.getPseudo());
 			challengerObject.put("dices", new JSONArray()); // TODO
-
+			
 			challengersList.add(challengerObject);
 		}
 

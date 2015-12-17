@@ -1,7 +1,6 @@
 package ovh.gorillahack.wazabi.dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
-import ovh.gorillahack.wazabi.exception.QueryException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @SuppressWarnings("serial")
@@ -51,16 +49,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private EntityManager entityManager;
 
 	public Partie creerUnePartie(String nom) {
-		Partie partie = super.enregistrer(
-				new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
-
-		/*List<Carte> cartes = gestionPartie.getJeuDeCarte();
-		for (int i = 0; i < cartes.size(); i++) {
-			Carte carte = cartes.get(i);
-			carteDaoImpl.enregistrer(carte);
-			partie.ajouterCarteALaPioche(carte);
-		}*/
-		return partie;
+		return super.enregistrer(new Partie(nom, new Date(), Sens.HORAIRE, null, null, null, Status.EN_ATTENTE));
 	}
 
 	public Partie rejoindrePartie(Joueur j) throws NoCurrentGameException {
@@ -96,27 +85,31 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 
 	public Partie commencerPartie(int nbCartesParJoueur, int nbDesParJoueurs) {
 		Partie p = getPartieCourante();
-		if (p == null || p.getStatut() != Status.EN_ATTENTE)
+		if (p == null || p.getStatut() != Status.EN_ATTENTE || p.getStatut() == Status.ANNULEE)
 			return null;
 		p.setStatut(Status.COMMENCE);
-		int cpt = 1;
 
-		/*
-		 * for (Joueur j : listerJoueurPartieCourante()) { List<De> des = new
-		 * ArrayList<De>(); int nbDes = 0; for (nbDes = 0; nbDes <
-		 * nbDesParJoueurs; nbDes++) { des.add(deDaoImpl.rechercher(cpt++)); }
-		 * joueurPartieDao.setDes(j, des); for (int i = 0; i <
-		 * nbCartesParJoueur; i++) { joueurDaoImpl.piocherCarte(j); } }
-		 */
+		//Attribution des dés
+		int cpt=1;
+		for (Joueur j : listerJoueurPartieCourante()) {
+			List<De> des = new ArrayList<De>();
+			for (int nbDes = 0; nbDes < nbDesParJoueurs; nbDes++) {
+				des.add(deDaoImpl.rechercher(cpt));
+				cpt++;
+			}
+			joueurPartieDao.setDes(j, des);
+		}
 
 		p.setCourant(joueurPartieDao.getJoueurCourant());
 		super.mettreAJour(p);
 		return p;
 	}
 
-//	public int getMaxOrdrePioche(Partie partie) throws QueryException {
-//		return super.rechercheInt("SELECT MAX (c.ordre_pioche) FROM Partie p, Carte c "
-//				+ "WHERE p.id_partie = ?1 AND c MEMBER OF p.pioche", partie);
-//	}
-
+	public Partie enregistrerPioche(List<Carte> pioche) {
+		Partie p = getPartieCourante();
+		for (int i = 0; i<pioche.size(); i++){
+			p.ajouterCarteALaPioche(pioche.get(i));
+		}
+		return super.enregistrer(p);
+	}
 }

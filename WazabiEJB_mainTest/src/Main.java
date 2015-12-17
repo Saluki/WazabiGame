@@ -1,7 +1,11 @@
+import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import ovh.gorillahack.wazabi.domaine.Carte;
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
@@ -54,6 +58,8 @@ public class Main {
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
 			
+			/*Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
+			System.out.println("Carte tiree: " +c.getId_carte());*/
 			// TODO : débugger ce getjoueursuivant !
 			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			/*
@@ -72,6 +78,17 @@ public class Main {
 			//Carte carte = gestionPartie.voirCartes(joueur3).get(0);
 			//System.out.println("Le joueur 3 retourne une carte : " + carte.getCodeEffet() + gestionPartie.retournerCarteDansLaPioche(joueur3, carte));
 			*/
+			List<De> des = gestionPartie.lancerDes(gestionPartie.getJoueurCourant());
+			for(De d: des){
+				System.out.println("De obtenu (J1): "+d.getValeur());
+			}
+			
+			List<De> desDansDB = gestionPartie.voirDes(gestionPartie.getJoueurCourant());
+			for(De d: desDansDB){
+				System.out.println("De obtenu dans la DB(J1): "+d.getValeur());
+			}
+			
+
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {

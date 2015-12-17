@@ -19,6 +19,7 @@ public class GestionnaireCartePasserTour extends GestionnaireCarte{
 	
 	@Override
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
+		
 		return super.utiliserCarte(c);
 	}
 	
@@ -26,7 +27,7 @@ public class GestionnaireCartePasserTour extends GestionnaireCarte{
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c,j);
-		return super.utiliserCarte(c, j);
+		return gp.passerTour(c,j);
 	}
 	
 	@Override

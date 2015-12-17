@@ -20,7 +20,8 @@ import ovh.gorillahack.wazabi.exception.XmlParsingException;
 public interface GestionPartie {
 
 	/**
-	 * 
+	 * Permet d'inscrire un joueur dans l'application. 
+	 *
 	 * @param pseudo
 	 *            Le pseudo du compte qu'on souhaite créer.
 	 * @param motdepasse
@@ -33,9 +34,8 @@ public interface GestionPartie {
 			throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
-	 * 
-	 * Permet de récupérer l'historique des parties d'un joueur auquelles
-	 * celui-ci a participé.
+	 * Permet de recuperer l'historique des parties d'un joueur auxquelles
+	 * celui-ci a participe.
 	 * 
 	 * @param Joueur
 	 *            j: le joueur dont on veux afficher l'historique.
@@ -44,22 +44,20 @@ public interface GestionPartie {
 	public List<Partie> afficherHistorique(Joueur j);
 
 	/**
-	 * 
 	 * Permet à un utilisateur de se connecter sur l'application.
 	 * 
 	 * @param pseudo
-	 *            Le pseudo à vérifier.
+	 *            Le pseudo à verifier.
 	 * @param motdepasse
-	 *            Le mot de passe à vérifier.
-	 * @return Le joueur si l'authentification a réussi, null sinon.
+	 *            Le mot de passe à verifier.
+	 * @return Le joueur si l'authentification a reussi, null sinon.
 	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
 	 */
 	public Joueur seConnecter(String pseudo, String mdp) throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
-	 * 
 	 * Permet à un joueur rejoindre la partie en cours. Si cette partie est
-	 * commencée, le joueur n'est pas réjouté à la partie et retournera NULL.
+	 * commencee, le joueur n'est pas réjouté à la partie et retournera NULL.
 	 * 
 	 * @param Joueur
 	 *            j: le joueur voulant rejoindre la partie.
@@ -68,7 +66,6 @@ public interface GestionPartie {
 	public void rejoindrePartie(Joueur j) throws NoCurrentGameException;
 
 	/**
-	 * 
 	 * Permet de récupérer la liste des joueurs de la partie courante.
 	 * 
 	 * @return La liste des joueurs de la partie courante.
@@ -76,7 +73,6 @@ public interface GestionPartie {
 	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException;
 
 	/**
-	 * 
 	 * Permet de lancer les des d'un joueur.
 	 * 
 	 * @param Joueur
@@ -86,7 +82,6 @@ public interface GestionPartie {
 	public List<De> lancerDes(Joueur j);
 
 	/**
-	 * 
 	 * Permet de récuperer la liste des dés d'un joueur.
 	 * 
 	 * @param Joueur
@@ -96,7 +91,6 @@ public interface GestionPartie {
 	public List<De> voirDes(Joueur j);
 
 	/**
-	 * 
 	 * Permet de récuperer la liste des cartes d'un joueur.
 	 * 
 	 * @param Joueur
@@ -106,14 +100,12 @@ public interface GestionPartie {
 	public List<Carte> voirCartes(Joueur j);
 
 	/**
-	 * 
 	 * Permet de terminer le tour du joueur courant.
 	 * 
 	 */
 	public void terminerTour() throws NoCurrentGameException;
 
 	/**
-	 * 
 	 * Permet de creer une partie selon le nom passe en parametre
 	 * 
 	 * @param nom
@@ -127,7 +119,6 @@ public interface GestionPartie {
 			throws ovh.gorillahack.wazabi.exception.ValidationException, XmlParsingException;
 
 	/**
-	 * 
 	 * Permet de recuperer les adversaires du joueur courant.
 	 * 
 	 * @return la liste des adversaires.
@@ -135,7 +126,6 @@ public interface GestionPartie {
 	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException;
 
 	/**
-	 * 
 	 * Permet de récupérer le nombre de tours qu'un joueur doit passer.
 	 * 
 	 * @param j
@@ -145,7 +135,6 @@ public interface GestionPartie {
 	public int getNombreDeToursAPasser(Joueur j);
 
 	/**
-	 * 
 	 * Permet de recuperer le joueur courant de la partie courante.
 	 * 
 	 * @return Le joueur courant.
@@ -153,39 +142,64 @@ public interface GestionPartie {
 	public Joueur getJoueurCourant();
 
 	/**
-	 * 
 	 * Permet de recuperer la partie courante.
 	 * 
 	 * @return La partie courante.
 	 */
 	public Partie getPartieCourante() throws NoCurrentGameException;
 
+	/**
+	 * Permet de deconnecter un joueur de la partie courante.
+	 * 
+	 * @param j Le joueur que l'on veut deconnecter.
+	 */
 	public void deconnecter(Joueur j);
-
-	public List<Carte> getJeuDeCarte();
-
-	public void setJeuDeCarte(List<Carte> liste);
 
 	public int getMin_joueurs();
 
 	public void setMin_joueurs(int min_joueurs);
 
+	/**
+	 * Permet de recuperer le nombre maximum de joueurs d'une partie.
+	 * 
+	 * @return Le nombre de joueur maximum.
+	 */
 	public int getMax_joueurs();
 
 	public void setMax_joueurs(int max_joueurs);
 
+	/**
+	 * Permet de recuperer le nombre de cartes distribues au debut de partie a chaque joueur.
+	 * 
+	 * @return Le nombre de cartes distribues au debut de partie a chaque joueur.
+	 */
 	public int getNbCartesParJoueurs();
 
 	public void setNbCartesParJoueurs(int nbCartesParJoueurs);
 
+	/**
+	 * Permet de recuperer le nombre de cartes total d'une partie.
+	 * 
+	 * @return Le nombre de cartes total d'une partie.
+	 */
 	public int getNbCartesTotal();
 
 	public void setNbCartesTotal(int nbCartesTotal);
 
+	/**
+	 * Permet de recuperer le nombre de des distribues au debut de partie a chaque joueur.
+	 * 
+	 * @return le nombre de des par joueur.
+	 */
 	public int getNbDesParJoueur();
 
 	public void setNbDesParJoueur(int nbDesParJoueur);
 
+	/**
+	 * Permet de recuperer le nombre de des total d'une partie.
+	 * 
+	 * @return Le nombre de des total d'une partie.
+	 */
 	public int getNbDesTotal();
 
 	public void setNbDesTotal(int nbDesTotal);
@@ -238,6 +252,13 @@ public interface GestionPartie {
 
 	public Carte remettreCarte(Joueur joueur, Carte carte);
 
+	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c);
+
+	boolean laisserAdversaireAvecDeuxCartes(Carte c);
+
+	Carte piocherUneCarteChezUnJoueur(Carte c);
+
+	public boolean passerTour(Carte c, Joueur j);
 	public void supprimerDe(Joueur joueur);
 
 	/**
@@ -249,5 +270,4 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
-
 }
