@@ -89,8 +89,8 @@ public class JoinGame extends HttpServlet {
 				Partie partieCourante = gestionPartie.getPartieCourante();
 
 				if (partieCourante.getStatut() != Status.PAS_COMMENCE && partieCourante.getStatut() != Status.ANNULEE) {
-					// TODO Message d'information
-					response.sendRedirect(request.getContextPath() + "/app/dashboard.html");
+					request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
+					getServletContext().getNamedDispatcher("app.create").forward(request, response);
 					return;
 				}
 
