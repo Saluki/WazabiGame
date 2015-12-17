@@ -202,6 +202,7 @@ public class XmlParserImpl {
 				hashmap.put(codeEffet.intValue(), carteEffet);
 			}
 			paquetDeCarte.addAll(creerCartes(carteEffet, nb.intValue()));
+			gestionPartie.setPioche(paquetDeCarte);
 		}
 	}
 

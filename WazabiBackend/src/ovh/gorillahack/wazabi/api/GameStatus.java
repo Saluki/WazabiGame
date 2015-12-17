@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
@@ -49,7 +50,7 @@ public class GameStatus extends HttpServlet {
 
 			addGameStatus();
 			addPlayerData(joueurSession);
-			addPlayerHand();
+			addPlayerHand(joueurSession);
 			addChallengersData(joueurSession);
 
 		} catch (NoCurrentGameException e) {
@@ -105,14 +106,17 @@ public class GameStatus extends HttpServlet {
 	 * Selectionne toutes les informations concernant les cartes jeu et les
 	 * faces de des que le joueur possede dans sa "main".
 	 */
-	protected void addPlayerHand() {
+	protected void addPlayerHand(Joueur joueurSession) {
 
 		JSONArray cardsObject = new JSONArray();
 		// TODO Get cards
 
 		JSONArray dicesArray = new JSONArray();
-		// TODO Get dices
-
+		List<De> playerDices = gestionPartie.voirDes(joueurSession);
+		for(De de : playerDices) {
+			dicesArray.add(de.getValeur().toString());
+		}
+		
 		JSONObject playerHandObject = new JSONObject();
 		playerHandObject.put("cards", cardsObject);
 		playerHandObject.put("dices", dicesArray);

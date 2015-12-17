@@ -29,9 +29,10 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 	}
 
 	public JoueurPartie getJoueurCourant() {
-		return super.recherche("SELECT jp FROM JoueurPartie jp WHERE jp.ordre_joueur ="
-				+ "(SELECT MIN(jp.ordre_joueur) FROM JoueurPartie jp WHERE "
-				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p))");
+		return partieDaoImpl.getPartieCourante().getCourant();
+		//return super.recherche("SELECT jp FROM JoueurPartie jp WHERE jp.ordre_joueur ="
+		//		+ "(SELECT MIN(jp.ordre_joueur) FROM JoueurPartie jp WHERE "
+		//		+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p))");
 	}
 
 	public JoueurPartie getJoueurDeLaPartieCourante(Joueur j) {
@@ -66,19 +67,56 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 	 * @return
 	 */
 	public JoueurPartie getJoueurPrecedent(JoueurPartie joueurPartie, Partie partie) {
-		// on pourrait le faire mieux en limitant la query à 3 res : précédent,
-		// lui et suivant mais ce serait plus complexe
+		// lea requête JPQL ne fonctionnait pas
 
-		List<JoueurPartie> list = super.liste(
-				"SELECT jp FROM JoueurPartie jp, Partie p WHERE jp IN (SELECT  p AND p.id_partie = ?1 ORDER BY jp.ordre_joeur ASC",
-				partie.getId_partie());
-		int index = list.indexOf(joueurPartie);
-		int precIndex = index - 1;
-		if (precIndex == -1) {
-			precIndex = list.size() - 1;
+		List<JoueurPartie> list = partie.getJoueursParties();
+		int precOrdre = joueurPartie.getOrdre_joueur() - 1;
+		// on doit récupérer le dernier joueur
+		if (precOrdre == -1) {
+			JoueurPartie maxJoueur = list.get(0);
+			int max = maxJoueur.getOrdre_joueur();
+			for (JoueurPartie joueur : list) {
+				if (joueur.getOrdre_joueur() > max) {
+					maxJoueur = joueur;
+					max = joueur.getOrdre_joueur();
+				}
+			}
+			return maxJoueur;
+		} else {
+			for (JoueurPartie joueur : list) {
+				if (joueur.getOrdre_joueur() == precOrdre) {
+					return joueur;
+				}
+			}
 		}
-		JoueurPartie joueurPrecedent = list.get(precIndex);
-		return joueurPrecedent;
+		return null;
+	}
 
+	public JoueurPartie getJoueurSuivant(JoueurPartie joueurPartie, Partie partie) {
+		// la requête JPQL ne fonctionnait pas
+
+		List<JoueurPartie> list = partie.getJoueursParties();
+		int nextOrdre = joueurPartie.getOrdre_joueur() + 1;
+		// on doit récupérer le dernier joueur et vérifier si on ne va pas eu
+		// delà
+		JoueurPartie maxJoueur = list.get(0);
+		int max = maxJoueur.getOrdre_joueur();
+		for (JoueurPartie joueur : list) {
+			if (joueur.getOrdre_joueur() > max) {
+				maxJoueur = joueur;
+				max = joueur.getOrdre_joueur();
+			}
+		}
+		if (nextOrdre > max) {
+			nextOrdre = 0;
+		}
+
+		for (JoueurPartie joueur : list) {
+			if (joueur.getOrdre_joueur() == nextOrdre) {
+				return joueur;
+			}
+		}
+
+		return null;
 	}
 }

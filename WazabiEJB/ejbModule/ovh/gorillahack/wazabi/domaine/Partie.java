@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,7 +60,7 @@ public class Partie implements Serializable {
 	@JoinColumn(name = "id_courant")
 	private JoueurPartie courant;
 
-	@OneToMany(mappedBy = "partie")
+	@OneToMany(mappedBy = "partie", fetch= FetchType.EAGER)
 	private List<JoueurPartie> joueursParties;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -160,18 +161,23 @@ public class Partie implements Serializable {
 	}
 
 	public void ajouterCarteALaPioche(Carte carte) {
+		this.ordrePioche++;
 		carte.setOrdre_pioche(ordrePioche);
 		this.pioche.add(carte);
-		ordrePioche++;
 	}
 
 	public Carte piocher() {
 		if(!this.pioche.isEmpty()){
+			this.ordrePioche++;
 			Carte c = this.pioche.remove(0);
 			c.setOrdre_pioche(ordrePioche);
 			return c;
 		}
 		return null;
+	}
+	
+	public void ajouterJoueurPartie(JoueurPartie jp) {
+		this.joueursParties.add(jp);
 	}
 
 	@Override
