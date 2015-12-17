@@ -103,16 +103,16 @@ app.DiceListView = Backbone.View.extend({
 		
 		app.Status.instance().set(app.Status.C.REQUESTING);
 		
-		var challengersId = [];
-		$('.select-give-dice').each(function(){
-			challengersId.push( $(this).val() );
+		var stringifiedChallengers = "";
+		$('.select-give-dice').each(function(){			
+			stringifiedChallengers.append(" "+$(this).val());
 		});
 		
 		$.ajax({
 			'url': 'api/game/givedices',
 			'method': 'POST',
 			'data': {
-				challengers: challengersId,
+				challengers: stringifiedChallengers,
 			},
 			'dataType': 'json'
 		})
