@@ -58,8 +58,8 @@ public class Main {
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
 			
-			/*Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
-			System.out.println("Carte tiree: " +c.getId_carte());*/
+			Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
+			System.out.println("Carte tiree: " +c.getId_carte());
 			// TODO : débugger ce getjoueursuivant !
 			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			/*

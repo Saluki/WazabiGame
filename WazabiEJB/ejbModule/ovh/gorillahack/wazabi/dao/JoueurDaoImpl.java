@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -127,6 +128,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		System.out.println("Id_jp:"+jp.getId_joueur_partie());
 		List<Carte> cartes = jp.getCartes();
+		if(cartes==null)
+			cartes = new ArrayList<Carte>();
 		cartes.add(c);
 		jp.setCartes(cartes);
 		joueurPartieDaoImpl.mettreAJour(jp);

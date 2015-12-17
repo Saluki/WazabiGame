@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -85,10 +86,16 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 
 	public Partie commencerPartie(int nbCartesParJoueur, int nbDesParJoueurs) {
 		Partie p = getPartieCourante();
+		System.out.println(p.getNom());
 		if (p == null || p.getStatut() != Status.EN_ATTENTE || p.getStatut() == Status.ANNULEE)
 			return null;
 		p.setStatut(Status.COMMENCE);
-
+		
+		int nbJoueurs = getPartieCourante().getJoueursParties().size();
+		for(int i = 0; i<nbJoueurs;i++){
+			for(int j = 0; j<nbCartesParJoueur; j++)
+				gestionPartie.piocherUneCarte(getPartieCourante().getJoueursParties().get(i).getJoueur());
+		}
 		//Attribution des dés
 		int cpt=1;
 		for (Joueur j : listerJoueurPartieCourante()) {
@@ -106,10 +113,26 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	}
 
 	public Partie enregistrerPioche(List<Carte> pioche) {
-		Partie p = getPartieCourante();
-		for (int i = 0; i<pioche.size(); i++){
-			p.ajouterCarteALaPioche(pioche.get(i));
+		try {
+			pioche = melangerPioche(pioche);
+			Partie p = getPartieCourante();
+			for (int i = 0; i<pioche.size(); i++){
+				p.ajouterCarteALaPioche(pioche.get(i));
+			}
+			return super.enregistrer(p);
+		} catch (NoCurrentGameException e) {
+			e.printStackTrace();
 		}
-		return super.enregistrer(p);
+		return null;
+	}
+	
+	/**
+	 * Permet de melanger la pioche de la partie de manière aléatoire.
+	 * 
+	 * @throws NoCurrentGameException
+	 */
+	private List<Carte> melangerPioche(List<Carte> pioche) throws NoCurrentGameException{
+		Collections.shuffle(pioche);
+		return pioche;
 	}
 }

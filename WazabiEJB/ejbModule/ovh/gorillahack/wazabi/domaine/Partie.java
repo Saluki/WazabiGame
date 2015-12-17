@@ -160,13 +160,14 @@ public class Partie implements Serializable {
 	}
 
 	public void ajouterCarteALaPioche(Carte carte) {
+		this.ordrePioche++;
 		carte.setOrdre_pioche(ordrePioche);
 		this.pioche.add(carte);
-		ordrePioche++;
 	}
 
 	public Carte piocher() {
 		if(!this.pioche.isEmpty()){
+			this.ordrePioche++;
 			Carte c = this.pioche.remove(0);
 			c.setOrdre_pioche(ordrePioche);
 			return c;

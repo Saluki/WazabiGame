@@ -270,4 +270,6 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
+	
+	public void setPioche(List<Carte> pioche);
 }
