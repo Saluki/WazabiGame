@@ -68,6 +68,12 @@ public class GameStatus extends HttpServlet {
 	protected void addGameStatus() throws NoCurrentGameException {
 
 		Partie partieCourante = gestionPartie.getPartieCourante();
+		
+		if( partieCourante.getVainqueur()!=null ) {
+			statusObject.put("status", "TERMINE");
+			return;
+		}
+		
 		statusObject.put("status", partieCourante.getStatut().toString());
 	}
 
@@ -134,7 +140,7 @@ public class GameStatus extends HttpServlet {
 			JSONObject challengerObject = new JSONObject();
 			challengerObject.put("name", challenger.getPseudo());
 			challengerObject.put("dices", new JSONArray()); // TODO
-
+			
 			challengersList.add(challengerObject);
 		}
 

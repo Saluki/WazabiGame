@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,7 +25,7 @@ import javax.persistence.TemporalType;
 @Table(name = "PARTIES", schema = "WAZABI")
 public class Partie implements Serializable {
 	private static final long serialVersionUID = -4647647034257120291L;
-
+	
 	public enum Sens {
 		HORAIRE, ANTIHORAIRE
 	}
@@ -67,6 +66,9 @@ public class Partie implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_partie")
 	private List<Carte> pioche;
+	
+	@Column(name="ordre_pioche")
+	private int ordrePioche;
 
 	public Partie(String nom, Date timestamp_creation, Sens sens, Joueur vainqueur, List<Carte> pioche,
 			JoueurPartie courant, Status statut) {
@@ -77,6 +79,7 @@ public class Partie implements Serializable {
 		this.vainqueur = vainqueur;
 		if (pioche != null) {
 			this.pioche = pioche;
+			this.ordrePioche = pioche.size();
 		} else {
 			this.pioche = new ArrayList<>();
 		}
@@ -157,20 +160,19 @@ public class Partie implements Serializable {
 		return pioche;
 	}
 
-	public void setPioche(List<Carte> pioche) {
-		this.pioche = pioche;
-	}
-
 	public void ajouterCarteALaPioche(Carte carte) {
+		carte.setOrdre_pioche(ordrePioche);
 		this.pioche.add(carte);
+		ordrePioche++;
 	}
 
-	public boolean supprimerCarteDeLaPioche(Carte carte) {
-		if (carte == null) {
-			return false;
-		} else {
-			return pioche.remove(carte);
+	public Carte piocher() {
+		if(!this.pioche.isEmpty()){
+			Carte c = this.pioche.remove(0);
+			c.setOrdre_pioche(ordrePioche);
+			return c;
 		}
+		return null;
 	}
 	
 	public void ajouterJoueurPartie(JoueurPartie jp) {
@@ -240,5 +242,4 @@ public class Partie implements Serializable {
 			return false;
 		return true;
 	}
-
 }

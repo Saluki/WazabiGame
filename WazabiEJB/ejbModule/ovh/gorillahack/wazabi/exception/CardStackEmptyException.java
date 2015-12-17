@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.exception;
 
+@SuppressWarnings("serial")
 public class CardStackEmptyException extends Exception {
 
 	public CardStackEmptyException() {
