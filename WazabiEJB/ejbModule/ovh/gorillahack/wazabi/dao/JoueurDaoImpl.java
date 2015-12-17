@@ -83,31 +83,26 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public Partie terminerTour() {
-		JoueurPartie courant = joueurPartieDaoImpl.getJoueurCourant();
 		Partie p = partieDaoImpl.getPartieCourante();
-		if (courant.getDes() == null) { 
+		JoueurPartie courant = p.getCourant();
+		p = partieDaoImpl.recharger(p.getId_partie());
+		if (courant.getDes() == null) {
 		} else if (courant.getDes().isEmpty()) {
 			System.out.println("Le joueur " + courant.getJoueur().getPseudo() + " a gagné car il n'a plus de dés");
 			p.setStatut(Status.PAS_COMMENCE);
 			p.setVainqueur(courant.getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
 		} else {
-			System.out.println("prochain tour, courant = "+ p.getCourant());
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				p.setCourant(suivant);
-				p = partieDaoImpl.mettreAJour(p);
+				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
+				System.out.println("Sens antihoraire");
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
-				p.setCourant(suivant);
-				p = partieDaoImpl.mettreAJour(p);
+				p = partieDaoImpl.setCourant(suivant, p);
 			}
-			System.out.println("prochain tour, courant = "+ p.getCourant());
-			System.out.println("prochain tour, le suivant était :" + suivant);
-			//courant.setOrdre_joueur(PartieDaoImpl.ordre++);
-			//joueurPartieDaoImpl.mettreAJour(courant);
-			//p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
+			System.out.println(p.getCourant());
 		}
 		return p;
 	}
@@ -135,11 +130,11 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
-		System.out.println("NAME:"+p.getNom());
+		System.out.println("NAME:" + p.getNom());
 		Carte c = p.piocher();
-		System.out.println("Id_Carte:"+c.getId_carte());
+		System.out.println("Id_Carte:" + c.getId_carte());
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		System.out.println("Id_jp:"+jp.getId_joueur_partie());
+		System.out.println("Id_jp:" + jp.getId_joueur_partie());
 		List<Carte> cartes = jp.getCartes();
 		cartes.add(c);
 		jp.setCartes(cartes);
@@ -147,14 +142,14 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		partieDaoImpl.mettreAJour(p);
 		return c;
 	}
-	
-	public Carte remettreCarte(Joueur j, Carte carte) {
-		/*System.out.println("Id_jp:"+jp.getId_joueur_partie());
-		joueurPartieDaoImpl.mettreAJour(jp);
-		partieDaoImpl.mettreAJour(p);
-		p.ajouterCarteALaPioche(carte);*/
 
-		
+	public Carte remettreCarte(Joueur j, Carte carte) {
+		/*
+		 * System.out.println("Id_jp:"+jp.getId_joueur_partie());
+		 * joueurPartieDaoImpl.mettreAJour(jp); partieDaoImpl.mettreAJour(p);
+		 * p.ajouterCarteALaPioche(carte);
+		 */
+
 		Partie p = partieDaoImpl.getPartieCourante();
 		p.ajouterCarteALaPioche(carte);
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
@@ -207,7 +202,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		// cartes
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 		// utilisation de la carte du joueur receveur
-				remettreCarte(joueurReceveur.getJoueur(), carte);
+		remettreCarte(joueurReceveur.getJoueur(), carte);
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
 		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
 		JoueurPartie joueurCible = listeJoueur.get((int) (Math.random() * (listeJoueur.size() - 1)));
@@ -254,7 +249,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 		// utilisation de la carte
 		remettreCarte(joueurReceveur.getJoueur(), c);
-		
+
 		JoueurPartie joueurPartieCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible);
 		joueurPartieCible.setCompteur_sauts(joueurPartieCible.getCompteur_sauts() + 1);
 		joueurPartieDaoImpl.enregistrer(joueurReceveur);

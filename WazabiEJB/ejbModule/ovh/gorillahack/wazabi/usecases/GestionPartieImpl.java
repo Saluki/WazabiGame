@@ -157,7 +157,9 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void terminerTour() throws NoCurrentGameException {
+		partieCourante = partieDaoImpl.recharger(partieCourante.getId_partie());
 		partieCourante = joueurDaoImpl.terminerTour();
+		partieDaoImpl.mettreAJour(partieCourante);
 	}
 
 	@Override
@@ -350,6 +352,11 @@ public class GestionPartieImpl implements GestionPartie {
 			return null;
 		}
 		return suivant.getJoueur();
+	}
+	
+	public void changementDeSens(Sens sens) throws NoCurrentGameException {
+		partieCourante.setSens(sens);
+		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
 	}
 
 	

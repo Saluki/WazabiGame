@@ -62,9 +62,9 @@ public class Main {
 			System.out.println("Le joueur précédent le courant est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			System.out.println("Le joueur précédent test2 est : "+ gestionPartie.getJoueurSuivant(joueur2, Sens.ANTIHORAIRE));
 			
-			System.out.println("Le joueur suivant test1 est :" + gestionPartie.getJoueurSuivant(joueur1, Sens.HORAIRE));
-			System.out.println("Le joueur suivant test3 est :" + gestionPartie.getJoueurSuivant(joueur3, Sens.HORAIRE));
-			System.out.println("Le joueur suivant test2 est :" + gestionPartie.getJoueurSuivant(joueur2, Sens.HORAIRE));
+			//System.out.println("Le joueur suivant test1 est :" + gestionPartie.getJoueurSuivant(joueur1, Sens.HORAIRE));
+			//System.out.println("Le joueur suivant test3 est :" + gestionPartie.getJoueurSuivant(joueur3, Sens.HORAIRE));
+			//System.out.println("Le joueur suivant test2 est :" + gestionPartie.getJoueurSuivant(joueur2, Sens.HORAIRE));
 			
 			gestionPartie.terminerTour();
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
@@ -72,6 +72,20 @@ public class Main {
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
 			gestionPartie.terminerTour();
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			
+			System.out.println("Changement de sens.");
+			gestionPartie.changementDeSens(Sens.ANTIHORAIRE);
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			
 			
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){

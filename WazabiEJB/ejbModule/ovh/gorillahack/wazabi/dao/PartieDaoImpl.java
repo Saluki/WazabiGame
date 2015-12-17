@@ -113,4 +113,9 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		}
 		return super.enregistrer(p);
 	}
+	
+	public Partie setCourant(JoueurPartie suivant, Partie partie) {
+		partie.setCourant(suivant);
+		return super.mettreAJour(partie);
+	}
 }
