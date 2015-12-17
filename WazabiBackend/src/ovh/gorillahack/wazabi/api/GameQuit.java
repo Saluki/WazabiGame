@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @WebServlet("/api/game/quit")
@@ -35,7 +34,6 @@ public class GameQuit extends HttpServlet {
 
 		JSONObject jsonResponse = new JSONObject();
 		Joueur joueurConnecte = (Joueur) request.getSession().getAttribute("authenticated");
-
 
 		gestionPartie.deconnecter(joueurConnecte);
 

@@ -59,6 +59,10 @@
 	
 	<div class="card-cost">
 
+		<\% if(cost==0) { %>
+			<i class="glyphicon glyphicon-remove-circle"></i> 
+		<\% } %>
+
 		<\% for(var i=0; i<cost; i++) { %> 
 			<i class="glyphicon glyphicon-star"></i> 
 		<\% }  %>
