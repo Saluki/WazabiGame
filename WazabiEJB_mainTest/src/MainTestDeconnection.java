@@ -23,17 +23,20 @@ public class MainTestDeconnection {
 			Joueur joueur2 = gestionPartie.inscrire("test2", "test2", "test2");
 			Joueur joueur3 = gestionPartie.inscrire("test3", "test3", "test3");
 
+			gestionPartie.seConnecter("test1", "test1") ;
+			gestionPartie.seConnecter("test3", "test3");
+
 
 			Partie partie1 = gestionPartie.creerPartie("HELLO");
 			System.out.println(partie1.getNom());
 			gestionPartie.rejoindrePartie(joueur1);
-			gestionPartie.rejoindrePartie(joueur1);
 			gestionPartie.rejoindrePartie(joueur3);
+			
 			if(gestionPartie.getPartieCourante().getStatut()==Status.COMMENCE)
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
 			gestionPartie.deconnecter(joueur1);
-			gestionPartie.deconnecter(joueur2);
+			System.out.println("Le joueur 1 est deconnecter  ");
 			System.out.println("Le joueur "+ gestionPartie.getPartieCourante().getVainqueur().toString() +" gagne la partie");
 			
 		} catch (NamingException exception) {

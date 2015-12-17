@@ -1,6 +1,5 @@
 package ovh.gorillahack.wazabi.usecases;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -11,6 +10,18 @@ import javax.ejb.Remote;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import ovh.gorillahack.wazabi.chain.GestionnaireCarte;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteChangerSens;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteDonnerDe;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteEnleverDe;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteLaisser2CartesAdversaires;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteLaisserCarte;
+import ovh.gorillahack.wazabi.chain.GestionnaireCartePasserTour;
+import ovh.gorillahack.wazabi.chain.GestionnaireCartePioche3;
+import ovh.gorillahack.wazabi.chain.GestionnaireCartePrendreCarte;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteSupprimerDe;
+import ovh.gorillahack.wazabi.chain.GestionnaireCarteTournerDe;
+import ovh.gorillahack.wazabi.dao.CarteDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
@@ -21,6 +32,7 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
 import ovh.gorillahack.wazabi.exception.CardNotFoundException;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
@@ -43,6 +55,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbDesParJoueur;
 	private int nbDesTotal;
 	private List<Carte> pioche;
+	private GestionnaireCarte gc;
 	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -55,6 +68,9 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@EJB
 	private XmlParserImpl xmlParserImpl;
+	
+	@EJB
+	private CarteDaoImpl carteDaoImpl;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -63,6 +79,10 @@ public class GestionPartieImpl implements GestionPartie {
 			inscrire("em", "em", "em");
 			inscrire("mi", "mi", "mi");
 			inscrire("ol", "ol", "ol");
+			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
+					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
+							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
+									new GestionnaireCartePasserTour(new GestionnaireCarteChangerSens(null))))))))));
 		} catch (ValidationException e) {
 		}
 	}
@@ -182,7 +202,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void deconnecter(Joueur j) {
-		joueurDaoImpl.deconnecter(j, min_joueurs);
+		partieCourante = joueurDaoImpl.deconnecter(j, min_joueurs);
 	}
 
 	public Joueur getJoueurCourant() {
@@ -252,18 +272,34 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void utiliserCarte(int id_carte) throws CardNotFoundException {
-		// TODO Auto-generated method stub
-
+		Carte c = carteDaoImpl.rechercher(id_carte);
+		try {
+			gc.utiliserCarte(c);
+		} catch (CardConstraintViolatedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException {
-		// TODO Auto-generated method stub
+		Carte c = carteDaoImpl.rechercher(id_carte);
+		try {
+			gc.utiliserCarte(c, j);
+		} catch (CardConstraintViolatedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
-		// TODO Auto-generated method stub
+		Carte c = carteDaoImpl.rechercher(id_carte);
+		try {
+			gc.utiliserCarte(c, sens);
+		} catch (CardConstraintViolatedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
