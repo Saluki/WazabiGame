@@ -54,6 +54,8 @@ public class Main {
 			if(gestionPartie.getPartieCourante().getStatut()==Status.COMMENCE)
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
+			
+			Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){
 			 * System.out.println(de.getId_de()); }

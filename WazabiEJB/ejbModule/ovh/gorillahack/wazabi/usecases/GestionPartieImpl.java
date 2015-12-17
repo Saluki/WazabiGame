@@ -41,8 +41,6 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
-	private List<Carte> jeuDeCarte;
-	private static int ordre_pioche = 0;
 
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
@@ -174,9 +172,8 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie creerPartie(String nom) throws ValidationException, XmlParsingException {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
-		xmlParserImpl.chargerXML();
-		
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
+		xmlParserImpl.chargerXML();
 		return partieCourante;
 	}
 
@@ -241,20 +238,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie getPartieCourante() throws NoCurrentGameException{
 		if(partieCourante==null)
 			throw new NoCurrentGameException();
-		
 		return partieCourante;
-	}
-
-	@Override
-	public List<Carte> getJeuDeCarte() {
-
-		return jeuDeCarte;
-	}
-
-	@Override
-	public void setJeuDeCarte(List<Carte> liste) {
-		this.jeuDeCarte = liste;
-
 	}
 
 	@Override
@@ -277,7 +261,6 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -287,12 +270,12 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public int getNombreDeToursAPasser(Joueur j) {
-		return 0;	// TODO
+		return 0;
 	}
 
 	@Override
-	public Carte piocherUneCarte(Joueur joueur2) {
-		return joueurDaoImpl.piocherCarte(joueur2);
+	public Carte piocherUneCarte(Joueur j) {
+		return joueurDaoImpl.piocherCarte(j);
 	}
 
 	@Override

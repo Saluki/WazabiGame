@@ -43,6 +43,8 @@ public class XmlParserImpl {
 	private GestionPartie gestionPartie;
 	@EJB
 	private DeDaoImpl deDaoImpl;
+	@EJB
+	private PartieDaoImpl partieDaoImpl;
 
 	public XmlParserImpl() {
 	}
@@ -203,7 +205,7 @@ public class XmlParserImpl {
 		}
 		// on ne les enregistre pas dans la DB, cela se fait à la création d'une
 		// partie, les cartes étant liées à celle-ci.
-		gestionPartie.setJeuDeCarte(paquetDeCarte);
+		partieDaoImpl.enregistrerPioche(paquetDeCarte);
 	}
 
 	/**

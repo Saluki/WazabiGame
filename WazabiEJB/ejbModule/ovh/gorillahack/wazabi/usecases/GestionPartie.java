@@ -162,10 +162,6 @@ public interface GestionPartie {
 
 	public void deconnecter(Joueur j);
 
-	public List<Carte> getJeuDeCarte() ;
-
-	public void setJeuDeCarte(List<Carte> liste);
-
 	public int getMin_joueurs();
 
 	public void setMin_joueurs(int min_joueurs);
