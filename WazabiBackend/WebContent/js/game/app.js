@@ -69,6 +69,9 @@ $(function(){
 	app.scheduler.registerListener(app.registerSchedulerListeners);
 	app.scheduler.start();
 	
+	// Window quit
+	app.registerWindowQuit();
+	
 });
 
 app.registerSchedulerListeners = function(statusData) {
@@ -88,4 +91,17 @@ app.registerSchedulerListeners = function(statusData) {
 	app.playerDices.reset(tempDicesList);
 	
 	app.challengers.reset(statusData.challengers);
+}
+
+app.registerWindowQuit = function() {
+	
+	window.onbeforeunload = function (e) {
+		
+	    e = e || window.event;
+
+	    if (e) {
+	        e.returnValue = 'Any string';
+	    }
+	    return 'Any string';
+	};
 }
