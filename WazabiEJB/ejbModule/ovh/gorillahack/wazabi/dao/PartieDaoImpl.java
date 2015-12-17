@@ -71,6 +71,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 				throw new NoCurrentGameException();
 
 			jp.setPartie(p);
+			p.ajouterJoueurPartie(jp);
 			jp.setJoueur(j);
 			if (p.getCourant() == null) {
 				p.setCourant(jp);

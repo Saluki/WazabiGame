@@ -321,8 +321,7 @@ public class GestionPartieImpl implements GestionPartie {
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(joueurPartie, getPartieCourante());
 				break;
 			case HORAIRE:
-				// suivant = joueurPartieDaoImpl.getJoueurSuivant(joueurPartie,
-				// getPartieCourante());
+				suivant = joueurPartieDaoImpl.getJoueurSuivant(joueurPartie, getPartieCourante());
 				break;
 			default:
 				return null;

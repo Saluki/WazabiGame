@@ -15,6 +15,7 @@ import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.util.CryptService;
 
@@ -83,16 +84,29 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Partie terminerTour() {
 		JoueurPartie courant = joueurPartieDaoImpl.getJoueurCourant();
 		Partie p = partieDaoImpl.getPartieCourante();
-		if (courant.getDes() == null) {
+		if (courant.getDes() == null) { 
 		} else if (courant.getDes().isEmpty()) {
 			System.out.println("Le joueur " + courant.getJoueur().getPseudo() + " a gagné car il n'a plus de dés");
 			p.setStatut(Status.PAS_COMMENCE);
 			p.setVainqueur(courant.getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
 		} else {
-			courant.setOrdre_joueur(PartieDaoImpl.ordre++);
-			joueurPartieDaoImpl.mettreAJour(courant);
-			p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
+			System.out.println("prochain tour, courant = "+ p.getCourant());
+			JoueurPartie suivant = null;
+			if (p.getSens() == Sens.HORAIRE) {
+				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
+				p.setCourant(suivant);
+				p = partieDaoImpl.mettreAJour(p);
+			} else if (p.getSens() == Sens.ANTIHORAIRE) {
+				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
+				p.setCourant(suivant);
+				p = partieDaoImpl.mettreAJour(p);
+			}
+			System.out.println("prochain tour, courant = "+ p.getCourant());
+			System.out.println("prochain tour, le suivant était :" + suivant);
+			//courant.setOrdre_joueur(PartieDaoImpl.ordre++);
+			//joueurPartieDaoImpl.mettreAJour(courant);
+			//p.setCourant(joueurPartieDaoImpl.getJoueurCourant());
 		}
 		return p;
 	}
