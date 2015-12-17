@@ -58,8 +58,8 @@ public class Main {
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
 			
-			Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
-			System.out.println("Carte tiree: " +c.getId_carte());
+			/*Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
+			System.out.println("Carte tiree: " +c.getId_carte());*/
 			// TODO : débugger ce getjoueursuivant !
 			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			/*
@@ -82,11 +82,13 @@ public class Main {
 			for(De d: des){
 				System.out.println("De obtenu (J1): "+d.getValeur());
 			}
-			gestionPartie.terminerTour();
-			des = gestionPartie.lancerDes(gestionPartie.getJoueurCourant());
-			for(De d: des){
-				System.out.println("De obtenu (J2): "+d.getValeur());
+			
+			List<De> desDansDB = gestionPartie.voirDes(gestionPartie.getJoueurCourant());
+			for(De d: desDansDB){
+				System.out.println("De obtenu dans la DB(J1): "+d.getValeur());
 			}
+			
+
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {

@@ -137,7 +137,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private void commencerPartie() throws NoCurrentGameException {
 		/*TODO faudra reinitialiser toutes les données si on veut pouvoir reutiliser le même paquet de cartes
 		(ex id_joueur, id_partie, ...)*/
-		//melangerPioche();
+		melangerPioche();
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
 			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
@@ -174,7 +174,6 @@ public class GestionPartieImpl implements GestionPartie {
 			throw new ValidationException("Format de la partie invalide.");
 		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
-		xmlParserImpl.chargerXML();
 		return partieCourante;
 	}
 

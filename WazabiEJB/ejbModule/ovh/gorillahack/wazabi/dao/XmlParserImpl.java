@@ -203,9 +203,6 @@ public class XmlParserImpl {
 			}
 			paquetDeCarte.addAll(creerCartes(carteEffet, nb.intValue()));
 		}
-		// on ne les enregistre pas dans la DB, cela se fait à la création d'une
-		// partie, les cartes étant liées à celle-ci.
-		partieDaoImpl.enregistrerPioche(paquetDeCarte);
 	}
 
 	/**
