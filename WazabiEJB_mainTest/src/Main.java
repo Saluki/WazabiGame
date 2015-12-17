@@ -33,8 +33,9 @@ public class Main {
 			Partie partie1 = gestionPartie.creerPartie("HELLO");
 			System.out.println(partie1.getNom());
 			gestionPartie.rejoindrePartie(joueur1);
-			gestionPartie.rejoindrePartie(joueur1);
+			//gestionPartie.rejoindrePartie(joueur1);
 			gestionPartie.rejoindrePartie(joueur3);
+			gestionPartie.rejoindrePartie(joueur2);
 
 			System.out.println("Historique des parties de joueur1 (partie1): ");
 			for (Partie p : gestionPartie.afficherHistorique(joueur1)) {
@@ -54,8 +55,20 @@ public class Main {
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
 			
-			// TODO : débugger ce getjoueursuivant !
-			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
+			System.out.println("Le joueur précédent le courant est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
+			System.out.println("Le joueur précédent test2 est : "+ gestionPartie.getJoueurSuivant(joueur2, Sens.ANTIHORAIRE));
+			
+			System.out.println("Le joueur suivant test1 est :" + gestionPartie.getJoueurSuivant(joueur1, Sens.HORAIRE));
+			System.out.println("Le joueur suivant test3 est :" + gestionPartie.getJoueurSuivant(joueur3, Sens.HORAIRE));
+			System.out.println("Le joueur suivant test2 est :" + gestionPartie.getJoueurSuivant(joueur2, Sens.HORAIRE));
+			
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			gestionPartie.terminerTour();
+			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " joue");
+			
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){
 			 * System.out.println(de.getId_de()); }
