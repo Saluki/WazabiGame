@@ -14,14 +14,19 @@ app.GameModel = Backbone.Model.extend({
 	},
 	
 	isPlaying: function() {
-		return !this.isWaiting();
+		return this.get('status') == 'COMMENCE';
+	},
+	
+	isStopped: function() {
+		return this.get('status') == 'ANNULEE' || this.get('status') == 'TERMINE';
 	},
 	
 	CONSTANTS : {
 		PAS_COMMENCE : 'PAS_COMMENCE',
 		COMMENCE     : 'COMMENCE',
 		EN_ATTENTE   : 'EN_ATTENTE',
-		ANNULEE      : 'ANNULEE'
+		ANNULEE      : 'ANNULEE',
+		TERMINE		 : 'TERMINE'
 	}
 	
 });
