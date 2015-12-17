@@ -75,7 +75,8 @@ app.CardView = Backbone.View.extend({
 			url: 'api/game/playcard',
 			context: view,
 			data: {
-				effect: this.model.get('effect'),
+				cardId: this.model.get('id'),
+				inputType: this.model.get('input'),
 				inputData: inputData
 			}
 		})

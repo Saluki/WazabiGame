@@ -105,6 +105,7 @@ body {
 	padding: 20px;
 	width: 400px;
 	text-align: center;
+	display: none;
 }
 
 #dices-list-view {
