@@ -2,12 +2,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
-import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
@@ -54,6 +53,9 @@ public class Main {
 			if(gestionPartie.getPartieCourante().getStatut()==Status.COMMENCE)
 				System.out.println("La partie commence!");
 			System.out.println("Le joueur " + gestionPartie.getJoueurCourant().getPseudo() + " commence");
+			
+			// TODO : débugger ce getjoueursuivant !
+			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){
 			 * System.out.println(de.getId_de()); }

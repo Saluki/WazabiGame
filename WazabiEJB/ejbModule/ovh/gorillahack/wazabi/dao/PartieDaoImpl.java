@@ -114,9 +114,9 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		return p;
 	}
 
-	public int getMaxOrdrePioche(Partie partie) throws QueryException {
-		return super.rechercheInt("SELECT MAX (c.ordre_pioche) FROM Partie p, Carte c "
-				+ "WHERE p.id_partie = ?1 AND c MEMBER OF p.pioche", partie);
-	}
+//	public int getMaxOrdrePioche(Partie partie) throws QueryException {
+//		return super.rechercheInt("SELECT MAX (c.ordre_pioche) FROM Partie p, Carte c "
+//				+ "WHERE p.id_partie = ?1 AND c MEMBER OF p.pioche", partie);
+//	}
 
 }
