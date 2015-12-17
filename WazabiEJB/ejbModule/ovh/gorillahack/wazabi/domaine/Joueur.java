@@ -95,6 +95,11 @@ public class Joueur implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Joueur [getPseudo()=" + getPseudo() + "]";
+	}
 	
 	
 	

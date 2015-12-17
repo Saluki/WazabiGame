@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 public abstract class GestionnaireCarte {
@@ -30,7 +31,7 @@ public abstract class GestionnaireCarte {
 	
 	public abstract boolean validerCarte(Carte c);
 	
-	public boolean utiliserCarte(Carte c){
+	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException{
 		int ce = c.getCodeEffet();
 		if(effetJoueur.contains(ce)||effetSens.contains(ce))
 			return false;
@@ -39,7 +40,7 @@ public abstract class GestionnaireCarte {
 		return false;
 	}
 	
-	public boolean utiliserCarte(Carte c, Sens sens){
+	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException{
 		if(!effetJoueur.contains(c.getCodeEffet()))
 			return false;
 		if(next!=null)
@@ -47,7 +48,7 @@ public abstract class GestionnaireCarte {
 		return false;
 	}
 	
-	public boolean utiliserCarte(Carte c, Joueur j){
+	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException{
 		if(!effetJoueur.contains(c.getCodeEffet()))
 			return false;
 		if(next!=null)
