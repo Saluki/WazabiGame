@@ -3,6 +3,7 @@ package ovh.gorillahack.wazabi.chain;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
+import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
 
 public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 	public GestionnaireCarteLaisserCarte(GestionnaireCarte next){
@@ -17,13 +18,13 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 	}
 	
 	@Override
-	public boolean utiliserCarte(Carte c) {
+	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		return gp.laisserAdversaireAvecDeuxCartes(c);
 
 	}
 	
 	@Override
-	public boolean utiliserCarte(Carte c, Joueur j) {
+	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c, j);
 		//TODO ne laisser qu'une carte à un adversaire
@@ -31,7 +32,7 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 	}
 	
 	@Override
-	public boolean utiliserCarte(Carte c, Sens sens) {
+	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
 		// TODO Auto-generated method stub
 		return super.utiliserCarte(c, sens);
 	}

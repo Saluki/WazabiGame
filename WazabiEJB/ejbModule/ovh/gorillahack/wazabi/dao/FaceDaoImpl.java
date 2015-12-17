@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Face;
 
+@SuppressWarnings("serial")
 @Stateless
 @Local(Dao.class)
 @LocalBean

@@ -1,5 +1,6 @@
 package ovh.gorillahack.wazabi.exception;
 
+@SuppressWarnings("serial")
 public class XmlParsingException extends Exception {
 	public XmlParsingException() {
 		super();

@@ -31,6 +31,7 @@ public class De implements Serializable {
 	
 	public De() {
 		super();
+		this.valeur=Valeur.WAZABI;
 	}
 
 	public int getId_de() {

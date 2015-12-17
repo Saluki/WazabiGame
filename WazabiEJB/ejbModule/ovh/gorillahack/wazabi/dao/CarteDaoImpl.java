@@ -10,9 +10,8 @@ import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
-import ovh.gorillahack.wazabi.domaine.JoueurPartie;
-import ovh.gorillahack.wazabi.domaine.Partie;
 
+@SuppressWarnings("serial")
 @Stateless
 @Local(Dao.class)
 @LocalBean

@@ -3,7 +3,6 @@ package ovh.gorillahack.wazabi.dao;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -122,31 +121,33 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
-		List<Carte> pioche = p.getPioche();
-		Random rand = new Random();
-		Carte c = pioche.remove(rand.nextInt(pioche.size() - 1));
+		System.out.println("NAME:"+p.getNom());
+		Carte c = p.piocher();
+		System.out.println("Id_Carte:"+c.getId_carte());
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		System.out.println("Id_jp:"+jp.getId_joueur_partie());
 		List<Carte> cartes = jp.getCartes();
 		cartes.add(c);
 		jp.setCartes(cartes);
-		joueurPartieDaoImpl.enregistrer(jp);
-		partieDaoImpl.enregistrer(p);
+		joueurPartieDaoImpl.mettreAJour(jp);
+		partieDaoImpl.mettreAJour(p);
 		return c;
 	}
-
+	
 	public Carte remettreCarte(Joueur j, Carte carte) {
 		Partie p = partieDaoImpl.getPartieCourante();
-		List<Carte> pioche = p.getPioche();
+		p.ajouterCarteALaPioche(carte);
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<Carte> cartesJoueur = jp.getCartes();
 		cartesJoueur.remove(carte);
-		// jp.setCartes(cartesJoueur);
-		pioche.add(carte);
-		// p.setPioche(pioche);
 		joueurPartieDaoImpl.enregistrer(jp);
 		partieDaoImpl.enregistrer(p);
 		return carte;
-	}
+	}		System.out.println("Id_jp:"+jp.getId_joueur_partie());
+		joueurPartieDaoImpl.mettreAJour(jp);
+		partieDaoImpl.mettreAJour(p);
+		p.ajouterCarteALaPioche(carte);
+
 
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
 		// TODO Auto-generated method stub

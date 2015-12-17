@@ -17,6 +17,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
+
 @Entity
 @Table(name = "JOUEURS_PARTIE", schema = "WAZABI", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"joueur_id_joueur", "partie_id_partie" }) )
@@ -56,7 +58,7 @@ public class JoueurPartie implements Serializable {
 		this.compteur_sauts = compteur_sauts;
 		this.des = des;
 		this.cartes = cartes;
-		this.estActif=true;
+		this.estActif = true;
 	}
 
 	public JoueurPartie() {
@@ -140,11 +142,11 @@ public class JoueurPartie implements Serializable {
 	public void setCartes(List<Carte> cartes) {
 		this.cartes = cartes;
 	}
-	
+
 	public boolean ajouterCarte(Carte carte) {
 		return this.cartes.add(carte);
 	}
-	
+
 	public boolean supprimerCarte(Carte carte) {
 		return this.cartes.remove(carte);
 	}
@@ -152,12 +154,20 @@ public class JoueurPartie implements Serializable {
 	public int getId_joueur_partie() {
 		return id_joueur_partie;
 	}
-	
+
 	public boolean estActif() {
 		return estActif;
 	}
 
 	public void setEstActif(boolean estActif) {
 		this.estActif = estActif;
+	}
+
+	public De supprimerDe() throws NotEnoughDiceException {
+		if (des.size() == 0) {
+			throw new NotEnoughDiceException();
+		} else {
+			return des.remove(0);
+		}
 	}
 }

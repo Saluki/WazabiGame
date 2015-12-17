@@ -33,6 +33,14 @@
 		
 	</div>
 	
+	<div id="finishing-screen">
+		
+		La partie vient de se terminer
+		<br><br>	
+		<a href="app/dashboard.html" class="btn btn-primary btn-lg">Retourner au dashboard</a>
+		
+	</div>
+	
 </div>
 
 <script type="text/template" id="player-view-template">

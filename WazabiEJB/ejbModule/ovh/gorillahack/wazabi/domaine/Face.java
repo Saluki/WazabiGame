@@ -21,7 +21,7 @@ public class Face implements Serializable {
 	private static final long serialVersionUID = -5666122132375907572L;
 
 	public enum Valeur {
-		WAZABI, PIOCHE, DE, AUTRE
+		WAZABI, PIOCHE, DE
 	}
 
 	@Id
@@ -38,7 +38,7 @@ public class Face implements Serializable {
 
 	public Face() {
 		super();
-		this.valeur_face = Valeur.AUTRE;
+		this.valeur_face = Valeur.WAZABI;
 		this.nbFaces = 0;
 	}
 
