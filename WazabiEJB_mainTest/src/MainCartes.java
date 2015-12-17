@@ -27,7 +27,7 @@ public class MainCartes {
 			GestionPartie gestionPartie = (GestionPartie) jndi
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 			Joueur joueur1 = gestionPartie.inscrire("test1", "test1", "test1");
-			Joueur joueur2 = gestionPartie.inscrire("test2", "test2", "test2");
+
 			Joueur joueur3 = gestionPartie.inscrire("test3", "test3", "test3");
 
 			gestionPartie.seConnecter("test1", "test1");
@@ -44,8 +44,15 @@ public class MainCartes {
 			List<Carte> listeCarte = gestionPartie.voirCartes(joueur1);
 			System.out.println("Le joueur 1 possede : " + listeCarte.size() + " cartes");
 			for (int i = 0; i < listeCarte.size(); i++) {
-				System.out.println("La " + i + " carte est " + listeCarte.get(i).getDescription());
+				System.out.println("La " + i + " carte est " + listeCarte.get(i).getEffet());
 			}
+			System.out.println("---------------------------------------------------------------------");
+			List<Carte> listeCarte2 = gestionPartie.voirCartes(joueur3);
+			System.out.println("Le joueur 2 possede : " + listeCarte2.size() + " cartes");
+			for (int i = 0; i < listeCarte2.size(); i++) {
+				System.out.println("La " + i + " carte est " + listeCarte2.get(i).getEffet());
+			}
+			System.out.println("------------------------------------------------------------------");
 			Scanner scanner = new Scanner(System.in);
 			int numero = scanner.nextInt();
 			// AUCUN, SENS, JOUEUR
@@ -82,18 +89,18 @@ public class MainCartes {
 			
 			// etat du joueur 1 
 			List<Carte> carteJoueur1 = gestionPartie.voirCartes(joueur1);
-			List<Carte> carteJoueur2 = gestionPartie.voirCartes(joueur2);
+			List<Carte> carteJoueur2 = gestionPartie.voirCartes(joueur3);
 			System.out.println("///////////////////////////////////////////////////////");
 			System.out.println("/////////////   ETAT DU JEU ///////////////////////////");
 			System.out.println("///////////////////////////////////////////////////////");
 			System.out.println("Le joueur 1 possede : " + carteJoueur1.size() + " cartes");
 			for (int i = 0; i < carteJoueur1.size(); i++) {
-				System.out.println("La " + i + " carte est " + carteJoueur1.get(i).getDescription());
+				System.out.println("La " + i + " carte est " + carteJoueur1.get(i).getEffet());
 			}
 			System.out.println("-----------------------------------------------------------------");
 			System.out.println("Le joueur 2 possede : " + carteJoueur2.size() + " cartes");
 			for (int i = 0; i < carteJoueur2.size(); i++) {
-				System.out.println("La " + i + " carte est " + carteJoueur2.get(i).getDescription());
+				System.out.println("La " + i + " carte est " + carteJoueur2.get(i).getEffet());
 			}
 			System.out.println("-----------------------------------------------------------------");
 
