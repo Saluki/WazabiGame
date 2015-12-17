@@ -96,16 +96,16 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				while (suivant.getCompteur_sauts() > 0) {
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
+				while(suivant.getCompteur_sauts()>0){
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurSuivant(suivant, p);
 				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
-				while (suivant.getCompteur_sauts() > 0) {
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
+				while(suivant.getCompteur_sauts()>0){
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurPrecedent(suivant, p);
 				}
@@ -119,7 +119,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Partie deconnecter(Joueur j, int nombreJoueursMin) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		System.out.println("jp ---->" + jp);
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
 		List<JoueurPartie> joueurActif = new ArrayList<JoueurPartie>();
@@ -143,15 +142,15 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		Carte c = p.piocher();
-		c = carteDaoImpl.recharger(c.getId_carte());
+		c = carteDaoImpl.recharger(c.getId_carte()); //Utile?
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		jp = joueurPartieDaoImpl.recharger(jp.getId_joueur_partie());
-		System.out.print("NAME:" + p.getNom());
-		System.out.print("Id_Carte:" + c.getId_carte());
-		System.out.println("Id_jp:" + jp.getId_joueur_partie());
-		jp.ajouterCarte(c);	
-		jp = joueurPartieDaoImpl.mettreAJour(jp);
-		//partieDaoImpl.mettreAJour(p);
+		List<Carte> cartes = jp.getCartes();
+		if(cartes==null)
+			cartes = new ArrayList<Carte>();
+		cartes.add(c);
+		jp.setCartes(cartes);
+		joueurPartieDaoImpl.mettreAJour(jp);
+		partieDaoImpl.mettreAJour(p); //Utile?
 		return c;
 	}
 
@@ -168,8 +167,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
-		// TODO Auto-generated method stub
-
 		// recuperation du joueur dans la classe joueurPartie
 
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
