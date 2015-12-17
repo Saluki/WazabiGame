@@ -209,7 +209,7 @@ public interface GestionPartie {
 	 * Permet d'utiliser une carte dont aucun input est requis
 	 * 
 	 * @param id_carte
-	 *            l'id de la cart
+	 *            l'id de la carte.
 	 */
 	public void utiliserCarte(int id_carte) throws CardNotFoundException;
 
