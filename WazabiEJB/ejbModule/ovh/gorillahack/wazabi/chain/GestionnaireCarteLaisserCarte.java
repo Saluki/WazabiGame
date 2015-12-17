@@ -18,7 +18,8 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 	
 	@Override
 	public boolean utiliserCarte(Carte c) {
-		return super.utiliserCarte(c);
+		return gp.laisserAdversaireAvecDeuxCartes(c);
+
 	}
 	
 	@Override

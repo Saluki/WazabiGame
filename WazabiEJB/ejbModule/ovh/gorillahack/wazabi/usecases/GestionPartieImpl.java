@@ -299,4 +299,33 @@ public class GestionPartieImpl implements GestionPartie {
 	public Carte remettreCarte(Joueur joueur, Carte carte) {
 		return joueurDaoImpl.remettreCarte(joueur, carte);
 	}
+
+	@Override
+	public Carte piocherUneCarteChezUnJoueur(Carte c) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
+		
+	}
+
+
+	@Override
+	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.laisserAdversaireAvecDeuxCartes(c);
+	}
+
+	@Override
+	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c) {
+		// TODO Auto-generated method stub
+	 return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes(c);
+	}
+
+	@Override
+	public boolean passerTour(Carte c, Joueur j) {
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.passerTour(c,j);
+	}
+
+
+	
 }

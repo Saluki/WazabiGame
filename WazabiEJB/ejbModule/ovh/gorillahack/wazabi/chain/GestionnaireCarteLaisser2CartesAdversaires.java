@@ -21,12 +21,14 @@ public class GestionnaireCarteLaisser2CartesAdversaires extends GestionnaireCart
 		if(!validerCarte(c))
 			return super.utiliserCarte(c);
 		//TODO ne laisser plus que 2 cartes aux autres joueurs
-		return super.utiliserCarte(c);
+		return gp.laisserTousAdversairesAvecDeuxCartes(c);
 	}
 	
 	@Override
 	public boolean utiliserCarte(Carte c, Joueur j) {
-		return super.utiliserCarte(c, j);
+		if(!validerCarte(c))
+			return super.utiliserCarte(c);
+		return  super.utiliserCarte(c, j);
 	}
 	
 	@Override

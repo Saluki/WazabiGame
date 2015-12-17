@@ -1,5 +1,7 @@
 package ovh.gorillahack.wazabi.dao;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -122,7 +124,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		Partie p = partieDaoImpl.getPartieCourante();
 		List<Carte> pioche = p.getPioche();
 		Random rand = new Random();
-		Carte c = pioche.remove(rand.nextInt(pioche.size()-1));
+		Carte c = pioche.remove(rand.nextInt(pioche.size() - 1));
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<Carte> cartes = jp.getCartes();
 		cartes.add(c);
@@ -131,18 +133,116 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		partieDaoImpl.enregistrer(p);
 		return c;
 	}
-	
+
 	public Carte remettreCarte(Joueur j, Carte carte) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		List<Carte> pioche = p.getPioche();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<Carte> cartesJoueur = jp.getCartes();
 		cartesJoueur.remove(carte);
-		//jp.setCartes(cartesJoueur);
+		// jp.setCartes(cartesJoueur);
 		pioche.add(carte);
-		//p.setPioche(pioche);
+		// p.setPioche(pioche);
 		joueurPartieDaoImpl.enregistrer(jp);
 		partieDaoImpl.enregistrer(p);
 		return carte;
+	}
+
+	public Carte piocherCarteChezUnJoueur(Carte carte) {
+		// TODO Auto-generated method stub
+
+		// recuperation du joueur dans la classe joueurPartie
+
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		// utilisation de la carte du joueur receveur
+		remettreCarte(joueurReceveur.getJoueur(), carte);
+		Carte renv;
+		Partie partieCourante = partieDaoImpl.getPartieCourante();
+		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
+		Collections.shuffle(listeJoueur);
+		for (JoueurPartie joueurCible : listeJoueur) {
+			// carte du joueur
+			List<Carte> listeCarteJoueur = joueurCible.getCartes();
+			if (listeCarteJoueur.isEmpty())
+				continue;
+			else {
+				// sinon on prend une carte au hasard
+				Carte c = listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1)));
+				// on l'enleve de chez le joueur
+				joueurCible.getCartes().remove(c);
+				// on la place chez le joueur en parametre
+				joueurReceveur.ajouterCarte(c);
+				// on enregistre
+				joueurPartieDaoImpl.enregistrer(joueurReceveur);
+				joueurPartieDaoImpl.enregistrer(joueurCible);
+				partieDaoImpl.enregistrer(partieCourante);
+				return carte;
+			}
+
+		}
+		// aucun joueur n'a de carte
+		Carte c = piocherCarte(joueurReceveur.getJoueur());
+		return c;
+	}
+
+	public boolean laisserAdversaireAvecDeuxCartes(Carte carte) {
+		// TODO Piocher chez les autres joueurs tant que un n'a pas plus de deux
+		// cartes
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		// utilisation de la carte du joueur receveur
+				remettreCarte(joueurReceveur.getJoueur(), carte);
+		Partie partieCourante = partieDaoImpl.getPartieCourante();
+		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
+		JoueurPartie joueurCible = listeJoueur.get((int) (Math.random() * (listeJoueur.size() - 1)));
+		while (joueurCible.equals(joueurReceveur)) {
+			joueurCible = listeJoueur.get((int) (Math.random() * (listeJoueur.size() - 1)));
+		}
+		List<Carte> listeCarteCible = joueurCible.getCartes();
+		if (listeCarteCible.size() <= 2) {
+			return false;
+		}
+		while (listeCarteCible.size() != 2) {
+			Carte c = listeCarteCible.get((int) (Math.random() * (listeCarteCible.size() - 1)));
+			remettreCarte(joueurCible.getJoueur(), c);
+		}
+		return true;
+
+	}
+
+	public boolean laisserToutLesAdversairesAvecDeuxCartes(Carte carte) {
+		// TODO Auto-generated method stub
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		// utilisation de la carte du joueur receveur
+		remettreCarte(joueurReceveur.getJoueur(), carte);
+
+		Partie partieCourante = partieDaoImpl.getPartieCourante();
+		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
+		for (JoueurPartie joueurCible : listeJoueur) {
+			List<Carte> listeCarteCible = joueurCible.getCartes();
+			if (listeCarteCible.size() <= 2 || joueurCible.equals(joueurReceveur)) {
+				continue;
+			}
+
+			while (listeCarteCible.size() != 2) {
+				Carte c = listeCarteCible.get((int) (Math.random() * (listeCarteCible.size() - 1)));
+				remettreCarte(joueurCible.getJoueur(), c);
+			}
+
+		}
+		return true;
+	}
+
+	public boolean passerTour(Carte c, Joueur joueurCible) {
+		// TODO Auto-generated method stub
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		// utilisation de la carte
+		remettreCarte(joueurReceveur.getJoueur(), c);
+		
+		JoueurPartie joueurPartieCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible);
+		joueurPartieCible.setCompteur_sauts(joueurPartieCible.getCompteur_sauts() + 1);
+		joueurPartieDaoImpl.enregistrer(joueurReceveur);
+		joueurPartieDaoImpl.enregistrer(joueurPartieCible);
+		partieDaoImpl.enregistrer(partieDaoImpl.getPartieCourante());
+		return true;
 	}
 }

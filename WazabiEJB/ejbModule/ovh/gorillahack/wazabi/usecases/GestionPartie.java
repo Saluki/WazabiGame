@@ -238,4 +238,12 @@ public interface GestionPartie {
 	
 	public Carte remettreCarte(Joueur joueur, Carte carte);
 
+	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c);
+
+	boolean laisserAdversaireAvecDeuxCartes(Carte c);
+
+	Carte piocherUneCarteChezUnJoueur(Carte c);
+
+	public boolean passerTour(Carte c, Joueur j);
+
 }
