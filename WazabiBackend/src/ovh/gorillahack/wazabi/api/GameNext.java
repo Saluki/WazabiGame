@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @WebServlet("/api/game/next")
@@ -24,11 +25,17 @@ public class GameNext extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO faire appelle a la GestionPartie pour le status
-		// gestionPartie.terminerTour();
-		
 		JSONObject jsonResponse = new JSONObject();
-		jsonResponse.put("status", true);
+		
+		try {
+			
+			gestionPartie.terminerTour();
+			jsonResponse.put("status", true);
+			
+		} catch (NoCurrentGameException e) {
+			jsonResponse.put("status", false);
+		}
+
 		response.getWriter().println(jsonResponse.toJSONString());
 	}
 
