@@ -42,7 +42,8 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
-
+	private List<Carte> pioche;
+	
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 
@@ -137,7 +138,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private void commencerPartie() throws NoCurrentGameException {
 		/*TODO faudra reinitialiser toutes les données si on veut pouvoir reutiliser le même paquet de cartes
 		(ex id_joueur, id_partie, ...)*/
-		melangerPioche();
+		partieDaoImpl.enregistrerPioche(pioche);
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
 			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
@@ -157,7 +158,9 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void terminerTour() throws NoCurrentGameException {
+		partieCourante = partieDaoImpl.recharger(partieCourante.getId_partie());
 		partieCourante = joueurDaoImpl.terminerTour();
+		partieDaoImpl.mettreAJour(partieCourante);
 	}
 
 	@Override
@@ -308,17 +311,6 @@ public class GestionPartieImpl implements GestionPartie {
 		// TODO Auto-generated method stub
 		return joueurDaoImpl.passerTour(c,j);
 	}
-	/**
-	 * Permet de melanger la pioche de la partie de manière aléatoire.
-	 * 
-	 * @throws NoCurrentGameException
-	 */
-	private void melangerPioche() throws NoCurrentGameException{
-		Partie p = getPartieCourante();
-		List<Carte> pioche = p.getPioche();
-		Collections.shuffle(pioche);
-		partieCourante = partieDaoImpl.enregistrerPioche(pioche);
-	}
 
 	@Override
 	public void supprimerDe(Joueur joueur) {
@@ -341,8 +333,7 @@ public class GestionPartieImpl implements GestionPartie {
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(joueurPartie, getPartieCourante());
 				break;
 			case HORAIRE:
-				// suivant = joueurPartieDaoImpl.getJoueurSuivant(joueurPartie,
-				// getPartieCourante());
+				suivant = joueurPartieDaoImpl.getJoueurSuivant(joueurPartie, getPartieCourante());
 				break;
 			default:
 				return null;
@@ -352,6 +343,14 @@ public class GestionPartieImpl implements GestionPartie {
 		}
 		return suivant.getJoueur();
 	}
+	
+	public void changementDeSens(Sens sens) throws NoCurrentGameException {
+		partieCourante.setSens(sens);
+		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
+	}
 
+	public void setPioche(List<Carte> pioche){
+		this.pioche = pioche;
+	}
 	
 }

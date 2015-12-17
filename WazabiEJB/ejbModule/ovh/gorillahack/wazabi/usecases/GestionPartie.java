@@ -270,4 +270,8 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
+	
+	public void setPioche(List<Carte> pioche);
+	
+	public void changementDeSens(Sens sens) throws NoCurrentGameException;
 }

@@ -170,4 +170,11 @@ public class JoueurPartie implements Serializable {
 			return des.remove(0);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "JoueurPartie [id_joueur_partie=" + id_joueur_partie + ", ordre_joueur=" + ordre_joueur + ", joueur="
+				+ joueur + "]";
+	}
+
 }

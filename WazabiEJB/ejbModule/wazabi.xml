@@ -2,7 +2,7 @@
 <wazabi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="wazabi.xsd"
 	but=" être le premier joueur à ne plus avoir de dé. "
-	nbCartesParJoueur="3" nbCartesTotal="36" minJoueurs="2" maxJoueurs="6">
+	nbCartesParJoueur="3" nbCartesTotal="36" minJoueurs="3" maxJoueurs="6">
 	<de nbParJoueur="4" nbTotalDes="24">
 		<face figure="wazabi" identif="w" src="images/" nbFaces="3"></face>
 		<face figure="dé" identif="d" nbFaces="1"></face>
