@@ -26,12 +26,12 @@ public class JoinGame extends HttpServlet {
 	private GestionPartie gestionPartie;
 
 	/**
-	 * Permet au joueur de rejoindre la partie redirection.
+	 * Permet au joueur de rejoindre la partie en attente ou d'en creer une.
 	 * 
-	 * Si une partie est en cours, il est redirigé vers le dashboard. Si la
+	 * Si une partie est en cours, il est redirige vers le dashboard. Si la
 	 * partie est en attente de joueur, il est redirige vers le jeux. Si aucune
-	 * partie n'a ete creer et que tout les parties sont fini, il est redirige
-	 * vers la page lui permettant de creer une partie.
+	 * partie n'a ete cree et que toutes les parties sont finies, il est
+	 * redirige vers la page lui permettant de creer une partie.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -52,8 +52,8 @@ public class JoinGame extends HttpServlet {
 		}
 
 		if (partie.getStatut() == Status.COMMENCE) {
-			// TODO Message d'explications
-			response.sendRedirect(request.getContextPath() + "/app/dashboard.html");
+			request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
+			getServletContext().getNamedDispatcher("app.create").forward(request, response);
 			return;
 		}
 
@@ -70,10 +70,10 @@ public class JoinGame extends HttpServlet {
 	}
 
 	/**
-	 * Reçoit un nom de partie en paramètre et le transfert a l'EJB pour creer
-	 * une partie dans la base de donnée exception : une ValidationException est
-	 * lancé si le nom de la partie n'est pas de type String redirection : Si la
-	 * partie a bien été crée , la redirection est faite vers le jeux . Sinon la
+	 * Recoit un nom de partie en parametre et le transfert a l'EJB pour creer
+	 * une partie dans la base de donnee exception : une ValidationException est
+	 * lance si le nom de la partie n'est pas de type String redirection : Si la
+	 * partie a bien ete cree , la redirection est faite vers le jeux . Sinon la
 	 * redirection est faite vers le dashboard.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -81,38 +81,38 @@ public class JoinGame extends HttpServlet {
 
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authenticated");
 		String nomPartie = request.getParameter("nom");
-		
+
 		synchronized (getServletContext()) {
-			 
+
 			try {
-				
+
 				Partie partieCourante = gestionPartie.getPartieCourante();
-				
+
 				if (partieCourante.getStatut() != Status.PAS_COMMENCE && partieCourante.getStatut() != Status.ANNULEE) {
-					// TODO Message d'information
-					response.sendRedirect(request.getContextPath() + "/app/dashboard.html");
+					request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
+					getServletContext().getNamedDispatcher("app.create").forward(request, response);
 					return;
 				}
-				
-			} catch (NoCurrentGameException e) {}
-			
+
+			} catch (NoCurrentGameException e) {
+			}
+
 			try {
 				gestionPartie.creerPartie(nomPartie);
 			} catch (ValidationException | XmlParsingException e) {
-				// TODO Mettre message dans formulaire
 				request.setAttribute("errorMessage", e.getMessage());
 				getServletContext().getNamedDispatcher("app.create").forward(request, response);
 				return;
 			}
 		}
-			
+
 		try {
 			gestionPartie.rejoindrePartie(joueur);
 		} catch (NoCurrentGameException e) {
 			getServletContext().getNamedDispatcher("app.create").forward(request, response);
 			return;
 		}
-		
+
 		getServletContext().getNamedDispatcher("app.game").forward(request, response);
 	}
 }
