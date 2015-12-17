@@ -108,20 +108,23 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return p;
 	}
 
-	public void deconnecter(Joueur j, int nombreJoueursMin) {
+	public Partie deconnecter(Joueur j, int nombreJoueursMin) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		System.out.println("jp ---->"+jp);
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
-		int nbJoueursRestants = 0;
+		List<JoueurPartie> joueurActif = new ArrayList<JoueurPartie>();
 		for (JoueurPartie jop : temp) {
 			if (jop.estActif())
-				nbJoueursRestants++;
+				joueurActif.add(jop);
 		}
-		if (nbJoueursRestants < nombreJoueursMin) {
+		if (joueurActif.size() == 1) {
 			p.setStatut(Status.ANNULEE);
-			partieDaoImpl.mettreAJour(p);
+			p.setVainqueur(joueurActif.get(0).getJoueur());
+			p = partieDaoImpl.mettreAJour(p);
 		}
+		return p;
 	}
 
 	public List<Joueur> listerJoueurPartieCourante() {
