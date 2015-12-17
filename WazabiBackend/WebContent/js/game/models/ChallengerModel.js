@@ -8,6 +8,7 @@ app.ChallengerModel = Backbone.Model.extend({
 	defaults: {
 		'id': '0',
 		'name': '',
+		'cardnumber': 0,
 		'dices': []
 	}
 	

@@ -91,9 +91,41 @@
 
 		<div class="challenger-profile">
 
-			<i class="glyphicon glyphicon-user"></i>
-			<br>
-			<\%= challenger.name %><br>
+			<div class="challenger-dices">
+				<\% _.each(challenger.dices, function(dice) { %>
+
+					<div class="mini-dice">
+						
+						<\% if( dice=='WAZABI' ) { %>
+
+							<i class="glyphicon glyphicon-star"></i>
+		
+						<\% } else if( dice=='PIOCHE' ) { %>
+			
+							<i class="glyphicon glyphicon-gift"></i>
+		
+						<\% } else if( dice=='DE' ) { %>
+
+							<i class="glyphicon glyphicon-share-alt"></i>
+		
+						<\% } else { %>
+		
+							<i class="glyphicon glyphicon-flash"></i>
+
+						<\% } %>
+					
+					</div>
+
+				<\% }) %>
+			</div>
+			<div class="challenger-about">
+				<i class="glyphicon glyphicon-user"></i>
+				<br>
+				Joueur <\%= challenger.name %>
+			</div>
+			<div class="challenger-cards">
+				<\%= challenger.cardnumber %> cartes en main
+			</div>
 
 		</div>
 

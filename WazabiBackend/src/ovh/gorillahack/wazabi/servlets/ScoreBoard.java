@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
-import ovh.gorillahack.wazabi.exception.PlayerNotFoundException;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @WebServlet(urlPatterns = "/app/scoreboard.html")
