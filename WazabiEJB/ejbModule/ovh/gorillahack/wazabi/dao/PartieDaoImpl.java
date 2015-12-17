@@ -61,6 +61,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 				throw new NoCurrentGameException();
 
 			jp.setPartie(p);
+			p.ajouterJoueurPartie(jp);
 			jp.setJoueur(j);
 			if (p.getCourant() == null) {
 				p.setCourant(jp);
@@ -134,5 +135,10 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	private List<Carte> melangerPioche(List<Carte> pioche) throws NoCurrentGameException{
 		Collections.shuffle(pioche);
 		return pioche;
+	}
+	
+	public Partie setCourant(JoueurPartie suivant, Partie partie) {
+		partie.setCourant(suivant);
+		return super.mettreAJour(partie);
 	}
 }
