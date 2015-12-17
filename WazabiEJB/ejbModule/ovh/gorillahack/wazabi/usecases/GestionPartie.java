@@ -155,11 +155,6 @@ public interface GestionPartie {
 	 */
 	public void deconnecter(Joueur j);
 
-	/**
-	 * Permet de recuperer le nombre minimum de joueurs requis afin de demarrer une partie.
-	 * 
-	 * @return le nombre de joueur minimum.
-	 */
 	public int getMin_joueurs();
 
 	public void setMin_joueurs(int min_joueurs);
@@ -225,7 +220,7 @@ public interface GestionPartie {
 	 *            l'id de la carte
 	 * @param j
 	 *            le joueur à qui les effets seront appliqués
-	 * @throws PlayerNotFoundException 
+	 * @throws PlayerNotFoundException
 	 */
 	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException;
 
@@ -249,12 +244,24 @@ public interface GestionPartie {
 	 * @param id_adversaires
 	 *            le tableau contenant les id des adversaires dont on doit
 	 *            distribuer les des.
-	 * @throws PlayerNotFoundException 
+	 * @throws PlayerNotFoundException
 	 */
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
 
 	public Carte piocherUneCarte(Joueur joueur);
-	
+
 	public Carte remettreCarte(Joueur joueur, Carte carte);
+
+	public void supprimerDe(Joueur joueur);
+
+	/**
+	 * Renvoie le joueur suivant l'actuel selon le sens donné, ne vérifie pas si
+	 * celui-ci doit passer son tour.
+	 * 
+	 * @param actuel
+	 * @param sens
+	 * @return
+	 */
+	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
 
 }

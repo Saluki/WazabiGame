@@ -18,6 +18,7 @@ import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.exception.CardNotFoundException;
@@ -99,29 +100,29 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) {
 		List<Partie> listeRenv = partieDaoImpl.afficherHistorique(j);
-		return listeRenv ;
+		return listeRenv;
 	}
 
 	@Override
 	public void rejoindrePartie(Joueur j) throws NoCurrentGameException {
 		partieCourante = partieDaoImpl.rejoindrePartie(j);
 		int nbJoueursSalon = listerJoueurPartieCourante().size();
-		if(nbJoueursSalon>=min_joueurs)
+		if (nbJoueursSalon >= min_joueurs)
 			commencerPartie();
 	}
 
 	@Override
-	public  List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException{
-		List<Joueur> listeRenv  = partieDaoImpl.listerJoueurPartieCourante();
-		if(  listeRenv.isEmpty())
+	public List<Joueur> listerJoueurPartieCourante() throws NoCurrentGameException {
+		List<Joueur> listeRenv = partieDaoImpl.listerJoueurPartieCourante();
+		if (listeRenv.isEmpty())
 			throw new NoCurrentGameException("Aucune partie n'est en cours");
 		return listeRenv;
 	}
 
 	@Override
-	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException{
+	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException {
 		List<Joueur> adversaires = listerJoueurPartieCourante();
-		if(adversaires.isEmpty())
+		if (adversaires.isEmpty())
 			throw new NoCurrentGameException("Aucune partie n'est en cours");
 		adversaires.remove(j);
 		return adversaires;
@@ -138,24 +139,24 @@ public class GestionPartieImpl implements GestionPartie {
 		(ex id_joueur, id_partie, ...)*/
 		//melangerPioche();
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
-		if(partieCourante == null)
+		if (partieCourante == null)
 			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
 	}
 
 	@Override
 	public List<De> lancerDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.lancerDes(j);
-		return listeRenv ;
+		return listeRenv;
 	}
 
 	@Override
 	public List<De> voirDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.voirDes(j);
-		return listeRenv ;
+		return listeRenv;
 	}
 
 	@Override
-	public void terminerTour() throws NoCurrentGameException{
+	public void terminerTour() throws NoCurrentGameException {
 		partieCourante = joueurDaoImpl.terminerTour();
 	}
 
@@ -171,6 +172,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie creerPartie(String nom) throws ValidationException, XmlParsingException {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
+		xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		xmlParserImpl.chargerXML();
 		return partieCourante;
@@ -234,8 +236,8 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Partie getPartieCourante() throws NoCurrentGameException{
-		if(partieCourante==null)
+	public Partie getPartieCourante() throws NoCurrentGameException {
+		if (partieCourante == null)
 			throw new NoCurrentGameException();
 		return partieCourante;
 	}
@@ -253,7 +255,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException{
+	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException {
 		// TODO Auto-generated method stub
 	}
 
@@ -269,7 +271,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public int getNombreDeToursAPasser(Joueur j) {
-		return 0;
+		return 0; // TODO
 	}
 
 	@Override
@@ -292,5 +294,38 @@ public class GestionPartieImpl implements GestionPartie {
 		List<Carte> pioche = p.getPioche();
 		Collections.shuffle(pioche);
 		partieCourante = partieDaoImpl.enregistrerPioche(pioche);
+	}
+
+	@Override
+	public void supprimerDe(Joueur joueur) {
+		try {
+			JoueurPartie joueurPartie = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
+			joueurPartieDaoImpl.supprimerDe(joueurPartie);
+		} catch (NotEnoughDiceException e) {
+			System.out
+					.println("Player " + joueur.getPseudo() + " tried to remove one of his dice but already had none.");
+		}
+	}
+
+	@Override
+	public Joueur getJoueurSuivant(Joueur actuel, Sens sens) {
+		JoueurPartie joueurPartie = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(actuel);
+		JoueurPartie suivant = null;
+		try {
+			switch (sens) {
+			case ANTIHORAIRE:
+				suivant = joueurPartieDaoImpl.getJoueurPrecedent(joueurPartie, getPartieCourante());
+				break;
+			case HORAIRE:
+				// suivant = joueurPartieDaoImpl.getJoueurSuivant(joueurPartie,
+				// getPartieCourante());
+				break;
+			default:
+				return null;
+			}
+		} catch (NoCurrentGameException e) {
+			return null;
+		}
+		return suivant.getJoueur();
 	}
 }

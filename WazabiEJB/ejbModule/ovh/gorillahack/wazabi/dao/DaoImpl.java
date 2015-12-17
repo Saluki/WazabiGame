@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
@@ -18,14 +19,13 @@ import ovh.gorillahack.wazabi.exception.QueryException;
 public abstract class DaoImpl<E> implements Dao<E> {
 	private Class<E> entityClass;
 
-	@PersistenceContext(unitName="wazabi")
+	@PersistenceContext(unitName = "wazabi")
 	private EntityManager entityManager;
-	
-	
+
 	public DaoImpl(Class<E> clazz) {
 		entityClass = clazz;
 	}
-	
+
 	public E rechercher(int id) {
 		return (E) entityManager.find(entityClass, id);
 	}
@@ -36,7 +36,7 @@ public abstract class DaoImpl<E> implements Dao<E> {
 	}
 
 	public E mettreAJour(E entite) {
-		return entityManager.merge(entite);		
+		return entityManager.merge(entite);
 	}
 
 	public E recharger(int id) {
@@ -58,16 +58,16 @@ public abstract class DaoImpl<E> implements Dao<E> {
 		List<E> entites = null;
 		TypedQuery<E> query = entityManager.createQuery(queryString, entityClass);
 		int i = 0, j = 1;
-		while(i < params.length) {
-			if (params[i] instanceof Date ) {
-				query.setParameter(j, (Date)params[i], (TemporalType) params[i+1]);
-				i+=2; 
+		while (i < params.length) {
+			if (params[i] instanceof Date) {
+				query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
+				i += 2;
 			} else if (params[i] instanceof Calendar) {
-				query.setParameter(j, (Calendar)params[i], (TemporalType) params[i+1]);
-				i+=2; 
+				query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
+				i += 2;
 			} else {
 				query.setParameter(j, params[i]);
-				i++; 
+				i++;
 			}
 			j++;
 		}
@@ -79,16 +79,16 @@ public abstract class DaoImpl<E> implements Dao<E> {
 		try {
 			TypedQuery<E> query = entityManager.createQuery(queryString, entityClass);
 			int i = 0, j = 1;
-			while(i < params.length) {
-				if (params[i] instanceof Date ) {
-					query.setParameter(j, (Date)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+			while (i < params.length) {
+				if (params[i] instanceof Date) {
+					query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else if (params[i] instanceof Calendar) {
-					query.setParameter(j, (Calendar)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+					query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else {
 					query.setParameter(j, params[i]);
-					i++; 
+					i++;
 				}
 				j++;
 			}
@@ -99,45 +99,45 @@ public abstract class DaoImpl<E> implements Dao<E> {
 			return null; // throw new InternalError();
 		}
 	}
-	
+
 	protected int rechercheInt(String queryString, Object... params) throws QueryException {
 		try {
-			TypedQuery<Integer> query = entityManager.createQuery(queryString, Integer.class);
+			Query query = entityManager.createQuery(queryString);
 			int i = 0, j = 1;
-			while(i < params.length) {
-				if (params[i] instanceof Date ) {
-					query.setParameter(j, (Date)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+			while (i < params.length) {
+				if (params[i] instanceof Date) {
+					query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else if (params[i] instanceof Calendar) {
-					query.setParameter(j, (Calendar)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+					query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else {
 					query.setParameter(j, params[i]);
-					i++; 
+					i++;
 				}
 				j++;
 			}
-			return query.getSingleResult();
+			return (Integer) query.getSingleResult();
 		} catch (NoResultException | NonUniqueResultException e) {
 			throw new QueryException(e);
 		}
 	}
-	
+
 	protected E rechercheLimit1(String queryString, Object... params) {
 		try {
 			TypedQuery<E> query = entityManager.createQuery(queryString, entityClass);
 			query.setMaxResults(1);
 			int i = 0, j = 1;
-			while(i < params.length) {
-				if (params[i] instanceof Date ) {
-					query.setParameter(j, (Date)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+			while (i < params.length) {
+				if (params[i] instanceof Date) {
+					query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else if (params[i] instanceof Calendar) {
-					query.setParameter(j, (Calendar)params[i], (TemporalType) params[i+1]);
-					i+=2; 
+					query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
+					i += 2;
 				} else {
 					query.setParameter(j, params[i]);
-					i++; 
+					i++;
 				}
 				j++;
 			}

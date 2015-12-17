@@ -8,6 +8,7 @@ import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
@@ -59,6 +60,8 @@ public class Main {
 			
 			Carte c = gestionPartie.piocherUneCarte(gestionPartie.getJoueurCourant());
 			System.out.println("Carte tiree: " +c.getId_carte());
+			// TODO : débugger ce getjoueursuivant !
+			//System.out.println("Le joueur précédent est : "+ gestionPartie.getJoueurSuivant(gestionPartie.getJoueurCourant(), Sens.ANTIHORAIRE));
 			/*
 			 * List<De> des = gestionPartie.voirDes(joueur1); for(De de: des){
 			 * System.out.println(de.getId_de()); }
