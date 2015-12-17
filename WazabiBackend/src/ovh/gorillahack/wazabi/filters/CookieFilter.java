@@ -11,32 +11,34 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-@WebFilter(urlPatterns="/*")
+@WebFilter(urlPatterns = "/*")
 public class CookieFilter implements Filter {
 
 	protected FilterConfig config;
-/*
- * (non-Javadoc)
- * description : Verifie que l'utilisateur accepte bien les cookies . En cas d'echec, un message lui est affiché.
- * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
- */
+
+	/**
+	 * Verifie que l'utilisateur accepte bien les cookies.
+	 * 
+	 * En cas d'echec, un message lui est affiche sur une page d'erreur.
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		if( !httpRequest.isRequestedSessionIdFromCookie() ) {
+		if (!httpRequest.isRequestedSessionIdFromCookie()) {
 			request.setAttribute("errorMessage", "Activation des cookies obligatoire");
 			config.getServletContext().getNamedDispatcher("error.main").forward(request, response);
 			return;
 		}
-		chain.doFilter(request, response);
 		
+		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig config) throws ServletException {
 		this.config = config;
 	}
 
-	public void destroy() {}
+	public void destroy() {
+	}
 
 }

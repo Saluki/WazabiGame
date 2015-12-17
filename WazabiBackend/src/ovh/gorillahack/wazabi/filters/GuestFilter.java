@@ -16,22 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 public class GuestFilter implements Filter {
 
 	protected FilterConfig config;
+
 	/**
-	 * description : Redirige l'utilisateur authentifi� vers la page index des joueurs authentifi� : dashboard
-	 * 				Si l'utilisateur n'est pas authentifi� il peut atteindre la page demand�
-	 * 
+	 * Redirige l'utilisateur authentifie vers la page index des joueurs
+	 * authentifie. Si l'utilisateur n'est pas authentifie il peut atteindre la
+	 * page demandee.
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
+
 		if (httpRequest.getSession().getAttribute("authenticated") != null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/app/dashboard.html");
 			return;
 		}
-			
 
 		chain.doFilter(request, response);
 		return;

@@ -28,7 +28,7 @@ $(function(){
 	app.playerDicesView = new app.DiceListView({ collection:app.playerDices });
 	app.challengersView = new app.ChallengersListView({ collection:app.challengers });
 	app.quitButton      = new app.ActionButtonsView();
-	
+		
 	// Updating local status
 	app.mainPlayer.on('change:play', function(){
 		
@@ -37,7 +37,10 @@ $(function(){
 		}
 		
 		app.Status.instance().set(app.Status.C.ROLL_DICE);
-		alertify.success('C\'est maintenant a vous de jouer! Relancer les des en cliquant dessus...');
+		
+		if( app.game.get('status')=='COMMENCE' ) {
+			alertify.success('C\'est maintenant a vous de jouer! Relancer les des en cliquant dessus...');
+		}
 	});
 	
 	// Updating skip number
@@ -54,7 +57,6 @@ $(function(){
 			}
 			
 			$('#wazabi-skip-tile').html(displayText);
-
 			$('#wazabi-skip-tile').css('display', 'block');
 		}
 		else {
@@ -75,7 +77,7 @@ app.registerSchedulerListeners = function(statusData) {
 	
 	app.mainPlayer.set('name', statusData.player.name);
 	app.mainPlayer.set('play', statusData.player.play);
-	app.mainPlayer.set('skip', parseInt(statusData.player.skip));
+	app.mainPlayer.set('skip', statusData.player.skip);
 	
 	app.playerCards.reset(statusData.hand.cards);
 	

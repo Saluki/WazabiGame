@@ -1,0 +1,27 @@
+#dashboard-container {
+	
+	width: 400px;
+	margin: 100px auto;
+	text-align: center;
+}
+
+.button-toolbar {
+	
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+.button-toolbar > a {
+	
+	width: 48%;
+	font-weight: bold;
+	padding-bottom:20px;
+}
+
+.button-toolbar > a > i {
+	
+	font-size: 40px;
+	display: block;
+	text-align: center;
+	margin: 20px;
+}
