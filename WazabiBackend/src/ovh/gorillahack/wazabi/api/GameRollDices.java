@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import ipl.mock.MockInterfaceGestionPartie;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 @WebServlet("/api/game/rolldices")
 public class GameRollDices extends HttpServlet {
@@ -23,13 +23,13 @@ public class GameRollDices extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private MockInterfaceGestionPartie gestionPartie;
-	// TODO Remove mock
+	private GestionPartie gestionPartie;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Joueur joueur = (Joueur) request.getAttribute("authentificated");
+		Joueur joueur = (Joueur) request.getSession().getAttribute("authenticated");
+		
 		List<De> listeDes = gestionPartie.lancerDes(joueur);
 		
 		response.getWriter().print(getJsonResponse(listeDes));

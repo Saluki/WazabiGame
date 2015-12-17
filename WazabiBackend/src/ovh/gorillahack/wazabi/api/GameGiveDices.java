@@ -56,7 +56,7 @@ public class GameGiveDices extends HttpServlet {
 	
 	protected int[] getChallengerId(HttpServletRequest request) {
 	
-		String[] stringIDs = request.getParameter("challengers").split(" ");
+		String[] stringIDs = request.getParameter("challengers").split("-");
 		
 		if( stringIDs==null ) {
 			return null;
@@ -65,6 +65,11 @@ public class GameGiveDices extends HttpServlet {
 		int[] challengerIDs = new int[stringIDs.length];
 		
 		for(int i=0; i<challengerIDs.length; i++) {
+			
+			if( stringIDs[i]==null || stringIDs.length==0 ) {
+				continue;
+			}
+			
 			challengerIDs[i] = Integer.parseInt(stringIDs[i]);
 		}
 		
