@@ -96,16 +96,16 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				while(suivant.getCompteur_sauts()>0){
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+				while (suivant.getCompteur_sauts() > 0) {
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurSuivant(suivant, p);
 				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
-				while(suivant.getCompteur_sauts()>0){
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+				while (suivant.getCompteur_sauts() > 0) {
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurPrecedent(suivant, p);
 				}
@@ -119,6 +119,10 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Partie deconnecter(Joueur j, int nombreJoueursMin) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+<<<<<<< HEAD
+=======
+		System.out.println("jp ---->" + jp);
+>>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
 		List<JoueurPartie> joueurActif = new ArrayList<JoueurPartie>();
@@ -141,10 +145,18 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
+<<<<<<< HEAD
 		System.out.println("Le joueur" + j.getPseudo() + " pioche.");
+=======
+>>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		Carte c = p.piocher();
+<<<<<<< HEAD
 		System.out.println("N° Id_Carte:" + c.getId_carte());
+=======
+		c = carteDaoImpl.recharger(c.getId_carte());
+>>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+<<<<<<< HEAD
 		List<Carte> cartes = jp.getCartes();
 		if(cartes==null)
 			cartes = new ArrayList<Carte>();
@@ -152,23 +164,27 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		jp.setCartes(cartes);
 		joueurPartieDaoImpl.mettreAJour(jp);
 		partieDaoImpl.mettreAJour(p);
+=======
+		jp = joueurPartieDaoImpl.recharger(jp.getId_joueur_partie());
+		System.out.print("NAME:" + p.getNom());
+		System.out.print("Id_Carte:" + c.getId_carte());
+		System.out.println("Id_jp:" + jp.getId_joueur_partie());
+		jp.ajouterCarte(c);	
+		jp = joueurPartieDaoImpl.mettreAJour(jp);
+		//partieDaoImpl.mettreAJour(p);
+>>>>>>> branch 'master' of https://github.com/Saluki/WazabiGame.git
 		return c;
 	}
 
 	public Carte remettreCarte(Joueur j, Carte carte) {
-		/*
-		 * System.out.println("Id_jp:"+jp.getId_joueur_partie());
-		 * joueurPartieDaoImpl.mettreAJour(jp); partieDaoImpl.mettreAJour(p);
-		 * p.ajouterCarteALaPioche(carte);
-		 */
-
+		carte = carteDaoImpl.recharger(carte.getId_carte());
 		Partie p = partieDaoImpl.getPartieCourante();
-		p.ajouterCarteALaPioche(carte);
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		List<Carte> cartesJoueur = jp.getCartes();
-		cartesJoueur.remove(carte);
-		joueurPartieDaoImpl.enregistrer(jp);
-		partieDaoImpl.enregistrer(p);
+		jp.supprimerCarte(carte);
+		p.ajouterCarteALaPioche(carte);
+		// jp = joueurPartieDaoImpl.mettreAJour(jp);
+		// p = partieDaoImpl.mettreAJour(p);
+		// carte = carteDaoImpl.mettreAJour(carte);
 		return carte;
 	}
 

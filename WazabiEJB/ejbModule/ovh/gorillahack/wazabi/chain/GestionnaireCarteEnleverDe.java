@@ -39,7 +39,7 @@ public class GestionnaireCarteEnleverDe extends GestionnaireCarte {
 			}
 		}
 		gp.supprimerDe(courant);
-
+		gp.remettreCarte(courant, c);
 		return true;
 	}
 
