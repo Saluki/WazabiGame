@@ -14,6 +14,10 @@ import javax.persistence.PersistenceContext;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Joueur;
+import ovh.gorillahack.wazabi.domaine.JoueurPartie;
+import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
+import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 
 @Stateless
 @Local(Dao.class)
@@ -27,6 +31,8 @@ public class DeDaoImpl extends DaoImpl<De> {
 	private PartieDaoImpl partieDaoImpl;
 	@EJB
 	private FaceDaoImpl faceDaoImpl;
+	@EJB
+	private JoueurPartieDaoImpl joueurPartieDaoImpl;
 
 	public DeDaoImpl() {
 		super(De.class);
@@ -58,9 +64,18 @@ public class DeDaoImpl extends DaoImpl<De> {
 		}		
 		Random random = new Random();
 		int index = random.nextInt(valeursList.size());
-		System.out.println(valeursList.get(index));
 		de.setValeur(valeursList.get(index));
 		mettreAJour(de);
 		return de;
+	}
+	
+	public void donnerDe(Joueur j){
+		JoueurPartie courant = partieDaoImpl.getPartieCourante().getCourant();
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		De de = courant.getDes().remove(0);
+		List<De> des = jp.getDes();
+		des.add(de);
+		joueurPartieDaoImpl.mettreAJour(jp);
+		joueurPartieDaoImpl.mettreAJour(courant);
 	}
 }

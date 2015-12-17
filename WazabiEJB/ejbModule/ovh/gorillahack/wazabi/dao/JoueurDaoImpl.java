@@ -119,7 +119,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Partie deconnecter(Joueur j, int nombreJoueursMin) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		System.out.println("jp ---->"+jp);
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
 		List<JoueurPartie> joueurActif = new ArrayList<JoueurPartie>();
@@ -142,11 +141,10 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
-		System.out.println("NAME:" + p.getNom());
+		System.out.println("Le joueur" + j.getPseudo() + " pioche.");
 		Carte c = p.piocher();
-		System.out.println("Id_Carte:" + c.getId_carte());
+		System.out.println("N° Id_Carte:" + c.getId_carte());
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		System.out.println("Id_jp:" + jp.getId_joueur_partie());
 		List<Carte> cartes = jp.getCartes();
 		if(cartes==null)
 			cartes = new ArrayList<Carte>();
@@ -175,8 +173,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
-		// TODO Auto-generated method stub
-
 		// recuperation du joueur dans la classe joueurPartie
 
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();

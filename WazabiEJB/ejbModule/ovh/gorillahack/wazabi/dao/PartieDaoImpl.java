@@ -54,6 +54,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	}
 
 	public Partie rejoindrePartie(Joueur j) throws NoCurrentGameException {
+		//On verifie que le joueur ne serait pas deja dans la partie...
 		if (joueurPartieDao.getJoueurDeLaPartieCourante(j) == null) {
 			JoueurPartie jp = new JoueurPartie(ordre++, 0, null, null);
 			Partie p = getPartieCourante();
@@ -87,13 +88,13 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 
 	public Partie commencerPartie(int nbCartesParJoueur, int nbDesParJoueurs) {
 		Partie p = getPartieCourante();
-		System.out.println(p.getNom());
 		if (p == null || p.getStatut() != Status.EN_ATTENTE || p.getStatut() == Status.ANNULEE)
 			return null;
 		p.setStatut(Status.COMMENCE);
 		
 		int nbJoueurs = getPartieCourante().getJoueursParties().size();
 		for(int i = 0; i<nbJoueurs;i++){
+			System.out.println("Attribution des cartes aux joueurs");
 			for(int j = 0; j<nbCartesParJoueur; j++)
 				gestionPartie.piocherUneCarte(getPartieCourante().getJoueursParties().get(i).getJoueur());
 		}
@@ -114,25 +115,19 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	}
 
 	public Partie enregistrerPioche(List<Carte> pioche) {
-		try {
-			pioche = melangerPioche(pioche);
-			Partie p = getPartieCourante();
-			for (int i = 0; i<pioche.size(); i++){
-				p.ajouterCarteALaPioche(pioche.get(i));
-			}
-			return super.enregistrer(p);
-		} catch (NoCurrentGameException e) {
-			e.printStackTrace();
+		pioche = melangerPioche(pioche);
+		Partie p = getPartieCourante();
+		for (int i = 0; i<pioche.size(); i++){
+			p.ajouterCarteALaPioche(pioche.get(i));
 		}
-		return null;
+		return super.enregistrer(p);
 	}
 	
 	/**
 	 * Permet de melanger la pioche de la partie de manière aléatoire.
 	 * 
-	 * @throws NoCurrentGameException
 	 */
-	private List<Carte> melangerPioche(List<Carte> pioche) throws NoCurrentGameException{
+	private List<Carte> melangerPioche(List<Carte> pioche) {
 		Collections.shuffle(pioche);
 		return pioche;
 	}

@@ -22,12 +22,14 @@ import ovh.gorillahack.wazabi.chain.GestionnaireCartePrendreCarte;
 import ovh.gorillahack.wazabi.chain.GestionnaireCarteSupprimerDe;
 import ovh.gorillahack.wazabi.chain.GestionnaireCarteTournerDe;
 import ovh.gorillahack.wazabi.dao.CarteDaoImpl;
+import ovh.gorillahack.wazabi.dao.DeDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
@@ -71,6 +73,9 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
+	
+	@EJB
+	private DeDaoImpl deDaoImpl;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -98,7 +103,6 @@ public class GestionPartieImpl implements GestionPartie {
 	public GestionPartieImpl() {
 		// TODO Lors de la selection du joueur courant, il faut prendre en
 		// compte le champ "compteur_saut".
-		//TODO lorsque la partie est terminee, le dernier joueur gagne
 	}
 
 	@Override
@@ -167,6 +171,12 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public List<De> lancerDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.lancerDes(j);
+		for(int i = 0; i<listeRenv.size();i++){
+			De d = listeRenv.get(i);
+			if(d.getValeur()==Valeur.PIOCHE){
+				piocherUneCarte(j);			
+			}
+		}
 		return listeRenv;
 	}
 
@@ -178,7 +188,6 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void terminerTour() throws NoCurrentGameException {
-		partieCourante = partieDaoImpl.recharger(partieCourante.getId_partie());
 		partieCourante = joueurDaoImpl.terminerTour();
 		partieDaoImpl.mettreAJour(partieCourante);
 	}
@@ -195,7 +204,9 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie creerPartie(String nom) throws ValidationException, XmlParsingException {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
-		xmlParserImpl.chargerXML();
+		//Si aucune partie n'est cree sur le serveur, on charge le xml une seule fois
+		if(partieCourante==null&&partieDaoImpl.getPartieCourante()==null)
+			xmlParserImpl.chargerXML();
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
 	}
@@ -266,8 +277,10 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
-		// TODO Auto-generated method stub
-
+		for(int i = 0; i<id_adversaires.length;i++){
+			Joueur adverse = joueurDaoImpl.rechercher(id_adversaires[i]);
+			deDaoImpl.donnerDe(adverse);
+		}
 	}
 
 	@Override
@@ -286,7 +299,6 @@ public class GestionPartieImpl implements GestionPartie {
 		try {
 			gc.utiliserCarte(c, j);
 		} catch (CardConstraintViolatedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -297,7 +309,6 @@ public class GestionPartieImpl implements GestionPartie {
 		try {
 			gc.utiliserCarte(c, sens);
 		} catch (CardConstraintViolatedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -309,7 +320,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public int getNombreDeToursAPasser(Joueur j) {
-		return 0; // TODO
+		return joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j).getCompteur_sauts();
 	}
 
 	@Override
@@ -324,7 +335,6 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public Carte piocherUneCarteChezUnJoueur(Carte c) {
-		// TODO Auto-generated method stub
 		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
 		
 	}
@@ -332,19 +342,16 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
-		// TODO Auto-generated method stub
 		return joueurDaoImpl.laisserAdversaireAvecDeuxCartes(c);
 	}
 
 	@Override
 	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c) {
-		// TODO Auto-generated method stub
 	 return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes(c);
 	}
 
 	@Override
 	public boolean passerTour(Carte c, Joueur j) {
-		// TODO Auto-generated method stub
 		return joueurDaoImpl.passerTour(c,j);
 	}
 
