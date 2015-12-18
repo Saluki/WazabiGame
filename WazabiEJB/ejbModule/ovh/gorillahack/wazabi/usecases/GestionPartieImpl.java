@@ -412,4 +412,12 @@ public class GestionPartieImpl implements GestionPartie {
 		return count;
 	}
 
+	@Override
+	public void donnerDes(Joueur j, int id_joueur) {
+		// TODO Auto-generated method stub
+		Joueur adverse = joueurDaoImpl.rechercher(id_joueur);
+		deDaoImpl.donnerDe(adverse);
+		
+	}
+
 }

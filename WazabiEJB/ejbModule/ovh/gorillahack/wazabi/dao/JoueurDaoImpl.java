@@ -169,10 +169,9 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
 		// recuperation du joueur dans la classe joueurPartie
 
-		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurPartieDaoImpl.getJoueurCourant().getJoueur());
 		// utilisation de la carte du joueur receveur
 		remettreCarte(joueurReceveur.getJoueur(), carte);
-		Carte renv;
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
 		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
 		Collections.shuffle(listeJoueur);
@@ -183,15 +182,17 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				continue;
 			else {
 				// sinon on prend une carte au hasard
-				Carte c = listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1)));
+				Carte c = carteDaoImpl.recharger(listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1))).getId_carte());
 				// on l'enleve de chez le joueur
-				joueurCible.getCartes().remove(c);
+				joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible.getJoueur());
+				joueurCible.supprimerCarte(c);
+		
 				// on la place chez le joueur en parametre
 				joueurReceveur.ajouterCarte(c);
 				// on enregistre
-				joueurPartieDaoImpl.enregistrer(joueurReceveur);
-				joueurPartieDaoImpl.enregistrer(joueurCible);
-				partieDaoImpl.enregistrer(partieCourante);
+				//joueurPartieDaoImpl.enregistrer(joueurReceveur);
+				//joueurPartieDaoImpl.enregistrer(joueurCible);
+				//partieDaoImpl.enregistrer(partieCourante);
 				return carte;
 			}
 

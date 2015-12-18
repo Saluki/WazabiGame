@@ -289,4 +289,6 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public int getNbWazabi(Joueur joueur);
+
+	public void donnerDes(Joueur j, int id_joueur);
 }

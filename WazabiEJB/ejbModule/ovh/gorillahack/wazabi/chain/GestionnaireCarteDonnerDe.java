@@ -26,7 +26,8 @@ public class GestionnaireCarteDonnerDe extends GestionnaireCarte{
 	
 	@Override
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
-		return super.utiliserCarte(c, j);
+		 gp.donnerDes(j, j.getId_joueur());
+		 return true;
 	}
 	
 	@Override

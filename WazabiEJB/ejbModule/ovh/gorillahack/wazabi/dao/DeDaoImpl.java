@@ -75,7 +75,10 @@ public class DeDaoImpl extends DaoImpl<De> {
 		De de = courant.getDes().remove(0);
 		List<De> des = jp.getDes();
 		des.add(de);
+		jp.setDes(des);
+		
 		joueurPartieDaoImpl.mettreAJour(jp);
 		joueurPartieDaoImpl.mettreAJour(courant);
+		
 	}
 }
