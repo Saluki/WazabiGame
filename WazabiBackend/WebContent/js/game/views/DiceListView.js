@@ -83,6 +83,7 @@ app.DiceListView = Backbone.View.extend({
 		if( numberDices==0 ) {
 			
 			app.Status.instance().set(app.Status.C.CHOOSE_CARD);
+			alertify.success('Bien joue! Vous pouvez maintenant choisir une carte ou terminer votre tour...');
 			return;
 		}
 		

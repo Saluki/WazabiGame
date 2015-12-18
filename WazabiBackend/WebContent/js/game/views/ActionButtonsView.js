@@ -8,6 +8,7 @@ app.ActionButtonsView = Backbone.View.extend({
 	el: '#actions-view',
 	
 	events: {
+		'click #btn-roll-dice': 'rollDices',
 		'click #btn-game-quit': 'sendServerQuit',
 		'click #btn-game-next': 'sendServerNext'
 	},
@@ -16,6 +17,10 @@ app.ActionButtonsView = Backbone.View.extend({
 
 	render: function() {
 		return this;
+	},
+	
+	rollDices: function() {
+		app.playerDicesView.rollDices();
 	},
 	
 	sendServerNext: function() {

@@ -40,7 +40,7 @@ public class GamePlayCard extends HttpServlet {
 			cardId = Integer.parseInt(request.getParameter("cardId"));
 		}
 		catch(NumberFormatException e) {
-			throwJsonError(response, "L'identifiant de la carte n'est pas valide");
+			throwJsonError(response, "L'identifiant de la carte n'est pas valide ("+ e.getMessage() +")");
 			return;
 		}
 		
@@ -65,7 +65,7 @@ public class GamePlayCard extends HttpServlet {
 					challengerId = Integer.parseInt(input);
 				}
 				catch(NumberFormatException e) {
-					throwJsonError(response, "Le numero de l'adversaire n'est pas valide");
+					throwJsonError(response, "Le numero de l'adversaire n'est pas valide ("+e.getMessage()+")");
 					return;
 				}
 				
@@ -80,10 +80,10 @@ public class GamePlayCard extends HttpServlet {
 			}
 			else if( inputType.equals(DIRECTION_TYPE) ) {
 				
-				if( input.equals(Sens.HORAIRE) ) {
+				if( input.equals(Sens.HORAIRE.toString()) ) {
 					gestionPartie.utiliserCarte(cardId, Sens.HORAIRE);
 				}
-				else if( input.equals(Sens.ANTIHORAIRE) ) {
+				else if( input.equals(Sens.ANTIHORAIRE.toString()) ) {
 					gestionPartie.utiliserCarte(cardId, Sens.ANTIHORAIRE);
 				}
 				else {
@@ -94,7 +94,7 @@ public class GamePlayCard extends HttpServlet {
 			}
 			else {
 				
-				throwJsonError(response, "Le type de carte n'est pas reconnu");
+				throwJsonError(response, "Le type de carte ("+ inputType +") n'est pas reconnu");
 				return;
 			}
 

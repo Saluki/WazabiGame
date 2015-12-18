@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -96,16 +97,17 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				while(suivant.getCompteur_sauts()>0){
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+				System.out.println("suivant ----------> "+suivant);
+				while (suivant.getCompteur_sauts() > 0) {
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurSuivant(suivant, p);
 				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
-				while(suivant.getCompteur_sauts()>0){
-					suivant.setCompteur_sauts(suivant.getCompteur_sauts()-1);
+				while (suivant.getCompteur_sauts() > 0) {
+					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
 					suivant = joueurPartieDaoImpl.getJoueurPrecedent(suivant, p);
 				}
@@ -142,15 +144,15 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		Carte c = p.piocher();
-		c = carteDaoImpl.recharger(c.getId_carte()); //Utile?
+		c = carteDaoImpl.recharger(c.getId_carte()); // Utile?
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<Carte> cartes = jp.getCartes();
-		if(cartes==null)
+		if (cartes == null)
 			cartes = new ArrayList<Carte>();
 		cartes.add(c);
 		jp.setCartes(cartes);
 		joueurPartieDaoImpl.mettreAJour(jp);
-		partieDaoImpl.mettreAJour(p); //Utile?
+		partieDaoImpl.mettreAJour(p); // Utile?
 		return c;
 	}
 
@@ -238,17 +240,16 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		List<Carte> listeCarteCible = joueurCible.getCartes();
 		if (listeCarteCible.size() < 2)
 			return false;
-		if (listeCarteCible.size() == 2) {
-			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
-			return true;
-		}
-		
-			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
-			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
-			return true;
+		Random random = new Random();
+		int index = random.nextInt(listeCarteCible.size());
+		Carte carte = listeCarteCible.get(index);
+		listeCarteCible.clear();
+		listeCarteCible.add(carte);
+		joueurCible.setCartes(listeCarteCible);
+		return true;
 	}
-	
-	public Joueur getJoueur(String pseudo){
+
+	public Joueur getJoueur(String pseudo) {
 		return super.recherche("SELECT j FROM Joueur j WHERE j.pseudo=?1", pseudo);
 	}
 }

@@ -9,6 +9,9 @@
 	<div id="game-header" class="clearfix">
 		<div id="player-view"></div>	
 		<div id="actions-view">
+			<div id="btn-roll-dice" class="btn btn-success">
+				<i class="glyphicon glyphicon-random"></i>&nbsp;&nbsp;Lancer les des
+			</div>
 			<div id="btn-game-next" class="btn btn-primary">
 				<i class="glyphicon glyphicon-repeat"></i>&nbsp;&nbsp;Terminer tour de jeu
 			</div>
@@ -37,7 +40,9 @@
 	
 	<div id="finishing-screen">
 		
-		La partie vient de se terminer
+		<span class="text-primary">
+			La partie vient de se terminer
+		</span>
 		<br><br>	
 		<a href="app/dashboard.html" class="btn btn-primary btn-lg">Retourner au dashboard</a>
 		
