@@ -80,10 +80,10 @@ public class GamePlayCard extends HttpServlet {
 			}
 			else if( inputType.equals(DIRECTION_TYPE) ) {
 				
-				if( input.equals(Sens.HORAIRE) ) {
+				if( input.equals(Sens.HORAIRE.toString()) ) {
 					gestionPartie.utiliserCarte(cardId, Sens.HORAIRE);
 				}
-				else if( input.equals(Sens.ANTIHORAIRE) ) {
+				else if( input.equals(Sens.ANTIHORAIRE.toString()) ) {
 					gestionPartie.utiliserCarte(cardId, Sens.ANTIHORAIRE);
 				}
 				else {
