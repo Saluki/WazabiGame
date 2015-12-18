@@ -19,11 +19,11 @@
 			<img src="assets/penguin.png"><br>
 			Commencer partie
 		</a>
+		<a href="app/logout.html" class="btn btn-default">
+			<img src="assets/star.png"><br>
+			Quitter
+		</a>
 	</div>
-	
-	<a href="app/logout.html" class="btn btn-danger btn-bottom">
-		<i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Quitter
-	</a>
 	
 </div>
 
