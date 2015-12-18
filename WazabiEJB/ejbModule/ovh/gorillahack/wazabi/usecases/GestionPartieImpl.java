@@ -420,4 +420,14 @@ public class GestionPartieImpl implements GestionPartie {
 		
 	}
 
+	@Override
+	public void changementDeSens() throws NoCurrentGameException {
+		if (getPartieCourante().getSens() == Sens.HORAIRE) {
+			changementDeSens(Sens.ANTIHORAIRE);
+		} else if (getPartieCourante().getSens() == Sens.ANTIHORAIRE) {
+			changementDeSens(Sens.HORAIRE);
+		}
+		
+	}
+
 }
