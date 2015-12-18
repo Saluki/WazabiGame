@@ -91,13 +91,19 @@ public class GestionPartieImpl implements GestionPartie {
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
 		try {
-			inscrire("em", "em", "em");
-			inscrire("mi", "mi", "mi");
-			inscrire("ol", "ol", "ol");
+			//Ajout des joueurs par défaut
+			if(joueurDaoImpl.getJoueur("em")==null)
+				inscrire("em", "em", "em");
+			if(joueurDaoImpl.getJoueur("mi")==null)
+				inscrire("mi", "mi", "mi");
+			if(joueurDaoImpl.getJoueur("ol")==null)
+				inscrire("ol", "ol", "ol");
+			//Creation de la chaine de responsabilité du traitement de cartes
 			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
 									new GestionnaireCartePasserTour(new GestionnaireCarteChangerSens(null))))))))));
+			//Initialisation du XMLParser
 			xmlParserImpl = new XmlParserImpl();
 		} catch (ValidationException e) {
 		}
@@ -112,8 +118,6 @@ public class GestionPartieImpl implements GestionPartie {
 	 * Default constructor.
 	 */
 	public GestionPartieImpl() {
-		// TODO Lors de la selection du joueur courant, il faut prendre en
-		// compte le champ "compteur_saut".
 	}
 
 	@Override
