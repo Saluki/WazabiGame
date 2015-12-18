@@ -156,24 +156,6 @@ public interface GestionPartie {
 	public void deconnecter(Joueur j);
 
 	/**
-	 * Permet de recuperer le nombre de des distribues au debut de partie a chaque joueur.
-	 * 
-	 * @return le nombre de des par joueur.
-	 */
-	public int getNbDesParJoueur();
-
-	public void setNbDesParJoueur(int nbDesParJoueur);
-
-	/**
-	 * Permet de recuperer le nombre de des total d'une partie.
-	 * 
-	 * @return Le nombre de des total d'une partie.
-	 */
-	public int getNbDesTotal();
-
-	public void setNbDesTotal(int nbDesTotal);
-
-	/**
 	 * 
 	 * Permet d'utiliser une carte dont aucun input est requis
 	 * 
@@ -241,4 +223,8 @@ public interface GestionPartie {
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
 		
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
+	
+	public int getNbWazabi(Joueur joueur);
+	
+	public void donnerDes(Joueur j, int id_joueur);
 }

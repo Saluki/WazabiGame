@@ -63,7 +63,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private int nbDesTotal;
 	private List<Carte> pioche;
 	private GestionnaireCarte gc;
-	
+
 	@EJB
 	private JoueurDaoImpl joueurDaoImpl;
 
@@ -74,7 +74,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private PartieDaoImpl partieDaoImpl;
 
 	private XmlParserImpl xmlParserImpl;
-	
+
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
 	
@@ -171,8 +171,10 @@ public class GestionPartieImpl implements GestionPartie {
 	 * @return Le Joueur qui commencera la partie.
 	 */
 	private void commencerPartie() throws NoCurrentGameException {
-		/*TODO faudra reinitialiser toutes les données si on veut pouvoir reutiliser le même paquet de cartes
-		(ex id_joueur, id_partie, ...)*/
+		/*
+		 * TODO faudra reinitialiser toutes les données si on veut pouvoir
+		 * reutiliser le même paquet de cartes (ex id_joueur, id_partie, ...)
+		 */
 		partieDaoImpl.enregistrerPioche(pioche);
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
@@ -233,22 +235,6 @@ public class GestionPartieImpl implements GestionPartie {
 
 	public Joueur getJoueurCourant() {
 		return partieCourante.getCourant().getJoueur();
-	}
-
-	public int getNbDesParJoueur() {
-		return nbDesParJoueur;
-	}
-
-	public void setNbDesParJoueur(int nbDesParJoueur) {
-		this.nbDesParJoueur = nbDesParJoueur;
-	}
-
-	public int getNbDesTotal() {
-		return nbDesTotal;
-	}
-
-	public void setNbDesTotal(int nbDesTotal) {
-		this.nbDesTotal = nbDesTotal;
 	}
 
 	@Override
@@ -319,9 +305,8 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public Carte piocherUneCarteChezUnJoueur(Carte c) {
 		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
-		
-	}
 
+	}
 
 	@Override
 	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
@@ -330,13 +315,16 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c) {
-	 return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes(c);
+		return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes();
 	}
+
 
 	@Override
 	public boolean passerTour(Carte c, Joueur j) {
-		return joueurDaoImpl.passerTour(c,j);
+		// TODO Auto-generated method stub
+		return joueurDaoImpl.passerTour(c, j);
 	}
+
 
 	@Override
 	public void supprimerDe(Joueur joueur) {
@@ -369,7 +357,7 @@ public class GestionPartieImpl implements GestionPartie {
 		}
 		return suivant.getJoueur();
 	}
-	
+
 	public void changementDeSens(Sens sens) throws NoCurrentGameException {
 		partieCourante.setSens(sens);
 		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
@@ -400,10 +388,27 @@ public class GestionPartieImpl implements GestionPartie {
 	private void setDices() throws XmlParsingException{
 		List<Face> faces = xmlParserImpl.parseDes();
 		faceDaoImpl.enregistrer(faces);
-		System.out.println("Nombre de des total: "+nbDesTotal);
 		for(int i = 0; i<nbDesTotal; i++){
 			deDaoImpl.enregistrer(new De());
 		}
 	}
-	
+
+	@Override
+	public int getNbWazabi(Joueur joueur) {
+		int count = 0;
+		List<De> des = joueurDaoImpl.voirDes(joueur);
+		for (De de : des) {
+			if (de.getValeur() == Valeur.WAZABI) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public void donnerDes(Joueur j, int id_joueur) {
+		Joueur adverse = joueurDaoImpl.rechercher(id_joueur);
+		deDaoImpl.donnerDe(adverse);
+	}
+
 }

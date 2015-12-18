@@ -70,12 +70,12 @@ public class GameStatus extends HttpServlet {
 	protected void addGameStatus() throws NoCurrentGameException {
 
 		Partie partieCourante = gestionPartie.getPartieCourante();
-		
-		if( partieCourante.getVainqueur()!=null ) {
+
+		if (partieCourante.getVainqueur() != null) {
 			statusObject.put("status", "TERMINE");
 			return;
 		}
-		
+
 		statusObject.put("status", partieCourante.getStatut().toString());
 	}
 
@@ -96,7 +96,7 @@ public class GameStatus extends HttpServlet {
 		JSONObject playerData = new JSONObject();
 		playerData.put("name", joueurSession.getPseudo());
 		playerData.put("play", joueurCourant.equals(joueurSession));
-		playerData.put("skip", 0); // TODO Add number skipped
+		playerData.put("skip", 0);	// TODO
 
 		statusObject.put("player", playerData);
 	}
@@ -111,26 +111,25 @@ public class GameStatus extends HttpServlet {
 
 		JSONArray cardsObject = new JSONArray();
 		List<Carte> cardList = gestionPartie.voirCartes(joueurSession);
-		for(Carte card : cardList) {
-			
+		for (Carte card : cardList) {
+
 			JSONObject cardJsonObject = new JSONObject();
 			cardJsonObject.put("id", card.getId_carte());
 			cardJsonObject.put("name", card.getCarteEffet().getEffet());
 			cardJsonObject.put("description", card.getDescription());
-			cardJsonObject.put("image", "");	// TODO
 			cardJsonObject.put("effect", card.getCodeEffet());
 			cardJsonObject.put("cost", card.getCout());
 			cardJsonObject.put("input", card.getInput().toString());
-			
+
 			cardsObject.add(cardJsonObject);
 		}
-		
+
 		JSONArray dicesArray = new JSONArray();
 		List<De> playerDices = gestionPartie.voirDes(joueurSession);
-		for(De de : playerDices) {
+		for (De de : playerDices) {
 			dicesArray.add(de.getValeur().toString());
 		}
-		
+
 		JSONObject playerHandObject = new JSONObject();
 		playerHandObject.put("cards", cardsObject);
 		playerHandObject.put("dices", dicesArray);
@@ -141,8 +140,9 @@ public class GameStatus extends HttpServlet {
 	/**
 	 * Ajoute les donnees concernant les adversaires du joueur.
 	 * 
-	 * Pour chaque challenger, son nom et sa combinaison de des, sont extraites
-	 * et mis dans l'objet JSON representant la reponse REST.
+	 * Pour chaque challenger, son nom, son ID, son nombre de cartes et sa
+	 * combinaison de des, sont extraites et mis dans l'objet JSON representant
+	 * la reponse REST.
 	 * 
 	 * @param joueurSession
 	 *            Le joueur possedant la session
@@ -156,10 +156,20 @@ public class GameStatus extends HttpServlet {
 		for (Joueur challenger : challengers) {
 
 			JSONObject challengerObject = new JSONObject();
+
 			challengerObject.put("id", challenger.getId_joueur());
 			challengerObject.put("name", challenger.getPseudo());
-			challengerObject.put("dices", new JSONArray()); // TODO
-			
+
+			JSONArray dicesArray = new JSONArray();
+			List<De> challengerDices = gestionPartie.voirDes(challenger);
+			for (De dice : challengerDices) {
+				dicesArray.add(dice.getValeur().toString());
+			}
+			challengerObject.put("dices", dicesArray);
+
+			int cardNumber = gestionPartie.voirCartes(challenger).size();
+			challengerObject.put("cardnumber", cardNumber);
+
 			challengersList.add(challengerObject);
 		}
 

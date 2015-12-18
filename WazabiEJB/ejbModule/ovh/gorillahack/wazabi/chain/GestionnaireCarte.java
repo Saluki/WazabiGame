@@ -45,7 +45,6 @@ public abstract class GestionnaireCarte {
 		System.out.println("Passage par " + this.getClass());
 		int ce = c.getCodeEffet();
 		if (effetJoueur.contains(ce) || effetSens.contains(ce)) {
-			System.out.println("Carte id " + c.getId_carte() + " a été skipped.");
 			return false;
 		}
 		if (this.next != null)
@@ -54,6 +53,7 @@ public abstract class GestionnaireCarte {
 	}
 
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
+		System.out.println("Passage par " + this.getClass());
 		if (!effetSens.contains(c.getCodeEffet()))
 			return false;
 		if (next != null)
@@ -62,6 +62,7 @@ public abstract class GestionnaireCarte {
 	}
 
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
+		System.out.println("Passage par " + this.getClass());
 		if (!effetJoueur.contains(c.getCodeEffet()))
 			return false;
 		if (next != null)

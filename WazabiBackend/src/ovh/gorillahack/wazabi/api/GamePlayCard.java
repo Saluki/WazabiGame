@@ -52,13 +52,13 @@ public class GamePlayCard extends HttpServlet {
 			}
 			else if( input.equals(PLAYER_TYPE) ) {
 				
-				// TODO Change method signature
+				// TODO Call get joueur by ID
 				// gestionPartie.utiliserCarte(cardId);
 			
 			}
 			else if( input.equals(DIRECTION_TYPE) ) {
 				
-				// TODO Change method signature
+				// TODO Find directeion based on enum
 				// gestionPartie.utiliserCarte(cardId);
 				
 			}

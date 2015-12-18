@@ -13,19 +13,15 @@ public class GestionnaireCartePioche3 extends GestionnaireCarte {
 
 	@Override
 	public boolean validerCarte(Carte c) {
-		boolean res = c.getCodeEffet() == 7;
-		System.out.println("Pioche 3 : " + res);
-		return res;
+		return c.getCodeEffet() == 7;
 	}
 
 	@Override
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		if (!validerCarte(c)) {
-			System.out.println("Pioche 3 passée.");
 			return super.utiliserCarte(c);
 		}
 		for (int i = 0; i < 3; i++) {
-			System.out.println("On pioche !");
 			gp.piocherUneCarte(gp.getJoueurCourant());
 		}
 		gp.remettreCarte(gp.getJoueurCourant(), c);

@@ -64,13 +64,7 @@ app.ActionButtonsView = Backbone.View.extend({
 				return;
 			}
 			
-			alertify.alert('Merci d\'avoir joue une partie de Wazabi.<br>Vous allez etre redirige vers votre dashboard dans quelques secondes...', function(){
-				window.location.replace('app/dashboard.html');
-			});
-
-			setTimeout(function(){
-				window.location.replace('app/dashboard.html');
-			}, 7000);
+			app.board.showFinishingScreen();
 			
 		})
 		.fail(function(){

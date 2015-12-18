@@ -142,9 +142,35 @@ body {
 	margin-left: 30px;
 	padding: 10px;
 	text-align: center;
-	font-weight: bold;
 	background: #ffffff;
 	display: inline-block;
+}
+
+.challenger-dices {
+	
+	text-align: center;
+	padding-top: 10px;
+}
+
+.challenger-about {
+	
+	font-weight: bold;
+	margin: 10px;
+	margin-top: 15px;
+	font-size: 16px;
+}
+
+.challenger-about > i {
+	
+	font-size: 20px;
+}
+
+.mini-dice {
+	
+	display: inline;
+	margin: 5px;
+	text-align: center;
+	font-size: 20px;
 }
 
 #finishing-screen {
