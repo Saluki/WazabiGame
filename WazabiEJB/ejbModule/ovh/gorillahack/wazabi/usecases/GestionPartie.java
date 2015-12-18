@@ -258,7 +258,7 @@ public interface GestionPartie {
 
 	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c);
 
-	boolean laisserAdversaireAvecDeuxCartes(Carte c);
+
 
 	Carte piocherUneCarteChezUnJoueur(Carte c);
 
