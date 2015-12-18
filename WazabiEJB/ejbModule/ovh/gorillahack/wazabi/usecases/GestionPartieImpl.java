@@ -89,14 +89,14 @@ public class GestionPartieImpl implements GestionPartie {
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
 		try {
-			//Ajout des joueurs par d�faut
+			//Ajout des joueurs par defaut
 			if(joueurDaoImpl.getJoueur("em")==null)
 				inscrire("em", "em", "em");
 			if(joueurDaoImpl.getJoueur("mi")==null)
 				inscrire("mi", "mi", "mi");
 			if(joueurDaoImpl.getJoueur("ol")==null)
 				inscrire("ol", "ol", "ol");
-			//Creation de la chaine de responsabilit� du traitement de cartes
+			//Creation de la chaine de responsabilite du traitement de cartes
 			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
@@ -220,7 +220,6 @@ public class GestionPartieImpl implements GestionPartie {
 			setParameters();
 			setCards();
 			setDices();
-
 		} else{
 			pioche = carteDaoImpl.lister();
 		}
@@ -276,11 +275,6 @@ public class GestionPartieImpl implements GestionPartie {
 	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
 		Carte c = carteDaoImpl.rechercher(id_carte);
 		try {
-			// if (c.getCout() > getNbWazabi(getJoueurCourant())) {
-			// throw new CardConstraintViolatedException(
-			// "Le joueur " + getJoueurCourant() + " n'a pas assez de wazabi
-			// pour jouer cette carte.");
-			// }
 			gc.utiliserCarte(c, sens);
 		} catch (CardConstraintViolatedException e) {
 			e.printStackTrace();
@@ -329,7 +323,7 @@ public class GestionPartieImpl implements GestionPartie {
 			JoueurPartie joueurPartie = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
 			joueurPartieDaoImpl.supprimerDe(joueurPartie);
 		} catch (NotEnoughDiceException e) {
-			System.out
+			System.err
 					.println("Player " + joueur.getPseudo() + " tried to remove one of his dice but already had none.");
 		}
 	}
@@ -419,8 +413,7 @@ public class GestionPartieImpl implements GestionPartie {
 		}
 		List<Joueur> adversaires = getAdversaires(getJoueurCourant());
 
-		// on ajoute un saut � tous les adversaires comme impl�mentation de
-		// rejouer
+		// on ajoute un saut a tous les adversaires comme implementation de rejouer
 		for (Joueur joueur : adversaires) {
 			JoueurPartie adversaire = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
 			adversaire = joueurPartieDaoImpl.recharger(adversaire.getId_joueur_partie());
@@ -442,5 +435,4 @@ public class GestionPartieImpl implements GestionPartie {
 	public boolean piocherUneCarteChezUnJoueur(Carte c, Joueur j) {
 		return joueurDaoImpl.piocherCarteChezUnJoueur(c,j);
 	}
-
 }

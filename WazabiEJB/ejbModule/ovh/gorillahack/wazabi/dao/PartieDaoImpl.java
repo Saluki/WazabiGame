@@ -95,11 +95,10 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		
 		int nbJoueurs = getPartieCourante().getJoueursParties().size();
 		for(int i = 0; i<nbJoueurs;i++){
-			System.out.println("Attribution des cartes aux joueurs");
 			for(int j = 0; j<nbCartesParJoueur; j++)
 				gestionPartie.piocherUneCarte(getPartieCourante().getJoueursParties().get(i).getJoueur());
 		}
-		//Attribution des d�s
+		//Attribution des des aux joueurs
 		int cpt=1;
 		for (Joueur j : listerJoueurPartieCourante()) {
 			List<De> des = new ArrayList<De>();

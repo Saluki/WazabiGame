@@ -44,20 +44,20 @@ public interface GestionPartie {
 	public List<Partie> afficherHistorique(Joueur j);
 
 	/**
-	 * Permet � un utilisateur de se connecter sur l'application.
+	 * Permet a un utilisateur de se connecter sur l'application.
 	 * 
 	 * @param pseudo
-	 *            Le pseudo � verifier.
+	 *            Le pseudo a verifier.
 	 * @param motdepasse
-	 *            Le mot de passe � verifier.
+	 *            Le mot de passe a verifier.
 	 * @return Le joueur si l'authentification a reussi, null sinon.
 	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
 	 */
 	public Joueur seConnecter(String pseudo, String mdp) throws ovh.gorillahack.wazabi.exception.ValidationException;
 
 	/**
-	 * Permet � un joueur rejoindre la partie en cours. Si cette partie est
-	 * commencee, le joueur n'est pas r�jout� � la partie et retournera NULL.
+	 * Permet a un joueur rejoindre la partie en cours. Si cette partie est
+	 * commencee, le joueur ne rejoint pas la partie et retournera NULL.
 	 * 
 	 * @param Joueur
 	 *            j: le joueur voulant rejoindre la partie.
@@ -66,7 +66,7 @@ public interface GestionPartie {
 	public void rejoindrePartie(Joueur j) throws NoCurrentGameException;
 
 	/**
-	 * Permet de r�cup�rer la liste des joueurs de la partie courante.
+	 * Permet de recuperer la liste des joueurs de la partie courante.
 	 * 
 	 * @return La liste des joueurs de la partie courante.
 	 */
@@ -76,25 +76,25 @@ public interface GestionPartie {
 	 * Permet de lancer les des d'un joueur.
 	 * 
 	 * @param Joueur
-	 *            j: Le joueur dont on veux lancer les d�s.
+	 *            j: Le joueur dont on veux lancer les des.
 	 * @return La liste des De que le joueur a obtenu.
 	 */
 	public List<De> lancerDes(Joueur j);
 
 	/**
-	 * Permet de r�cuperer la liste des d�s d'un joueur.
+	 * Permet de recuperer la liste des des d'un joueur.
 	 * 
 	 * @param Joueur
-	 *            j: Le joueur dont on veux r�cup�rer les d�s.
-	 * @return List<De> la liste des d�s du joueur.
+	 *            j: Le joueur dont on veux recuperer les des.
+	 * @return List<De> la liste des des du joueur.
 	 */
 	public List<De> voirDes(Joueur j);
 
 	/**
-	 * Permet de r�cuperer la liste des cartes d'un joueur.
+	 * Permet de recuperer la liste des cartes d'un joueur.
 	 * 
 	 * @param Joueur
-	 *            j: Le joueur dont on veux r�cup�rer les d�s.
+	 *            j: Le joueur dont on veux recuperer les des.
 	 * @return List<De> la liste des cartes du joueur.
 	 */
 	public List<Carte> voirCartes(Joueur j);
@@ -113,7 +113,7 @@ public interface GestionPartie {
 	 * @return La partie ainsi creee
 	 * @throws ovh.gorillahack.wazabi.exception.ValidationException
 	 * @throws XmlParsingException
-	 *             Si le parsing du XML a �chou�.
+	 *             Si le parsing du XML a echoue.
 	 */
 	public Partie creerPartie(String nom)
 			throws ovh.gorillahack.wazabi.exception.ValidationException, XmlParsingException;
@@ -126,7 +126,7 @@ public interface GestionPartie {
 	public List<Joueur> getAdversaires(Joueur j) throws NoCurrentGameException;
 
 	/**
-	 * Permet de r�cup�rer le nombre de tours qu'un joueur doit passer.
+	 * Permet de recuperer le nombre de tours qu'un joueur doit passer.
 	 * 
 	 * @param j
 	 *            Le joueur dont on veut recuperer le nombre de tours a passer.
@@ -157,14 +157,7 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet d'utiliser une carte dont aucun input est requis
-	 * 
-	 * @param id_carte
-	 *            l'id de la carte.
-	 */
-	/**
-	 * 
-	 * Permet d'utiliser une carte dont aucun input est requis
+	 * Permet d'utiliser une carte pour laquelle aucun input est requis
 	 * 
 	 * @param id_carte
 	 *            l'id de la carte.
@@ -177,7 +170,7 @@ public interface GestionPartie {
 	 * @param id_carte
 	 *            l'id de la carte
 	 * @param j
-	 *            le joueur � qui les effets seront appliqu�s
+	 *            le joueur a qui les effets seront appliques
 	 * @throws PlayerNotFoundException
 	 */
 	public void utiliserCarte(int id_carte, Joueur j) throws CardNotFoundException;
@@ -195,7 +188,7 @@ public interface GestionPartie {
 
 	/**
 	 * 
-	 * Permet de distribuer des d�s � d'autres joueurs.
+	 * Permet de distribuer des des aux autres joueurs.
 	 * 
 	 * @param j
 	 *            Le joueur courant
@@ -220,7 +213,7 @@ public interface GestionPartie {
 	public void supprimerDe(Joueur joueur);
 
 	/**
-	 * Renvoie le joueur suivant l'actuel selon le sens donn�, ne v�rifie pas si
+	 * Renvoie le joueur suivant l'actuel selon le sens donne, ne verifie pas si
 	 * celui-ci doit passer son tour.
 	 * 
 	 * @param actuel
@@ -233,9 +226,9 @@ public interface GestionPartie {
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
 
 	/**
-	 * Renvoie le nombre de d�s wazabi que le joueur a actuellement. Le joueur
-	 * ne doit pas sp�cifiquement �tre le joueur courant bien que �a n'ait pas
-	 * d'int�r�t si ce n'est pas le cas.
+	 * Renvoie le nombre de des wazabi que le joueur a actuellement. Le joueur
+	 * ne doit pas specifiquement etre le joueur courant bien que il n'y a aucun
+	 * interet si ce n'est pas le cas.
 	 * 
 	 * @param joueur
 	 * @return

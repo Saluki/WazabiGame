@@ -54,7 +54,7 @@ public class DeDaoImpl extends DaoImpl<De> {
 	}
 
 	public De lancerDe(De de) {
-		List<Face> list = faceDaoImpl.getAllFaces();
+		List<Face> list = faceDaoImpl.lister();
 		// on crée une liste contenant toutes les valeurs le nombre de fois
 		// qu'elles sont présentes sur le dé.
 		List<Face.Valeur> valeursList = new ArrayList<>();
@@ -118,7 +118,7 @@ public class DeDaoImpl extends DaoImpl<De> {
 		case ANTIHORAIRE:
 
 			do {
-				// si ces pas le premier joueur
+				// si c est pas le premier joueur
 				listeDeARecevoir = retenirPourTourSuivant;
 				// fin if
 				joueurRecoitDes = joueurPartieDaoImpl.getJoueurPrecedent(joueurPerdSesDes, partieCourante);
@@ -132,7 +132,7 @@ public class DeDaoImpl extends DaoImpl<De> {
 		case HORAIRE:
 			// for
 			do {
-				// si ces pas le premier joueur
+				// si c est pas le premier joueur
 				listeDeARecevoir = retenirPourTourSuivant;
 				// fin if
 				joueurRecoitDes = joueurPartieDaoImpl.getJoueurPrecedent(joueurPerdSesDes, partieCourante);

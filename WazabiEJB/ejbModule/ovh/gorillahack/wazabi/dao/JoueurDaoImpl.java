@@ -97,7 +97,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				System.out.println("suivant ----------> " + suivant);
 				while (suivant.getCompteur_sauts() > 0) {
 					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);

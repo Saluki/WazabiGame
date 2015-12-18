@@ -96,56 +96,7 @@ public abstract class DaoImpl<E> implements Dao<E> {
 		} catch (NoResultException e) {
 			return null;
 		} catch (NonUniqueResultException e) {
-			return null; // throw new InternalError();
-		}
-	}
-
-	protected int rechercheInt(String queryString, Object... params) throws QueryException {
-		try {
-			Query query = entityManager.createQuery(queryString);
-			int i = 0, j = 1;
-			while (i < params.length) {
-				if (params[i] instanceof Date) {
-					query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
-					i += 2;
-				} else if (params[i] instanceof Calendar) {
-					query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
-					i += 2;
-				} else {
-					query.setParameter(j, params[i]);
-					i++;
-				}
-				j++;
-			}
-			return (Integer) query.getSingleResult();
-		} catch (NoResultException | NonUniqueResultException e) {
-			throw new QueryException(e);
-		}
-	}
-
-	protected E rechercheLimit1(String queryString, Object... params) {
-		try {
-			TypedQuery<E> query = entityManager.createQuery(queryString, entityClass);
-			query.setMaxResults(1);
-			int i = 0, j = 1;
-			while (i < params.length) {
-				if (params[i] instanceof Date) {
-					query.setParameter(j, (Date) params[i], (TemporalType) params[i + 1]);
-					i += 2;
-				} else if (params[i] instanceof Calendar) {
-					query.setParameter(j, (Calendar) params[i], (TemporalType) params[i + 1]);
-					i += 2;
-				} else {
-					query.setParameter(j, params[i]);
-					i++;
-				}
-				j++;
-			}
-			return (E) query.getSingleResult();
-		} catch (NoResultException e) {
 			return null;
-		} catch (NonUniqueResultException e) {
-			return null; // throw new InternalError();
 		}
 	}
 }
