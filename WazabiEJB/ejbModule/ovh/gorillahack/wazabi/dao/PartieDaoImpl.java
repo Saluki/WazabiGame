@@ -118,7 +118,9 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 		pioche = melangerPioche(pioche);
 		Partie p = getPartieCourante();
 		for (int i = 0; i<pioche.size(); i++){
-			p.ajouterCarteALaPioche(pioche.get(i));
+			Carte c = pioche.get(i);
+			c = carteDaoImpl.recharger(c.getId_carte());
+			p.ajouterCarteALaPioche(c);
 		}
 		return super.enregistrer(p);
 	}

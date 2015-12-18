@@ -25,4 +25,10 @@ public class FaceDaoImpl extends DaoImpl<Face>{
     public List<Face> getAllFaces() {
     	return super.liste("SELECT f FROM Face f");
     }
+    
+    public List<Face> enregistrer(List<Face> faces){
+    	for(Face f: faces)
+    		f = enregistrer(f);
+    	return faces;
+    }
 }

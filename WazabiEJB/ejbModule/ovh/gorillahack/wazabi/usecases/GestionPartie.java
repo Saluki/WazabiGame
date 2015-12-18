@@ -150,12 +150,10 @@ public interface GestionPartie {
 
 	/**
 	 * Permet de deconnecter un joueur de la partie courante.
-	 * 
 	 * @param j
 	 *            Le joueur que l'on veut deconnecter.
 	 */
 	public void deconnecter(Joueur j);
-
 	public int getMin_joueurs();
 
 	public void setMin_joueurs(int min_joueurs);
@@ -215,6 +213,13 @@ public interface GestionPartie {
 	 * @param id_carte
 	 *            l'id de la carte.
 	 */
+	/**
+	 * 
+	 * Permet d'utiliser une carte dont aucun input est requis
+	 * 
+	 * @param id_carte
+	 *            l'id de la carte.
+	 */
 	public void utiliserCarte(int id_carte) throws CardNotFoundException;
 
 	/**
@@ -263,7 +268,6 @@ public interface GestionPartie {
 	Carte piocherUneCarteChezUnJoueur(Carte c);
 
 	public boolean passerTour(Carte c, Joueur j);
-
 	public void supprimerDe(Joueur joueur);
 
 	/**
@@ -275,7 +279,6 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
-
 	public void setPioche(List<Carte> pioche);
 
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
@@ -289,8 +292,11 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public int getNbWazabi(Joueur joueur);
-
+	
 	public void donnerDes(Joueur j, int id_joueur);
 
+
 	boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j);
+
+	public void changementDeSens() throws NoCurrentGameException;
 }
