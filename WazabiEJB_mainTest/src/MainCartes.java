@@ -47,13 +47,19 @@ public class MainCartes {
 				for (int i = 0; i < listeCarte.size(); i++) {
 					System.out.println("La " + i + " carte est " + listeCarte.get(i).getEffet());
 				}
+				System.out.println("Le joueur possede : " + gestionPartie.voirDes(joueur1).size()+"des");
 				System.out.println("---------------------------------------------------------------------");
 				List<Carte> listeCarte2 = gestionPartie.voirCartes(joueur3);
 				System.out.println("Le joueur 2 possede : " + listeCarte2.size() + " cartes");
 				for (int i = 0; i < listeCarte2.size(); i++) {
 					System.out.println("La " + i + " carte est " + listeCarte2.get(i).getEffet());
 				}
+				System.out.println("Le joueur possede : " + gestionPartie.voirDes(joueur3).size()+"des");
 				System.out.println("------------------------------------------------------------------");
+				Joueur joueurCourant = gestionPartie.getJoueurCourant();
+				List<Carte> carteJoueurCourant = gestionPartie.voirCartes(joueurCourant);
+				System.out.println("c'est au tour de "+joueurCourant.getPseudo());
+				
 				Scanner scanner = new Scanner(System.in);
 				int numero = scanner.nextInt();
 				if (numero == -1) {
@@ -62,11 +68,11 @@ public class MainCartes {
 				} else if (numero == -2) {
 					break;
 				}
-
+		
 				// AUCUN, SENS, JOUEUR
-				switch (listeCarte.get(numero).getInput().name()) {
+				switch (carteJoueurCourant.get(numero).getInput().name()) {
 				case "AUCUN":
-					gestionPartie.utiliserCarte(listeCarte.get(numero).getId_carte());
+					gestionPartie.utiliserCarte(carteJoueurCourant.get(numero).getId_carte());
 					break;
 				case "JOUEUR":
 					List<JoueurPartie> listeJoueurPartie = gestionPartie.getPartieCourante().getJoueursParties();
@@ -75,7 +81,7 @@ public class MainCartes {
 						System.out.println("joueur numero " + i);
 					}
 					int numeroVictime = scanner.nextInt();
-					gestionPartie.utiliserCarte(listeCarte.get(numero).getId_carte(),
+					gestionPartie.utiliserCarte(carteJoueurCourant.get(numero).getId_carte(),
 							listeJoueurPartie.get(numeroVictime).getJoueur());
 					break;
 				case "SENS":
@@ -85,37 +91,30 @@ public class MainCartes {
 						System.out.println("1 anti-horaire");
 						System.out.println("2 horaire");
 						numSens = scanner.nextInt();
-					} while (numSens != 1 || numSens != 2);
+						System.out.println("numero du sens : "+numSens);
+					} while (numSens != 1 && numSens != 2);
 					Sens sens;
 					if (numSens == 1)
 						sens = Partie.Sens.ANTIHORAIRE;
 					else
 						sens = Partie.Sens.HORAIRE;
-					gestionPartie.utiliserCarte(listeCarte.get(numero).getId_carte(), sens);
+					gestionPartie.utiliserCarte(carteJoueurCourant.get(numero).getId_carte(), sens);
+					break;
 				}
-				System.out.println("Le joueur 1 a utiliser la carte " + listeCarte.get(numero).getId_carte());
-			}
+				
+				
+				System.out.println("Le joueur "+joueurCourant.getPseudo()+" a utiliser la carte " + carteJoueurCourant.get(numero).getId_carte());
+				
+				gestionPartie.terminerTour();
 
 			// etat du joueur 1
 			List<Carte> carteJoueur1 = gestionPartie.voirCartes(joueur1);
 			List<Carte> carteJoueur2 = gestionPartie.voirCartes(joueur3);
 			System.out.println("///////////////////////////////////////////////////////");
-			System.out.println("/////////////   ETAT DU JEU ///////////////////////////");
+			System.out.println("/////////////   TOUR SUIVANT///////////////////////////");
 			System.out.println("///////////////////////////////////////////////////////");
-			System.out.println("Le joueur 1 possede : " + carteJoueur1.size() + " cartes");
-			for (int i = 0; i < carteJoueur1.size(); i++) {
-				System.out.println("La " + i + " carte est " + carteJoueur1.get(i).getEffet());
 			}
-
-			System.out.println("Le joueur1 possede : " + gestionPartie.voirDes(joueur1).size());
-			System.out.println("-----------------------------------------------------------------");
-			System.out.println("Le joueur 2 possede : " + carteJoueur2.size() + " cartes");
-			for (int i = 0; i < carteJoueur2.size(); i++) {
-				System.out.println("La " + i + " carte est " + carteJoueur2.get(i).getEffet());
-			}
-			System.out.println("Le joueur possede : " + gestionPartie.voirDes(joueur3).size());
-			System.out.println("-----------------------------------------------------------------");
-
+			
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		}

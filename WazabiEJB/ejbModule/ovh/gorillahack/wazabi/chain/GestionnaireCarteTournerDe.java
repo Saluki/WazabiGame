@@ -33,7 +33,7 @@ public class GestionnaireCarteTournerDe extends GestionnaireCarte {
 		if (!validerCarte(c))
 			return super.utiliserCarte(c, sens);
 		
-		return true;
+		return gp.faireTournerLesDes(c,sens);
 	}
 
 }

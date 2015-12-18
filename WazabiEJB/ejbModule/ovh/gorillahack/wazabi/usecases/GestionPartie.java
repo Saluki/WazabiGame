@@ -299,4 +299,6 @@ public interface GestionPartie {
 	boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j);
 
 	public void changementDeSens() throws NoCurrentGameException;
+
+	public boolean faireTournerLesDes(Carte c, Sens sens);
 }

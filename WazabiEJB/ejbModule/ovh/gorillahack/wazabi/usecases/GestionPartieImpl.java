@@ -470,4 +470,13 @@ public class GestionPartieImpl implements GestionPartie {
 		
 	}
 
+	@Override
+	public boolean faireTournerLesDes(Carte c, Sens sens) {
+		// TODO Auto-generated method stub
+	
+		// utilisation de la carte
+		joueurDaoImpl.remettreCarte(this.getJoueurCourant(), c);
+		return deDaoImpl.faireTournerDes(c,sens);
+	}
+
 }
