@@ -52,6 +52,20 @@ public class JoinGame extends HttpServlet {
 		}
 
 		if (partie.getStatut() == Status.COMMENCE) {
+			
+			try {
+				
+				if( gestionPartie.listerJoueurPartieCourante().contains(joueur) ) {
+					
+					getServletContext().getNamedDispatcher("app.game").forward(request, response);
+					return;
+				}
+			
+			} catch (NoCurrentGameException e) {
+				getServletContext().getNamedDispatcher("app.create").forward(request, response);
+				return;
+			}
+			
 			request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
 			getServletContext().getNamedDispatcher("app.create").forward(request, response);
 			return;
@@ -94,6 +108,13 @@ public class JoinGame extends HttpServlet {
 				}
 
 				if (partieCourante.getStatut() == Status.COMMENCE) {
+											
+					if( gestionPartie.listerJoueurPartieCourante().contains(joueur) ) {
+						
+						getServletContext().getNamedDispatcher("app.game").forward(request, response);
+						return;
+					}
+					
 					request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
 					getServletContext().getNamedDispatcher("app.create").forward(request, response);
 					return;

@@ -18,6 +18,7 @@ import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.util.CryptService;
@@ -255,6 +256,16 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			for (int i = 0; i < size; i++) {
 				Carte c = jp.getCartes().get(0);
 				remettreCarte(jp.getJoueur(), c);
+			}
+			
+			size = jp.getDes().size();
+			for(int i = 0; i<size;i++){
+				List<De> des = jp.getDes();
+				for(int j = 0; j<des.size();j++){
+					De d = des.get(j);
+					d.setValeur(Valeur.WAZABI);
+					deDaoImpl.mettreAJour(d);
+				}
 			}
 		}
 	}
