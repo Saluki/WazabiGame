@@ -28,7 +28,7 @@
 		En attente de joueurs...
 		
 		<div class="progress">
-		  <div class="progress-bar progress-bar-striped active" style="width: 100%"></div>
+		  <div class="progress-bar progress-bar-striped  progress-bar-danger active" style="width: 100%"></div>
 		</div>
 		
 	</div>

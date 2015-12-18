@@ -18,22 +18,21 @@ import ovh.gorillahack.wazabi.usecases.GestionPartie;
 public class ScoreBoard extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private GestionPartie gestionPartie;
+
 	/**
-	 * description : Recupere la session de l'utilisateur et recupere l'historique de ses anciennes parties. 
-	 * 				Mets en attribut de la requete la liste et la renvoi a app.scoreboard
+	 * Recupere l'historique des anciennes parties.
 	 * 
+	 * Mets en attribut de la requete la liste et la renvoi a app.scoreboard.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		Joueur joueur = (Joueur) request.getSession().getAttribute("authentificated");
-		
-		List<Partie> listeHistorique = null;
-		
-		listeHistorique = gestionPartie.afficherHistorique(joueur);
 
+		Joueur joueur = (Joueur) request.getSession().getAttribute("authenticated");
+
+		List<Partie> listeHistorique = gestionPartie.afficherHistorique(joueur);
 		request.setAttribute("listeHistorique", listeHistorique);
 		
 		getServletContext().getNamedDispatcher("app.scoreboard").forward(request, response);

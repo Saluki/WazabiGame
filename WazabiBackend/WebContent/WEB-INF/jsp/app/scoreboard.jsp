@@ -33,25 +33,38 @@
 			</div>
 						
 			<c:if test="${ fn:length(requestScope.listeHistorique) > 0 }">
-			
-				<br><br>
-							
+										
 				<table class="table">
-				  <tr>
-				    <th>Nom partie</th>
-				    <th>Gagnant</th>
-				    <th>Date de début</th>
-				  </tr>
-				  <c:forEach var="partie" items="${ requestScope.listeHistorique }">
-					<tr>
-						<td>${ partie.nom }</td>
-						<td>${ partie.vainqueur.pseudo }</td>
-						<td>${ partie.timestamp_creation }</td>
-					</tr>
-				</c:forEach>
+					<thead>
+					  <tr>
+					    <th>Nom partie</th>
+					    <th>Gagnant</th>
+					    <th>Date de début</th>
+					    <th>Statut</th>
+					  </tr>
+				  	</thead>
+				  	<tbody>
+						  <c:forEach var="partie" items="${ requestScope.listeHistorique }">
+							<tr>
+								<td>${ partie.nom }</td>
+								<td>${ partie.vainqueur.pseudo }</td>
+								<td>${ partie.timestamp_creation }</td>
+								<td>
+									<c:choose>
+										<c:when test="${ partie.statut == 'ANNULEE' }">
+											<span class="label label-danger">Annulee</span>	
+										</c:when>
+										<c:when test="${ partie.statut != 'ANNULEE' }">
+											<span class="label label-success">Terminee</span>
+										</c:when>
+									</c:choose>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 				
-				<br><br>
+				<br>
 			
 			</c:if>
 			
