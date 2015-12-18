@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
+@SuppressWarnings("unchecked")
 @WebServlet("/api/game/quit")
 public class GameQuit extends HttpServlet {
 
@@ -23,19 +24,21 @@ public class GameQuit extends HttpServlet {
 	private GestionPartie gestionPartie;
 
 	/**
-	 * Permet a un utilisateur de quitter une partie en cours.
+	 * Methode REST permettant a un utilisateur de quitter une partie en cours.
 	 * 
 	 * L'utilisateur est deconnecte de la partie, le statut de la partie est mis
 	 * a jour et un message de confirmation JSON est envoye a l'utilisateur.
 	 */
-	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		JSONObject jsonResponse = new JSONObject();
 		Joueur joueurConnecte = (Joueur) request.getSession().getAttribute("authenticated");
 
-		gestionPartie.deconnecter(joueurConnecte);
+		synchronized (getServletContext()) {
+			
+			gestionPartie.deconnecter(joueurConnecte);
+		}
 
 		jsonResponse.put("status", true);
 
