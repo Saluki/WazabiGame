@@ -7,6 +7,10 @@
 
 <div id="login-box">
 
+	<div id="header-picture">
+		<img src="assets/tree.png">
+	</div>
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2 class="panel-title">Inscription</h2>
@@ -15,20 +19,36 @@
 
 			<form method="POST" action="register.html">
 
-				<label>Pseudo</label> 
-				<input type="text" name="pseudo" placeholder="Pseudo" class="form-control" value="${ param.pseudo }">
+				<br>
+
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-user"></i>
+					</span> 
+					<input type="text" name="pseudo" placeholder="Pseudo" class="form-control" value="${ param.pseudo }">
+				</div>				
 				<br> 
-				
-				<label>Mot de passe</label>
-				<input type="password" name="mot_de_passe" placeholder="Mot de passe" class="form-control">
+			
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-lock"></i>
+					</span> 
+					<input type="password" name="mot_de_passe" placeholder="Mot de passe" class="form-control">
+				</div>	
 				<br> 
-				
-				<label>Repeter mot de passe</label>
-				<input type="password" name="mot_de_passe_repeat" placeholder="Mot de passe" class="form-control">
+			
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-repeat"></i>
+					</span> 
+					<input type="password" name="mot_de_passe_repeat" placeholder="Repeter mot de passe" class="form-control">
+				</div>		
 				<br><br> 
 				
-				<a href="index.html" class="btn btn-default pull-left">Connection</a>
-				<input type="submit" value="Inscription" class="btn btn-primary pull-right">
+				<a href="index.html" class="btn btn-default pull-left">
+					<i class="glyphicon glyphicon-chevron-left"></i>&nbsp;&nbsp;Connection
+				</a>
+				<input type="submit" value="Inscription" class="btn btn-danger pull-right">
 
 			</form>
 
@@ -36,8 +56,8 @@
 	</div>
 	
 	<c:if test="${ not empty requestScope.errorMessage }">
-		<div class="alert alert-info">
-			${ requestScope.errorMessage }
+		<div class="alert alert-danger">
+			<i class="glyphicon glyphicon-fire"></i>&nbsp;&nbsp;${ requestScope.errorMessage }
 		</div>
 	</c:if>
 	
@@ -45,5 +65,12 @@
 
 <!-- JS Dependencies -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- JS Utilities -->
+<script>
+
+	$('input[type="text"]:first').focus();
+
+</script>
 
 <jsp:include page="/WEB-INF/jspf/footer.jspf" />

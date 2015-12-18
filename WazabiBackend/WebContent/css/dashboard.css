@@ -1,8 +1,18 @@
+body {
+	background: url('../assets/symphony.png');
+}
+
 #dashboard-container {
 	
-	width: 400px;
+	width: 600px;
 	margin: 100px auto;
 	text-align: center;
+}
+
+h2 {
+	
+	font-weight: bold;
+	color: #D9534F;
 }
 
 .button-toolbar {
@@ -13,15 +23,18 @@
 
 .button-toolbar > a {
 	
-	width: 48%;
+	width: 200px;
 	font-weight: bold;
 	padding-bottom:20px;
+	text-align: center;
+	color: #D9534F;
+	margin: 20px;
 }
 
-.button-toolbar > a > i {
+.button-toolbar > a > img {
 	
 	font-size: 40px;
-	display: block;
+	display: inline;
 	text-align: center;
 	margin: 20px;
 }

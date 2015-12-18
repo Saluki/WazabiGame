@@ -27,21 +27,25 @@ public class Authentication extends HttpServlet {
 	public void init() {
 		this.context = getServletContext();
 	}
-/**
- * description : redirection vers la page index.html
- */
+
+	/**
+	 * Redirection vers la page index.html
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		response.sendRedirect("index.html");
 	}
-/**
- * 
- * description : recuperation des paremetres pseudo et mot_de_passe afin de verifier si l'utilisateur a entre le bon mdp et le
- * 				bon pseudo . Si oui il est rediri� vers le dashboard ,sinon il reste sur le page et un message d'erreur lui est affich�
- * exception : une Validation exception est lanc� si il utilise un pseudo de plus de 20 caracteres ou si il utilise des caracteres speciaux
- */
 
+	/**
+	 * Recuperation des paremetres pseudo et mot_de_passe
+	 * 
+	 * Ceci afin de verifier si l'utilisateur a entre le bon mdp et le bon
+	 * pseudo . Si oui il est redirige vers le dashboard ,sinon il reste sur le
+	 * page et un message d'erreur lui est affiche. Une "Validation"
+	 * exception est lance si il utilise un pseudo de plus de 250 caracteres ou
+	 * si il utilise des caracteres speciaux
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -50,13 +54,14 @@ public class Authentication extends HttpServlet {
 
 		Joueur joueur;
 		try {
-			joueur = gestionPartie.seConnecter(pseudo, password);
+			synchronized (getServletContext()) {
+				joueur = gestionPartie.seConnecter(pseudo, password);
+			}
 		} catch (ValidationException e) {
-			// TODO Auto-generated catch block
 			redirectWithError(request, response, e.getMessage());
 			return;
 		}
-		if ( joueur != null) {
+		if (joueur != null) {
 			request.getSession().setAttribute("authenticated", joueur);
 			response.sendRedirect("app/dashboard.html");
 			return;
@@ -64,14 +69,15 @@ public class Authentication extends HttpServlet {
 
 		redirectWithError(request, response, "Pseudo ou mot de passe incorrect");
 	}
-/**
- * 
- * @param request
- * @param response
- * @param message
- * @throws ServletException
- * @throws IOException
- */
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param message
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	protected void redirectWithError(HttpServletRequest request, HttpServletResponse response, String message)
 			throws ServletException, IOException {
 

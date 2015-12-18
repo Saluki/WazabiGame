@@ -6,18 +6,22 @@
 			
 <div id="dashboard-container">
 
-	<h2>Dashboard</h2>
+	<img src="assets/gift.png">
+	
+	<h2>Bienvenue ${ sessionScope.authenticated.pseudo }</h2>
 	
 	<div class="button-toolbar">
 		<a href="app/scoreboard.html" class="btn btn-default">
-			<i class="glyphicon glyphicon-list-alt"></i>Historique parties
+			<img src="assets/mitten.png"><br>
+			Voir historique
 		</a>
 		<a href="app/game.html" class="btn btn-default">
-			<i class="glyphicon glyphicon-send"></i>Commencer partie
+			<img src="assets/penguin.png"><br>
+			Commencer partie
 		</a>
 	</div>
 	
-	<a href="app/logout.html" class="btn btn-danger btn-lg btn-bottom">
+	<a href="app/logout.html" class="btn btn-danger btn-bottom">
 		<i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Quitter
 	</a>
 	

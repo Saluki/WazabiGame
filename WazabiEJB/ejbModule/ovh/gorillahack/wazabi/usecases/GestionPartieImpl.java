@@ -161,13 +161,13 @@ public class GestionPartieImpl implements GestionPartie {
 	 */
 	private void commencerPartie() throws NoCurrentGameException {
 		/*
-		 * TODO faudra reinitialiser toutes les données si on veut pouvoir
-		 * reutiliser le même paquet de cartes (ex id_joueur, id_partie, ...)
+		 * TODO faudra reinitialiser toutes les donnï¿½es si on veut pouvoir
+		 * reutiliser le mï¿½me paquet de cartes (ex id_joueur, id_partie, ...)
 		 */
 		partieDaoImpl.enregistrerPioche(pioche);
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
-			throw new NoCurrentGameException("La partie n'a pas pu être lancé . Veuiller reesayer");
+			throw new NoCurrentGameException("La partie n'a pas pu ï¿½tre lancï¿½ . Veuiller reesayer");
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public Joueur seConnecter(String pseudo, String mdp) throws ValidationException {
 		if (!Utils.checkString(pseudo) || !Pattern.matches("[a-zA-Z0-9]{1,20}", pseudo)) {
-			throw new ValidationException("Format du pseudo incorrecte.");
+			throw new ValidationException("Format du pseudo incorrect");
 		}
 		return joueurDaoImpl.connecter(pseudo, mdp);
 	}
