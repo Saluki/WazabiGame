@@ -16,7 +16,7 @@
 		<figure ref="d" />
 		ou plus avec ses dés.
 	</carte>
-	<carte cout="2" effet="Changez de sens" src="images/" codeEffet="2"
+	<carte cout="2" effet="Faire tourner les dés" src="images/" codeEffet="2"
 		nb="3" input="sens">
 		Tous les joueurs donnent leurs dés à leur
 		voisin de gauche ou de

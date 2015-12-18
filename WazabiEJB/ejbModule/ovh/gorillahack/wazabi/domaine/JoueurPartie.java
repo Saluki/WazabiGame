@@ -82,6 +82,10 @@ public class JoueurPartie implements Serializable {
 	public void setCompteur_sauts(int compteur_sauts) {
 		this.compteur_sauts = compteur_sauts;
 	}
+	
+	public void ajouterSaut() {
+		this.compteur_sauts++;
+	}
 
 	@Override
 	public int hashCode() {
