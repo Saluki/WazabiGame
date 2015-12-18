@@ -25,7 +25,9 @@
 	
 	<div id="waiting-screen">
 		
-		En attente de joueurs...
+		<span class="text-danger">
+			En attente de joueurs...
+		</span>
 		
 		<div class="progress">
 		  <div class="progress-bar progress-bar-striped  progress-bar-danger active" style="width: 100%"></div>

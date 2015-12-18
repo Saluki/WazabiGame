@@ -82,28 +82,34 @@ public class JoinGame extends HttpServlet {
 		Joueur joueur = (Joueur) request.getSession().getAttribute("authenticated");
 		String nomPartie = request.getParameter("nom");
 
-		synchronized (getServletContext()) {
+		try {
 
-			try {
+			synchronized (getServletContext()) {
 
 				Partie partieCourante = gestionPartie.getPartieCourante();
 
-				if (partieCourante.getStatut() != Status.PAS_COMMENCE && partieCourante.getStatut() != Status.ANNULEE) {
+				if (partieCourante.getStatut() == Status.EN_ATTENTE) {
+					response.sendRedirect(request.getContextPath() + "/app/game.html");
+					return;
+				}
+
+				if (partieCourante.getStatut() == Status.COMMENCE) {
 					request.setAttribute("errorMessage", "Une partie est deja en cours. Veillez patienter...");
 					getServletContext().getNamedDispatcher("app.create").forward(request, response);
 					return;
 				}
-
-			} catch (NoCurrentGameException e) {
 			}
 
-			try {
-				gestionPartie.creerPartie(nomPartie);
-			} catch (ValidationException | XmlParsingException e) {
-				request.setAttribute("errorMessage", e.getMessage());
-				getServletContext().getNamedDispatcher("app.create").forward(request, response);
-				return;
-			}
+		} catch (NoCurrentGameException e) {
+			// We will create a new game
+		}
+
+		try {
+			gestionPartie.creerPartie(nomPartie);
+		} catch (ValidationException | XmlParsingException e) {
+			request.setAttribute("errorMessage", e.getMessage());
+			getServletContext().getNamedDispatcher("app.create").forward(request, response);
+			return;
 		}
 
 		try {
