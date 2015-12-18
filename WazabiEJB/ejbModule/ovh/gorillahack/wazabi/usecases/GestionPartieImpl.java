@@ -1,6 +1,7 @@
 package ovh.gorillahack.wazabi.usecases;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
@@ -22,13 +23,16 @@ import ovh.gorillahack.wazabi.chain.GestionnaireCartePrendreCarte;
 import ovh.gorillahack.wazabi.chain.GestionnaireCarteSupprimerDe;
 import ovh.gorillahack.wazabi.chain.GestionnaireCarteTournerDe;
 import ovh.gorillahack.wazabi.dao.CarteDaoImpl;
+import ovh.gorillahack.wazabi.dao.CarteEffetDaoImpl;
 import ovh.gorillahack.wazabi.dao.DeDaoImpl;
+import ovh.gorillahack.wazabi.dao.FaceDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurDaoImpl;
 import ovh.gorillahack.wazabi.dao.JoueurPartieDaoImpl;
 import ovh.gorillahack.wazabi.dao.PartieDaoImpl;
-import ovh.gorillahack.wazabi.dao.XmlParserImpl;
 import ovh.gorillahack.wazabi.domaine.Carte;
+import ovh.gorillahack.wazabi.domaine.CarteEffet;
 import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
@@ -41,6 +45,7 @@ import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 import ovh.gorillahack.wazabi.exception.ValidationException;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
 import ovh.gorillahack.wazabi.util.Utils;
+import ovh.gorillahack.wazabi.util.XmlParserImpl;
 
 /**
  * Session Bean implementation class GestionPartieImpl
@@ -68,7 +73,6 @@ public class GestionPartieImpl implements GestionPartie {
 	@EJB
 	private PartieDaoImpl partieDaoImpl;
 
-	@EJB
 	private XmlParserImpl xmlParserImpl;
 	
 	@EJB
@@ -76,6 +80,12 @@ public class GestionPartieImpl implements GestionPartie {
 	
 	@EJB
 	private DeDaoImpl deDaoImpl;
+	
+	@EJB
+	private FaceDaoImpl faceDaoImpl;
+	
+	@EJB
+	private CarteEffetDaoImpl carteEffetDaoImpl;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -88,6 +98,7 @@ public class GestionPartieImpl implements GestionPartie {
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
 									new GestionnaireCartePasserTour(new GestionnaireCarteChangerSens(null))))))))));
+			xmlParserImpl = new XmlParserImpl();
 		} catch (ValidationException e) {
 		}
 	}
@@ -205,8 +216,12 @@ public class GestionPartieImpl implements GestionPartie {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
 		//Si aucune partie n'est cree sur le serveur, on charge le xml une seule fois
-		if(partieCourante==null&&partieDaoImpl.getPartieCourante()==null)
-			xmlParserImpl.chargerXML();
+		if(partieCourante==null&&partieDaoImpl.getPartieCourante()==null){
+			setParameters();
+			setCards();
+			setDices();
+
+		}
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
 	}
@@ -218,38 +233,6 @@ public class GestionPartieImpl implements GestionPartie {
 
 	public Joueur getJoueurCourant() {
 		return partieCourante.getCourant().getJoueur();
-	}
-
-	public int getMin_joueurs() {
-		return min_joueurs;
-	}
-
-	public void setMin_joueurs(int min_joueurs) {
-		this.min_joueurs = min_joueurs;
-	}
-
-	public int getMax_joueurs() {
-		return max_joueurs;
-	}
-
-	public void setMax_joueurs(int max_joueurs) {
-		this.max_joueurs = max_joueurs;
-	}
-
-	public int getNbCartesParJoueurs() {
-		return nbCartesParJoueurs;
-	}
-
-	public void setNbCartesParJoueurs(int nbCartesParJoueurs) {
-		this.nbCartesParJoueurs = nbCartesParJoueurs;
-	}
-
-	public int getNbCartesTotal() {
-		return nbCartesTotal;
-	}
-
-	public void setNbCartesTotal(int nbCartesTotal) {
-		this.nbCartesTotal = nbCartesTotal;
 	}
 
 	public int getNbDesParJoueur() {
@@ -391,9 +374,36 @@ public class GestionPartieImpl implements GestionPartie {
 		partieCourante.setSens(sens);
 		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
 	}
-
-	public void setPioche(List<Carte> pioche){
-		this.pioche = pioche;
+	
+	private void setParameters() throws XmlParsingException{
+		Map<String, Integer> params = xmlParserImpl.parseParametres();
+		this.min_joueurs = params.get("MIN_JOUEURS");
+		this.max_joueurs = params.get("MAX_JOUEURS");
+		this.nbCartesParJoueurs = params.get("NB_CARTES_PAR_JOUEUR");
+		this.nbCartesTotal = params.get("NB_CARTES_TOTAL");
+		this.nbDesParJoueur = params.get("NB_DES_PAR_JOUEUR");
+		this.nbDesTotal = params.get("NB_DES_TOTAL");
+	}
+	
+	private void setCards() throws XmlParsingException{
+		Map<CarteEffet, Integer> map = xmlParserImpl.parseCartesEffet();
+		
+		for(CarteEffet ce: map.keySet()){
+			carteEffetDaoImpl.enregistrer(ce);
+		}
+		List<Carte> cartes = xmlParserImpl.parseCarte(map);
+		for(Carte c: cartes)
+			carteDaoImpl.enregistrer(c);
+		pioche = carteDaoImpl.lister();
+	}
+	
+	private void setDices() throws XmlParsingException{
+		List<Face> faces = xmlParserImpl.parseDes();
+		faceDaoImpl.enregistrer(faces);
+		System.out.println("Nombre de des total: "+nbDesTotal);
+		for(int i = 0; i<nbDesTotal; i++){
+			deDaoImpl.enregistrer(new De());
+		}
 	}
 	
 }

@@ -155,37 +155,6 @@ public interface GestionPartie {
 	 */
 	public void deconnecter(Joueur j);
 
-	public int getMin_joueurs();
-
-	public void setMin_joueurs(int min_joueurs);
-
-	/**
-	 * Permet de recuperer le nombre maximum de joueurs d'une partie.
-	 * 
-	 * @return Le nombre de joueur maximum.
-	 */
-	public int getMax_joueurs();
-
-	public void setMax_joueurs(int max_joueurs);
-
-	/**
-	 * Permet de recuperer le nombre de cartes distribues au debut de partie a chaque joueur.
-	 * 
-	 * @return Le nombre de cartes distribues au debut de partie a chaque joueur.
-	 */
-	public int getNbCartesParJoueurs();
-
-	public void setNbCartesParJoueurs(int nbCartesParJoueurs);
-
-	/**
-	 * Permet de recuperer le nombre de cartes total d'une partie.
-	 * 
-	 * @return Le nombre de cartes total d'une partie.
-	 */
-	public int getNbCartesTotal();
-
-	public void setNbCartesTotal(int nbCartesTotal);
-
 	/**
 	 * Permet de recuperer le nombre de des distribues au debut de partie a chaque joueur.
 	 * 
@@ -270,8 +239,6 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
-	
-	public void setPioche(List<Carte> pioche);
-	
+		
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
 }
