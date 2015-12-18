@@ -28,7 +28,7 @@ public class GestionnaireCarteLaisserCarte extends GestionnaireCarte{
 		if(!validerCarte(c))
 			return super.utiliserCarte(c, j);
 		//TODO ne laisser qu'une carte à un adversaire
-		gp.laisserAdversaireAvecDeuxCartes(c);
+		gp.laisserAdversaireAvecDeuxCartes(c,j);
 		return true;
 	}
 	

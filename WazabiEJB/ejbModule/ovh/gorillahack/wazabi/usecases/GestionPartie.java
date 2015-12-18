@@ -291,4 +291,6 @@ public interface GestionPartie {
 	public int getNbWazabi(Joueur joueur);
 
 	public void donnerDes(Joueur j, int id_joueur);
+
+	boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j);
 }

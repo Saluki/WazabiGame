@@ -342,8 +342,8 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public boolean laisserAdversaireAvecDeuxCartes(Carte c) {
-		return joueurDaoImpl.laisserAdversaireAvecDeuxCartes(c);
+	public boolean laisserAdversaireAvecDeuxCartes(Carte c,Joueur j) {
+		return joueurDaoImpl.laisserAdversaireAvecUneCartes(c,j);
 	}
 
 	@Override

@@ -169,7 +169,8 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Carte piocherCarteChezUnJoueur(Carte carte) {
 		// recuperation du joueur dans la classe joueurPartie
 
-		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurPartieDaoImpl.getJoueurCourant().getJoueur());
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl
+				.getJoueurDeLaPartieCourante(joueurPartieDaoImpl.getJoueurCourant().getJoueur());
 		// utilisation de la carte du joueur receveur
 		remettreCarte(joueurReceveur.getJoueur(), carte);
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
@@ -182,17 +183,15 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				continue;
 			else {
 				// sinon on prend une carte au hasard
-				Carte c = carteDaoImpl.recharger(listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1))).getId_carte());
+				Carte c = carteDaoImpl.recharger(
+						listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1))).getId_carte());
 				// on l'enleve de chez le joueur
 				joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible.getJoueur());
 				joueurCible.supprimerCarte(c);
-		
+
 				// on la place chez le joueur en parametre
 				joueurReceveur.ajouterCarte(c);
-				// on enregistre
-				//joueurPartieDaoImpl.enregistrer(joueurReceveur);
-				//joueurPartieDaoImpl.enregistrer(joueurCible);
-				//partieDaoImpl.enregistrer(partieCourante);
+
 				return carte;
 			}
 
@@ -200,30 +199,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		// aucun joueur n'a de carte
 		Carte c = piocherCarte(joueurReceveur.getJoueur());
 		return c;
-	}
-
-	public boolean laisserAdversaireAvecDeuxCartes(Carte carte) {
-		// TODO Piocher chez les autres joueurs tant que un n'a pas plus de deux
-		// cartes
-		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
-		// utilisation de la carte du joueur receveur
-		remettreCarte(joueurReceveur.getJoueur(), carte);
-		Partie partieCourante = partieDaoImpl.getPartieCourante();
-		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
-		JoueurPartie joueurCible = listeJoueur.get((int) (Math.random() * (listeJoueur.size() - 1)));
-		while (joueurCible.equals(joueurReceveur)) {
-			joueurCible = listeJoueur.get((int) (Math.random() * (listeJoueur.size() - 1)));
-		}
-		List<Carte> listeCarteCible = joueurCible.getCartes();
-		if (listeCarteCible.size() <= 2) {
-			return false;
-		}
-		while (listeCarteCible.size() != 2) {
-			Carte c = listeCarteCible.get((int) (Math.random() * (listeCarteCible.size() - 1)));
-			remettreCarte(joueurCible.getJoueur(), c);
-		}
-		return true;
-
 	}
 
 	public boolean laisserToutLesAdversairesAvecDeuxCartes() {
@@ -257,5 +232,25 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		joueurPartieDaoImpl.enregistrer(joueurPartieCible);
 		partieDaoImpl.enregistrer(partieDaoImpl.getPartieCourante());
 		return true;
+	}
+
+	public boolean laisserAdversaireAvecUneCartes(Carte c, Joueur j) {
+		// TODO Auto-generated method stub
+		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
+		// utilisation de la carte
+		remettreCarte(joueurReceveur.getJoueur(), c);
+		JoueurPartie joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		List<Carte> listeCarteCible = joueurCible.getCartes();
+		if (listeCarteCible.size() < 2)
+			return false;
+		if (listeCarteCible.size() == 2) {
+			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
+			return true;
+		}
+		
+			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
+			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
+			return true;
+		
 	}
 }
