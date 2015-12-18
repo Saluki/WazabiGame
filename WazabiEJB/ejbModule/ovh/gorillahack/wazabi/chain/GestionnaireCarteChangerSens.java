@@ -4,6 +4,7 @@ import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
+import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
 
 public class GestionnaireCarteChangerSens extends GestionnaireCarte{
 	public GestionnaireCarteChangerSens(GestionnaireCarte next) {
@@ -21,7 +22,14 @@ public class GestionnaireCarteChangerSens extends GestionnaireCarte{
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c);
-		return super.utiliserCarte(c);
+		try {
+			gp.changementDeSens();
+			gp.remettreCarte(gp.getJoueurCourant(), c);
+		} catch (NoCurrentGameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
 	@Override
