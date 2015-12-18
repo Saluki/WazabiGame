@@ -5,7 +5,6 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.exception.CardConstraintViolatedException;
 
-//implémentée
 public class GestionnaireCarteTournerDe extends GestionnaireCarte {
 
 	public GestionnaireCarteTournerDe(GestionnaireCarte next) {
@@ -27,7 +26,6 @@ public class GestionnaireCarteTournerDe extends GestionnaireCarte {
 		return super.utiliserCarte(c, j);
 	}
 
-	// ici
 	@Override
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
 		if (!validerCarte(c))

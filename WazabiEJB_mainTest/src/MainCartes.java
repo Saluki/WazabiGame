@@ -21,7 +21,6 @@ public class MainCartes {
 
 	public static void main(String[] args)
 			throws ValidationException, XmlParsingException, NoCurrentGameException, CardNotFoundException {
-		// TODO Auto-generated method stub
 		try {
 			Context jndi = new InitialContext();
 			GestionPartie gestionPartie = (GestionPartie) jndi
@@ -108,11 +107,12 @@ public class MainCartes {
 				gestionPartie.terminerTour();
 
 			// etat du joueur 1
-			List<Carte> carteJoueur1 = gestionPartie.voirCartes(joueur1);
-			List<Carte> carteJoueur2 = gestionPartie.voirCartes(joueur3);
+			gestionPartie.voirCartes(joueur1);
+			gestionPartie.voirCartes(joueur3);
 			System.out.println("///////////////////////////////////////////////////////");
 			System.out.println("/////////////   TOUR SUIVANT///////////////////////////");
 			System.out.println("///////////////////////////////////////////////////////");
+			scanner.close();
 			}
 			
 		} catch (NamingException exception) {
