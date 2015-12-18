@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
 import ovh.gorillahack.wazabi.domaine.Face;
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
@@ -74,7 +75,15 @@ public class DeDaoImpl extends DaoImpl<De> {
 	public void donnerDe(Joueur j){
 		JoueurPartie courant = partieDaoImpl.getPartieCourante().getCourant();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
-		De de = courant.getDes().remove(0);
+		De de = null;
+		
+		for(int i = 0; i<courant.getDes().size();i++){
+			if(courant.getDes().get(i).getValeur()==Valeur.DE){
+				de = courant.getDes().remove(i);
+				break;
+			}
+		}
+		
 		List<De> des = jp.getDes();
 		des.add(de);
 		jp.setDes(des);

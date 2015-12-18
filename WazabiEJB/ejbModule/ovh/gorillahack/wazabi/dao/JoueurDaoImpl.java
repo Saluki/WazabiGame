@@ -251,6 +251,9 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
 			listeCarteCible.remove((int) (Math.random() * (listeCarteCible.size() - 1)));
 			return true;
-		
+	}
+	
+	public Joueur getJoueur(String pseudo){
+		return super.recherche("SELECT j FROM Joueur j WHERE j.pseudo=?1", pseudo);
 	}
 }

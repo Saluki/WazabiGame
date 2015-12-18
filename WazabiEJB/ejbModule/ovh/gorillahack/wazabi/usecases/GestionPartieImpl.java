@@ -77,13 +77,13 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@EJB
 	private CarteDaoImpl carteDaoImpl;
-	
+
 	@EJB
 	private DeDaoImpl deDaoImpl;
-	
+
 	@EJB
 	private FaceDaoImpl faceDaoImpl;
-	
+
 	@EJB
 	private CarteEffetDaoImpl carteEffetDaoImpl;
 
@@ -91,13 +91,19 @@ public class GestionPartieImpl implements GestionPartie {
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
 		try {
-			inscrire("em", "em", "em");
-			inscrire("mi", "mi", "mi");
-			inscrire("ol", "ol", "ol");
+			//Ajout des joueurs par défaut
+			if(joueurDaoImpl.getJoueur("em")==null)
+				inscrire("em", "em", "em");
+			if(joueurDaoImpl.getJoueur("mi")==null)
+				inscrire("mi", "mi", "mi");
+			if(joueurDaoImpl.getJoueur("ol")==null)
+				inscrire("ol", "ol", "ol");
+			//Creation de la chaine de responsabilité du traitement de cartes
 			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
 									new GestionnaireCartePasserTour(new GestionnaireCarteChangerSens(null))))))))));
+			//Initialisation du XMLParser
 			xmlParserImpl = new XmlParserImpl();
 		} catch (ValidationException e) {
 		}
@@ -112,8 +118,6 @@ public class GestionPartieImpl implements GestionPartie {
 	 * Default constructor.
 	 */
 	public GestionPartieImpl() {
-		// TODO Lors de la selection du joueur courant, il faut prendre en
-		// compte le champ "compteur_saut".
 	}
 
 	@Override
@@ -184,10 +188,10 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public List<De> lancerDes(Joueur j) {
 		List<De> listeRenv = joueurDaoImpl.lancerDes(j);
-		for(int i = 0; i<listeRenv.size();i++){
+		for (int i = 0; i < listeRenv.size(); i++) {
 			De d = listeRenv.get(i);
-			if(d.getValeur()==Valeur.PIOCHE){
-				piocherUneCarte(j);			
+			if (d.getValeur() == Valeur.PIOCHE) {
+				piocherUneCarte(j);
 			}
 		}
 		return listeRenv;
@@ -217,8 +221,9 @@ public class GestionPartieImpl implements GestionPartie {
 	public Partie creerPartie(String nom) throws ValidationException, XmlParsingException {
 		if (!Utils.checkString(nom) || !Pattern.matches("[a-zA-Z0-9]{1,20}", nom))
 			throw new ValidationException("Format de la partie invalide.");
-		//Si aucune partie n'est cree sur le serveur, on charge le xml une seule fois
-		if(partieCourante==null&&partieDaoImpl.getPartieCourante()==null){
+		// Si aucune partie n'est cree sur le serveur, on charge le xml une
+		// seule fois
+		if (partieCourante == null && partieDaoImpl.getPartieCourante() == null) {
 			setParameters();
 			setCards();
 			setDices();
@@ -236,53 +241,6 @@ public class GestionPartieImpl implements GestionPartie {
 	public Joueur getJoueurCourant() {
 		return partieCourante.getCourant().getJoueur();
 	}
-	public int getMin_joueurs() {
-		return min_joueurs;
-	}
-
-	public void setMin_joueurs(int min_joueurs) {
-		this.min_joueurs = min_joueurs;
-	}
-
-	public int getMax_joueurs() {
-		return max_joueurs;
-	}
-
-	public void setMax_joueurs(int max_joueurs) {
-		this.max_joueurs = max_joueurs;
-	}
-
-	public int getNbCartesParJoueurs() {
-		return nbCartesParJoueurs;
-	}
-
-	public void setNbCartesParJoueurs(int nbCartesParJoueurs) {
-		this.nbCartesParJoueurs = nbCartesParJoueurs;
-	}
-
-	public int getNbCartesTotal() {
-		return nbCartesTotal;
-	}
-
-	public void setNbCartesTotal(int nbCartesTotal) {
-		this.nbCartesTotal = nbCartesTotal;
-	}
-
-	public int getNbDesParJoueur() {
-		return nbDesParJoueur;
-	}
-
-	public void setNbDesParJoueur(int nbDesParJoueur) {
-		this.nbDesParJoueur = nbDesParJoueur;
-	}
-
-	public int getNbDesTotal() {
-		return nbDesTotal;
-	}
-
-	public void setNbDesTotal(int nbDesTotal) {
-		this.nbDesTotal = nbDesTotal;
-	}
 
 	@Override
 	public Partie getPartieCourante() throws NoCurrentGameException {
@@ -293,8 +251,9 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
-		for(int i = 0; i<id_adversaires.length;i++){
+		for (int i = 0; i < id_adversaires.length; i++) {
 			Joueur adverse = joueurDaoImpl.rechercher(id_adversaires[i]);
+			System.out.println("ADV: "+adverse.getPseudo());
 			deDaoImpl.donnerDe(adverse);
 		}
 	}
@@ -323,6 +282,11 @@ public class GestionPartieImpl implements GestionPartie {
 	public void utiliserCarte(int id_carte, Sens sens) throws CardNotFoundException {
 		Carte c = carteDaoImpl.rechercher(id_carte);
 		try {
+			// if (c.getCout() > getNbWazabi(getJoueurCourant())) {
+			// throw new CardConstraintViolatedException(
+			// "Le joueur " + getJoueurCourant() + " n'a pas assez de wazabi
+			// pour jouer cette carte.");
+			// }
 			gc.utiliserCarte(c, sens);
 		} catch (CardConstraintViolatedException e) {
 			e.printStackTrace();
@@ -356,8 +320,8 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public boolean laisserAdversaireAvecDeuxCartes(Carte c,Joueur j) {
-		return joueurDaoImpl.laisserAdversaireAvecUneCartes(c,j);
+	public boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j) {
+		return joueurDaoImpl.laisserAdversaireAvecUneCartes(c, j);
 	}
 
 	@Override
@@ -365,13 +329,10 @@ public class GestionPartieImpl implements GestionPartie {
 		return joueurDaoImpl.laisserToutLesAdversairesAvecDeuxCartes();
 	}
 
-
 	@Override
 	public boolean passerTour(Carte c, Joueur j) {
-		// TODO Auto-generated method stub
 		return joueurDaoImpl.passerTour(c, j);
 	}
-
 
 	@Override
 	public void supprimerDe(Joueur joueur) {
@@ -409,10 +370,12 @@ public class GestionPartieImpl implements GestionPartie {
 		partieCourante.setSens(sens);
 		partieCourante = partieDaoImpl.mettreAJour(partieCourante);
 	}
+
 	public void setPioche(List<Carte> pioche) {
 		this.pioche = pioche;
 	}
-	private void setParameters() throws XmlParsingException{
+
+	private void setParameters() throws XmlParsingException {
 		Map<String, Integer> params = xmlParserImpl.parseParametres();
 		this.min_joueurs = params.get("MIN_JOUEURS");
 		this.max_joueurs = params.get("MAX_JOUEURS");
@@ -421,23 +384,23 @@ public class GestionPartieImpl implements GestionPartie {
 		this.nbDesParJoueur = params.get("NB_DES_PAR_JOUEUR");
 		this.nbDesTotal = params.get("NB_DES_TOTAL");
 	}
-	
-	private void setCards() throws XmlParsingException{
+
+	private void setCards() throws XmlParsingException {
 		Map<CarteEffet, Integer> map = xmlParserImpl.parseCartesEffet();
-		
-		for(CarteEffet ce: map.keySet()){
+
+		for (CarteEffet ce : map.keySet()) {
 			carteEffetDaoImpl.enregistrer(ce);
 		}
 		List<Carte> cartes = xmlParserImpl.parseCarte(map);
-		for(Carte c: cartes)
+		for (Carte c : cartes)
 			carteDaoImpl.enregistrer(c);
 		pioche = carteDaoImpl.lister();
 	}
-	
-	private void setDices() throws XmlParsingException{
+
+	private void setDices() throws XmlParsingException {
 		List<Face> faces = xmlParserImpl.parseDes();
 		faceDaoImpl.enregistrer(faces);
-		for(int i = 0; i<nbDesTotal; i++){
+		for (int i = 0; i < nbDesTotal; i++) {
 			deDaoImpl.enregistrer(new De());
 		}
 	}
@@ -467,7 +430,20 @@ public class GestionPartieImpl implements GestionPartie {
 		} else if (getPartieCourante().getSens() == Sens.ANTIHORAIRE) {
 			changementDeSens(Sens.HORAIRE);
 		}
-		
+		List<Joueur> adversaires = getAdversaires(getJoueurCourant());
+
+		// on ajoute un saut à tous les adversaires comme implémentation de
+		// rejouer
+		for (Joueur joueur : adversaires) {
+			JoueurPartie adversaire = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
+			adversaire = joueurPartieDaoImpl.recharger(adversaire.getId_joueur_partie());
+			adversaire.ajouterSaut();
+		}
+	}
+
+	@Override
+	public Joueur getPlayerFromId(int id_player) {
+		return joueurDaoImpl.rechercher(id_player);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 body {
 
-	background: #f9f9f9;
+	background: url('../assets/symphony.png');
 }
 
 #board {
@@ -23,7 +23,7 @@ body {
 	font-size: 30px;
 	color: lightgrey;
 	padding-top: 200px;
-	background: #ffffff;
+	background: url('../assets/symphony.png');
 }
 
 #waiting-screen > .progress{
@@ -76,7 +76,8 @@ body {
 	margin-left: 20px;
 	background: #ffffff;
 	display: inline-block;
-	overflow-y: scroll;
+	overflow-y: auto;
+	cursor: pointer;
 }
 
 .wazabi-card > .card-cost {
@@ -118,8 +119,9 @@ body {
 	
 	height: 50px;
 	width: 50px;
-	background: lightgrey;
-	border: 1px solid grey;
+	background: #D9534F;
+	border: 1px solid #D43F3A;
+	cursor: pointer;
 	border-radius: 3px;
 	text-align: center;
 	margin-left: 30px;
@@ -127,6 +129,7 @@ body {
 	padding-top: 10px;
 	font-weight: bold;
 	display: inline-block;
+	color: #ffffff;
 }
 
 #challengers-list-view {
@@ -184,5 +187,5 @@ body {
 	font-size: 30px;
 	color: lightgrey;
 	padding-top: 200px;
-	background: #ffffff;
+	background: url('../assets/symphony.png');
 }

@@ -96,7 +96,7 @@ public class GameStatus extends HttpServlet {
 		JSONObject playerData = new JSONObject();
 		playerData.put("name", joueurSession.getPseudo());
 		playerData.put("play", joueurCourant.equals(joueurSession));
-		playerData.put("skip", 0);	// TODO
+		playerData.put("skip", gestionPartie.getNombreDeToursAPasser(joueurSession));
 
 		statusObject.put("player", playerData);
 	}
