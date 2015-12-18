@@ -228,6 +228,8 @@ public class GestionPartieImpl implements GestionPartie {
 			setCards();
 			setDices();
 
+		} else{
+			pioche = carteDaoImpl.lister();
 		}
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
