@@ -295,6 +295,7 @@ public class GestionPartieImpl implements GestionPartie {
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
 		for(int i = 0; i<id_adversaires.length;i++){
 			Joueur adverse = joueurDaoImpl.rechercher(id_adversaires[i]);
+			System.out.println("ADV: "+adverse.getPseudo());
 			deDaoImpl.donnerDe(adverse);
 		}
 	}
