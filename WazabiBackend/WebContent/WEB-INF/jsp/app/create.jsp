@@ -19,16 +19,14 @@
 			<form method="POST" action="app/game.html">
 				
 				<br>
-			
 				<label>Donnez un nom de partie</label>
 				<input type="text" name="nom" placeholder="Nom partie" class="form-control"><br>
-				
 				<br>
 				
 				<a href="app/dashboard.html" class="btn btn-default">
 					<i class="glyphicon glyphicon-chevron-left"></i>&nbsp;&nbsp;Retour
 				</a>
-				<input type="submit" value="Lancer" class="btn btn-danger pull-right">
+				<input type="submit" value="Lancer la partie" class="btn btn-danger pull-right">
 				
 			</form>
 		
