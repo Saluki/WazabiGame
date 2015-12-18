@@ -24,7 +24,6 @@ public abstract class GestionnaireCarte {
 			gp = (GestionPartie) new InitialContext()
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

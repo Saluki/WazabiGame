@@ -13,7 +13,6 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
-import ovh.gorillahack.wazabi.exception.QueryException;
 
 @SuppressWarnings("serial")
 @Stateless
@@ -59,7 +58,6 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 		joueur.supprimerDe();
 	}
 
-	// TODO : il n'y a qu'un seul joueur
 	/**
 	 * Joueur prochain dans le sens anti-horaire.
 	 * 

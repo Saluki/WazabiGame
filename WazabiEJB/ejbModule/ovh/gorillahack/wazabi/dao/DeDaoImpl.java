@@ -19,8 +19,6 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
-import ovh.gorillahack.wazabi.exception.NoCurrentGameException;
-import ovh.gorillahack.wazabi.exception.NotEnoughDiceException;
 
 @Stateless
 @Local(Dao.class)
@@ -114,7 +112,6 @@ public class DeDaoImpl extends DaoImpl<De> {
 		JoueurPartie joueurPerdSesDes = partieDaoImpl.getPartieCourante().getCourant();
 		JoueurPartie joueurRecoitDes = null;
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
-		List<De> listeDeReceveur;
 		List<De> retenirPourTourSuivant = joueurPerdSesDes.getDes();
 		List<De> listeDeARecevoir;
 		switch (sens) {

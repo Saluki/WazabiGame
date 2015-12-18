@@ -3,13 +3,10 @@ package ovh.gorillahack.wazabi.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,38 +26,10 @@ import ovh.gorillahack.wazabi.domaine.CarteEffet.Input;
 import ovh.gorillahack.wazabi.domaine.Face;
 import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.exception.XmlParsingException;
-import ovh.gorillahack.wazabi.usecases.GestionPartie;
 
 public class XmlParserImpl {
 
 	public XmlParserImpl() {
-	}
-
-	/**
-	 * Charge le fichier wazabi.xml contenant la paramétrisation de la partie,
-	 * insère les valeurs dans la DB au moyen des DAO et insère le jeu de carte
-	 * dans le singleton GestionPartie.
-	 * 
-	 * @throws XmlParsingException
-	 */
-	//A DETRUIRE
-	public Map<String, Map<String, ?>> chargerXML() throws XmlParsingException {
-		ClassLoader loader = getClass().getClassLoader();
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-		XPath xpath = XPathFactory.newInstance().newXPath();
-
-		// le fichier xml doit être dans le dossier source pour être chargé.
-		try (InputStream xmlFile = loader.getResourceAsStream("wazabi.xml");) {
-			DocumentBuilder builder = builderFactory.newDocumentBuilder();
-			Document document = builder.parse(xmlFile);
-
-			// on importe les dés et leurs faces
-			Node deNode = (Node) xpath.compile("/wazabi/de").evaluate(document, XPathConstants.NODE);
-
-		} catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e) {
-			throw new XmlParsingException(e);
-		}
-		return null;
 	}
 
 	/**

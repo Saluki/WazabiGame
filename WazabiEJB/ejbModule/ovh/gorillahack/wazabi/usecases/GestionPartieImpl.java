@@ -56,9 +56,7 @@ import ovh.gorillahack.wazabi.util.XmlParserImpl;
 public class GestionPartieImpl implements GestionPartie {
 	private Partie partieCourante;
 	private int min_joueurs;
-	private int max_joueurs;
 	private int nbCartesParJoueurs;
-	private int nbCartesTotal;
 	private int nbDesParJoueur;
 	private int nbDesTotal;
 	private List<Carte> pioche;
@@ -174,10 +172,6 @@ public class GestionPartieImpl implements GestionPartie {
 	 * @return Le Joueur qui commencera la partie.
 	 */
 	private void commencerPartie() throws NoCurrentGameException {
-		/*
-		 * TODO faudra reinitialiser toutes les donn�es si on veut pouvoir
-		 * reutiliser le m�me paquet de cartes (ex id_joueur, id_partie, ...)
-		 */
 		partieDaoImpl.enregistrerPioche(pioche);
 		partieCourante = partieDaoImpl.commencerPartie(nbCartesParJoueurs, nbDesParJoueur);
 		if (partieCourante == null)
@@ -373,9 +367,7 @@ public class GestionPartieImpl implements GestionPartie {
 	private void setParameters() throws XmlParsingException {
 		Map<String, Integer> params = xmlParserImpl.parseParametres();
 		this.min_joueurs = params.get("MIN_JOUEURS");
-		this.max_joueurs = params.get("MAX_JOUEURS");
 		this.nbCartesParJoueurs = params.get("NB_CARTES_PAR_JOUEUR");
-		this.nbCartesTotal = params.get("NB_CARTES_TOTAL");
 		this.nbDesParJoueur = params.get("NB_DES_PAR_JOUEUR");
 		this.nbDesTotal = params.get("NB_DES_TOTAL");
 	}

@@ -19,7 +19,6 @@ import ovh.gorillahack.wazabi.domaine.Joueur;
 public class MockGestionPartie implements MockInterfaceGestionPartie {
 	private EtatPartie etatPartie = EtatPartie.PAS_COMMENCE;
 	public MockGestionPartie() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -37,15 +36,12 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	@Override
 	public boolean verificationAuthentification(String pseudo, String mdp) {
-		// TODO Auto-generated method stub
 		if (pseudo.equals("azerty") && mdp.equals("azerty"))
 			return true;
 		return false;
 	}
 
 	public Map<String, String> joueurInformation() {
-		// TODO Auto-generated method stub
-		//Recuperer Joueur courant
 		Map<String, String> mapRetour = new HashMap<String, String>();
 		mapRetour.put("name", "john Doe");
 		mapRetour.put("play", "true");
@@ -54,8 +50,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	}
 
 	public Vector<Map<String, String>> carteInformation() {
-		// TODO Auto-generated method stub
-		// le vecteur a renvoy�
+		// le vecteur a renvoyee
 		Vector vecRetour = new Vector<Map<String, String>>();
 
 		// on ajoute un Map permettant de retenir les clefs valeurs des cartes
@@ -110,8 +105,7 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	@SuppressWarnings("unchecked")
 	public Vector<Map<String, Vector<String>>> challengersInformations() {
-		// TODO Auto-generated method stub
-		// le vecteur a renvoy�
+		// le vecteur a renvoyee
 		Vector<Map<String, Vector<String>>> vecRetour = new Vector<Map<String, Vector<String>>>();
 
 		// on ajoute un Map permettant de retenir les clefs valeurs des cartes
@@ -158,13 +152,11 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 	}
 
 	public EtatPartie etatPartie() {
-		// TODO Auto-generated method stub
 		return etatPartie;
 	}
 
 	@Override
 	public boolean createPartie(String partie) {
-		// TODO Auto-generated method stub
 		if(etatPartie.equals(EtatPartie.PAS_COMMENCE)){
 			etatPartie = EtatPartie.EN_ATTENTE;
 			return true;
@@ -175,7 +167,6 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	@Override
 	public List<De> lancerDes(Joueur joueur) {
-		// TODO Auto-generated method stub
 		List<De> listeRetour = new ArrayList<De>();
 		listeRetour.add(new De(Face.Valeur.DE));
 		listeRetour.add(new De(Face.Valeur.DE));
@@ -185,7 +176,6 @@ public class MockGestionPartie implements MockInterfaceGestionPartie {
 
 	@Override
 	public Map<String, String> carteJouer(int carte) {
-		// TODO Auto-generated method stub
 		// on va regarder a la premiere carte
 			HashMap<String, String> map = new HashMap<String, String>();
 				// 1iere carte

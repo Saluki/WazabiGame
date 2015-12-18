@@ -1,8 +1,6 @@
 package ovh.gorillahack.wazabi.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -15,10 +13,10 @@ import javax.persistence.PersistenceContext;
 
 import ovh.gorillahack.wazabi.domaine.Carte;
 import ovh.gorillahack.wazabi.domaine.De;
+import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Joueur;
 import ovh.gorillahack.wazabi.domaine.JoueurPartie;
 import ovh.gorillahack.wazabi.domaine.Partie;
-import ovh.gorillahack.wazabi.domaine.Face.Valeur;
 import ovh.gorillahack.wazabi.domaine.Partie.Sens;
 import ovh.gorillahack.wazabi.domaine.Partie.Status;
 import ovh.gorillahack.wazabi.util.CryptService;
@@ -229,7 +227,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public boolean laisserAdversaireAvecUneCartes(Carte c, Joueur j) {
-		// TODO Auto-generated method stub
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 		// utilisation de la carte
 		remettreCarte(joueurReceveur.getJoueur(), c);

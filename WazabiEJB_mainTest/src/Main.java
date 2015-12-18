@@ -59,13 +59,12 @@ public class Main {
 				}
 				gestionPartie.terminerTour();
 			}
-
+			scan.close();
 		} catch (NamingException exception) {
 			exception.printStackTrace();
 		} catch (XmlParsingException e) {
 			e.printStackTrace();
 		} catch (NoCurrentGameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

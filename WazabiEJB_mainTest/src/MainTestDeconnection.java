@@ -17,7 +17,6 @@ public class MainTestDeconnection {
 			GestionPartie gestionPartie = (GestionPartie) jndi
 					.lookup("ejb:Wazabi/WazabiEJB/GestionPartieImpl!ovh.gorillahack.wazabi.usecases.GestionPartie");
 			Joueur joueur1 = gestionPartie.inscrire("test1", "test1", "test1");
-			Joueur joueur2 = gestionPartie.inscrire("test2", "test2", "test2");
 			Joueur joueur3 = gestionPartie.inscrire("test3", "test3", "test3");
 
 			gestionPartie.seConnecter("test1", "test1") ;

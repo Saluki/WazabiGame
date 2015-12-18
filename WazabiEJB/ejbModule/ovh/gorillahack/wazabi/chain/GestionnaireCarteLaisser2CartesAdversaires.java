@@ -21,7 +21,6 @@ public class GestionnaireCarteLaisser2CartesAdversaires extends GestionnaireCart
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c);
-		//TODO ne laisser plus que 2 cartes aux autres joueurs
 		gp.laisserTousAdversairesAvecDeuxCartes(c);
 		return true;
 	}

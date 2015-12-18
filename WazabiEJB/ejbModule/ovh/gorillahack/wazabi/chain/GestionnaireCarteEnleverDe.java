@@ -49,7 +49,6 @@ public class GestionnaireCarteEnleverDe extends GestionnaireCarte {
 
 	@Override
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
-		// TODO Auto-generated method stub
 		return super.utiliserCarte(c, sens);
 	}
 
