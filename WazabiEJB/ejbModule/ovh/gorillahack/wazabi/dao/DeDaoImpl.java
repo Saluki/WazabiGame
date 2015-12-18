@@ -71,7 +71,26 @@ public class DeDaoImpl extends DaoImpl<De> {
 		mettreAJour(de);
 		return de;
 	}
-
+	public void donnerDeAdversaire(Joueur j){
+		JoueurPartie courant = partieDaoImpl.getPartieCourante().getCourant();
+		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		De de = null;
+		
+		for(int i = 0; i<courant.getDes().size();i++){
+			if(courant.getDes().get(i).getValeur()==Valeur.PIOCHE){
+				de = courant.getDes().remove(i);
+				List<De> des = jp.getDes();
+				des.add(de);
+				jp.setDes(des);
+				return;
+			}
+		}
+		de = courant.getDes().remove(0);
+		List<De> des = jp.getDes();
+		des.add(de);
+		jp.setDes(des);
+	
+	}
 	public void donnerDe(Joueur j){
 		JoueurPartie courant = partieDaoImpl.getPartieCourante().getCourant();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
@@ -87,10 +106,7 @@ public class DeDaoImpl extends DaoImpl<De> {
 		List<De> des = jp.getDes();
 		des.add(de);
 		jp.setDes(des);
-		
-		joueurPartieDaoImpl.mettreAJour(jp);
-		joueurPartieDaoImpl.mettreAJour(courant);
-		
+	
 	}
 
 	public boolean faireTournerDes(Carte c, Sens sens) {

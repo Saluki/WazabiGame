@@ -419,7 +419,7 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public void donnerDes(Joueur j, int id_joueur) {
 		Joueur adverse = joueurDaoImpl.rechercher(id_joueur);
-		deDaoImpl.donnerDe(adverse);
+		deDaoImpl.donnerDeAdversaire(adverse);
 	}
 
 	@Override
