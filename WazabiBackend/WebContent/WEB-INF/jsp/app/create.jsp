@@ -10,7 +10,6 @@
 		<div class="panel-heading">
 			
 			<h2 class="panel-title">
-				<i class="glyphicon glyphicon-send"></i>&nbsp;&nbsp;
 				Creer une nouvelle partie
 			</h2>
 			
@@ -18,12 +17,18 @@
 		<div class="panel-body">
 			
 			<form method="POST" action="app/game.html">
+				
+				<br>
 			
 				<label>Donnez un nom de partie</label>
 				<input type="text" name="nom" placeholder="Nom partie" class="form-control"><br>
 				
-				<a href="app/dashboard.html" class="btn btn-default">Retour</a>
-				<input type="submit" value="Lancer" class="btn btn-primary pull-right">
+				<br>
+				
+				<a href="app/dashboard.html" class="btn btn-default">
+					<i class="glyphicon glyphicon-chevron-left"></i>&nbsp;&nbsp;Retour
+				</a>
+				<input type="submit" value="Lancer" class="btn btn-danger pull-right">
 				
 			</form>
 		
@@ -43,4 +48,11 @@
 <!-- JS Dependencies -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 		
+<!-- JS Utilities -->
+<script>
+
+	$('input[type="text"]:first').focus();
+
+</script>		
+	
 <jsp:include page="/WEB-INF/jspf/footer.jspf"/>

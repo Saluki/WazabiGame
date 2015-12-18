@@ -1,11 +1,23 @@
-#scoreboard-container {
-	
-	width: 600px;
-	margin: 100px auto;
+body {
+	background: url('../assets/symphony.png');
+}
+
+#header-picture {
+	margin-top: 100px;
+	margin-bottom:30px;
 	text-align: center;
 }
 
-h2 {
+#scoreboard-container {
 	
-	text-align: left;
+	width: 600px;
+	margin: 20px auto;
+	text-align: center;
+}
+
+.panel-heading > h2 {
+	
+	text-align: center;
+	font-weight: bold;
+	color: #D9534F;
 }

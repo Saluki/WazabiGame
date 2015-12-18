@@ -4,7 +4,7 @@ body {
 
 #dashboard-container {
 	
-	width: 600px;
+	width: 900px;
 	margin: 100px auto;
 	text-align: center;
 }
@@ -29,6 +29,7 @@ h2 {
 	text-align: center;
 	color: #D9534F;
 	margin: 20px;
+	transition: all 0.5s ease;
 }
 
 .button-toolbar > a > img {
@@ -37,4 +38,27 @@ h2 {
 	display: inline;
 	text-align: center;
 	margin: 20px;
+}
+
+@keyframes shake {
+	
+    0% {
+    	transform: rotate(0deg);
+   	}
+    25% {
+    	transform: rotate(-15deg);
+   	}
+   	75% {
+   		transform: rotate(-15deg);
+   	}
+   	100% {
+   		transform: rotate(0deg);
+   	}
+}
+
+.button-toolbar > a:hover > img {
+	
+	animation-name: shake;
+	animation-duration: 1s;
+	animation-iteration-count: 3;
 }
