@@ -27,7 +27,6 @@ public class GestionnaireCarteSupprimerDe extends GestionnaireCarte {
 		for (int i = 0; i < 2; i++) {
 			gp.supprimerDe(courant);
 		}
-		gp.remettreCarte(gp.getJoueurCourant(), c);
 		return true;
 	}
 

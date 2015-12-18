@@ -24,7 +24,6 @@ public class GestionnaireCartePioche3 extends GestionnaireCarte {
 		for (int i = 0; i < 3; i++) {
 			gp.piocherUneCarte(gp.getJoueurCourant());
 		}
-		gp.remettreCarte(gp.getJoueurCourant(), c);
 		return true;
 	}
 

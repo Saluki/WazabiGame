@@ -253,7 +253,6 @@ public class GestionPartieImpl implements GestionPartie {
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException {
 		for (int i = 0; i < id_adversaires.length; i++) {
 			Joueur adverse = joueurDaoImpl.rechercher(id_adversaires[i]);
-			System.out.println("ADV: "+adverse.getPseudo());
 			deDaoImpl.donnerDe(adverse);
 		}
 	}
@@ -320,7 +319,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j) {
+	public boolean laisserAdversaireAvecUneCarte(Carte c, Joueur j) {
 		return joueurDaoImpl.laisserAdversaireAvecUneCartes(c, j);
 	}
 
@@ -448,10 +447,6 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public boolean faireTournerLesDes(Carte c, Sens sens) {
-		// TODO Auto-generated method stub
-	
-		// utilisation de la carte
-		joueurDaoImpl.remettreCarte(this.getJoueurCourant(), c);
 		return deDaoImpl.faireTournerDes(c,sens);
 	}
 

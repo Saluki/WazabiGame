@@ -94,7 +94,6 @@ public class DeDaoImpl extends DaoImpl<De> {
 	}
 
 	public boolean faireTournerDes(Carte c, Sens sens) {
-		// TODO Auto-generated method stub
 		JoueurPartie premierJoueur = partieDaoImpl.getPartieCourante().getCourant();
 		JoueurPartie joueurPerdSesDes = partieDaoImpl.getPartieCourante().getCourant();
 		JoueurPartie joueurRecoitDes = null;
@@ -105,7 +104,6 @@ public class DeDaoImpl extends DaoImpl<De> {
 		switch (sens) {
 		case ANTIHORAIRE:
 
-			// for
 			do {
 				// si ces pas le premier joueur
 				listeDeARecevoir = retenirPourTourSuivant;

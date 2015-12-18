@@ -171,8 +171,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl
 				.getJoueurDeLaPartieCourante(joueurPartieDaoImpl.getJoueurCourant().getJoueur());
-		// utilisation de la carte du joueur receveur
-		remettreCarte(joueurReceveur.getJoueur(), carte);
 		Partie partieCourante = partieDaoImpl.getPartieCourante();
 		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
 		Collections.shuffle(listeJoueur);
@@ -221,10 +219,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	}
 
 	public boolean passerTour(Carte c, Joueur joueurCible) {
-		// TODO Auto-generated method stub
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
-		// utilisation de la carte
-		remettreCarte(joueurReceveur.getJoueur(), c);
 
 		JoueurPartie joueurPartieCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible);
 		joueurPartieCible.ajouterSaut();

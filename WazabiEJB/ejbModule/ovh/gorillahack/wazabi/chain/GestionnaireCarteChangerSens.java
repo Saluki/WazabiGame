@@ -24,9 +24,7 @@ public class GestionnaireCarteChangerSens extends GestionnaireCarte{
 			return super.utiliserCarte(c);
 		try {
 			gp.changementDeSens();
-			gp.remettreCarte(gp.getJoueurCourant(), c);
 		} catch (NoCurrentGameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;

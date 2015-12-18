@@ -20,7 +20,6 @@ public class GestionnaireCarteDonnerDe extends GestionnaireCarte{
 	public boolean utiliserCarte(Carte c) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c);
-		//TODO donner un de à un joueur
 		return super.utiliserCarte(c);
 	}
 	

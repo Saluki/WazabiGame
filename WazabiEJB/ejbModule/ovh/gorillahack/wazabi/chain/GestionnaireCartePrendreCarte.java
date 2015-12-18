@@ -26,7 +26,6 @@ public class GestionnaireCartePrendreCarte extends GestionnaireCarte{
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
 		if(!validerCarte(c))
 			return super.utiliserCarte(c,j);
-		//TODO donner une carte au joueur courant
 		gp.piocherUneCarteChezUnJoueur(c);
 		return true;
 	}

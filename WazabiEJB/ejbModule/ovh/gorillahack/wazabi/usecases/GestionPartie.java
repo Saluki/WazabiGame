@@ -245,7 +245,7 @@ public interface GestionPartie {
 	public void donnerDes(Joueur j, int id_joueur);
 
 
-	boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j);
+	boolean laisserAdversaireAvecUneCarte(Carte c, Joueur j);
 
 	public void changementDeSens() throws NoCurrentGameException;
 
