@@ -98,7 +98,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
-				System.out.println("suivant ----------> "+suivant);
+				System.out.println("suivant ----------> " + suivant);
 				while (suivant.getCompteur_sauts() > 0) {
 					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
@@ -167,37 +167,34 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return carte;
 	}
 
-	public Carte piocherCarteChezUnJoueur(Carte carte) {
+	public boolean piocherCarteChezUnJoueur(Carte carte, Joueur j) {
 		// recuperation du joueur dans la classe joueurPartie
 
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl
 				.getJoueurDeLaPartieCourante(joueurPartieDaoImpl.getJoueurCourant().getJoueur());
-		Partie partieCourante = partieDaoImpl.getPartieCourante();
-		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
-		Collections.shuffle(listeJoueur);
-		for (JoueurPartie joueurCible : listeJoueur) {
-			// carte du joueur
-			List<Carte> listeCarteJoueur = joueurCible.getCartes();
-			if (listeCarteJoueur.isEmpty())
-				continue;
-			else {
-				// sinon on prend une carte au hasard
-				Carte c = carteDaoImpl.recharger(
-						listeCarteJoueur.get((int) (Math.random() * (listeCarteJoueur.size() - 1))).getId_carte());
-				// on l'enleve de chez le joueur
-				joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible.getJoueur());
-				joueurCible.supprimerCarte(c);
+		JoueurPartie joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
+		// carte du joueur
+		List<Carte> listeCarteJoueur = joueurCible.getCartes();
+		if (listeCarteJoueur.isEmpty()){
+			
+			piocherCarte(joueurCible.getJoueur());
+			return false;
+		
+		}else {
+			// sinon on prend une carte au hasard
+			Random random = new Random();
+			
+			Carte c = carteDaoImpl
+					.recharger(listeCarteJoueur.get(random.nextInt(listeCarteJoueur.size())).getId_carte());
+			// on l'enleve de chez le joueur
+			joueurCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible.getJoueur());
+			joueurCible.supprimerCarte(c);
 
-				// on la place chez le joueur en parametre
-				joueurReceveur.ajouterCarte(c);
+			// on la place chez le joueur en parametre
+			joueurReceveur.ajouterCarte(c);
 
-				return carte;
-			}
-
+			return true;
 		}
-		// aucun joueur n'a de carte
-		Carte c = piocherCarte(joueurReceveur.getJoueur());
-		return c;
 	}
 
 	public boolean laisserToutLesAdversairesAvecDeuxCartes() {
@@ -251,11 +248,11 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 	public Joueur getJoueur(String pseudo) {
 		return super.recherche("SELECT j FROM Joueur j WHERE j.pseudo=?1", pseudo);
 	}
-	
-	private void terminerPartie(){
-		for(JoueurPartie jp: partieDaoImpl.getPartieCourante().getJoueursParties()){
+
+	private void terminerPartie() {
+		for (JoueurPartie jp : partieDaoImpl.getPartieCourante().getJoueursParties()) {
 			int size = jp.getCartes().size();
-			for(int i = 0; i<size;i++){
+			for (int i = 0; i < size; i++) {
 				Carte c = jp.getCartes().get(0);
 				remettreCarte(jp.getJoueur(), c);
 			}

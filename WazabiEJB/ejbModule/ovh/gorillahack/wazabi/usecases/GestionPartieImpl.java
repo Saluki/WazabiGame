@@ -313,11 +313,6 @@ public class GestionPartieImpl implements GestionPartie {
 		return joueurDaoImpl.remettreCarte(joueur, carte);
 	}
 
-	@Override
-	public Carte piocherUneCarteChezUnJoueur(Carte c) {
-		return joueurDaoImpl.piocherCarteChezUnJoueur(c);
-
-	}
 
 	@Override
 	public boolean laisserAdversaireAvecUneCarte(Carte c, Joueur j) {
@@ -449,6 +444,11 @@ public class GestionPartieImpl implements GestionPartie {
 	@Override
 	public boolean faireTournerLesDes(Carte c, Sens sens) {
 		return deDaoImpl.faireTournerDes(c,sens);
+	}
+
+	@Override
+	public boolean piocherUneCarteChezUnJoueur(Carte c, Joueur j) {
+		return joueurDaoImpl.piocherCarteChezUnJoueur(c,j);
 	}
 
 }

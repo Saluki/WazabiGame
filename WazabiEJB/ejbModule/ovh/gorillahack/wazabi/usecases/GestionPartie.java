@@ -214,7 +214,7 @@ public interface GestionPartie {
 
 
 
-	Carte piocherUneCarteChezUnJoueur(Carte c);
+	boolean piocherUneCarteChezUnJoueur(Carte c, Joueur j);
 
 	public boolean passerTour(Carte c, Joueur j);
 	public void supprimerDe(Joueur joueur);
