@@ -227,4 +227,6 @@ public interface GestionPartie {
 	public int getNbWazabi(Joueur joueur);
 	
 	public void donnerDes(Joueur j, int id_joueur);
+
+	public void changementDeSens() throws NoCurrentGameException;
 }
