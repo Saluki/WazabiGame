@@ -91,14 +91,14 @@ public class GestionPartieImpl implements GestionPartie {
 	public void postconstruct() {
 		System.out.println("GestionPartieImpl created");
 		try {
-			//Ajout des joueurs par défaut
+			//Ajout des joueurs par dï¿½faut
 			if(joueurDaoImpl.getJoueur("em")==null)
 				inscrire("em", "em", "em");
 			if(joueurDaoImpl.getJoueur("mi")==null)
 				inscrire("mi", "mi", "mi");
 			if(joueurDaoImpl.getJoueur("ol")==null)
 				inscrire("ol", "ol", "ol");
-			//Creation de la chaine de responsabilité du traitement de cartes
+			//Creation de la chaine de responsabilitï¿½ du traitement de cartes
 			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
@@ -139,8 +139,7 @@ public class GestionPartieImpl implements GestionPartie {
 
 	@Override
 	public List<Partie> afficherHistorique(Joueur j) {
-		List<Partie> listeRenv = partieDaoImpl.afficherHistorique(j);
-		return listeRenv;
+		return partieDaoImpl.afficherHistorique(j);
 	}
 
 	@Override
@@ -228,6 +227,8 @@ public class GestionPartieImpl implements GestionPartie {
 			setCards();
 			setDices();
 
+		} else{
+			pioche = carteDaoImpl.lister();
 		}
 		partieCourante = partieDaoImpl.creerUnePartie(nom);
 		return partieCourante;
@@ -431,7 +432,7 @@ public class GestionPartieImpl implements GestionPartie {
 		}
 		List<Joueur> adversaires = getAdversaires(getJoueurCourant());
 
-		// on ajoute un saut à tous les adversaires comme implémentation de
+		// on ajoute un saut ï¿½ tous les adversaires comme implï¿½mentation de
 		// rejouer
 		for (Joueur joueur : adversaires) {
 			JoueurPartie adversaire = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);

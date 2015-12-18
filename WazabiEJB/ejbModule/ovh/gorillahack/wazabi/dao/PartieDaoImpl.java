@@ -75,7 +75,8 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 
 	public List<Partie> afficherHistorique(Joueur j) {
 		return super.liste("SELECT p FROM Partie p WHERE EXISTS("
-				+ "SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = p.id_partie)", j);
+				+ "SELECT jp FROM JoueurPartie jp WHERE jp.joueur = ?1 AND jp.partie = p.id_partie ) "
+				+ "AND (p.statut = ?2 OR p.statut = ?3)", j, Status.PAS_COMMENCE, Status.ANNULEE);
 	}
 
 	public Partie getPartieCourante() {
@@ -98,7 +99,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 			for(int j = 0; j<nbCartesParJoueur; j++)
 				gestionPartie.piocherUneCarte(getPartieCourante().getJoueursParties().get(i).getJoueur());
 		}
-		//Attribution des dés
+		//Attribution des dï¿½s
 		int cpt=1;
 		for (Joueur j : listerJoueurPartieCourante()) {
 			List<De> des = new ArrayList<De>();
@@ -126,7 +127,7 @@ public class PartieDaoImpl extends DaoImpl<Partie> {
 	}
 	
 	/**
-	 * Permet de melanger la pioche de la partie de manière aléatoire.
+	 * Permet de melanger la pioche de la partie de maniï¿½re alï¿½atoire.
 	 * 
 	 */
 	private List<Carte> melangerPioche(List<Carte> pioche) {

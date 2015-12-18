@@ -53,7 +53,6 @@ public abstract class GestionnaireCarte {
 	}
 
 	public boolean utiliserCarte(Carte c, Sens sens) throws CardConstraintViolatedException {
-		System.out.println("Passage par " + this.getClass());
 		if (!effetSens.contains(c.getCodeEffet()))
 			return false;
 		gp.remettreCarte(gp.getJoueurCourant(), c);
@@ -63,7 +62,6 @@ public abstract class GestionnaireCarte {
 	}
 
 	public boolean utiliserCarte(Carte c, Joueur j) throws CardConstraintViolatedException {
-		System.out.println("Passage par " + this.getClass());
 		if (!effetJoueur.contains(c.getCodeEffet()))
 			return false;
 		gp.remettreCarte(gp.getJoueurCourant(), c);

@@ -91,6 +91,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		if (courant.getDes() == null) {
 		} else if (courant.getDes().isEmpty()) {
 			p.setStatut(Status.PAS_COMMENCE);
+			terminerPartie();
 			p.setVainqueur(courant.getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
 		} else {
@@ -130,6 +131,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		}
 		if (joueurActif.size() == 1) {
 			p.setStatut(Status.ANNULEE);
+			terminerPartie();
 			p.setVainqueur(joueurActif.get(0).getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
 		}
@@ -162,9 +164,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		jp.supprimerCarte(carte);
 		p.ajouterCarteALaPioche(carte);
-		// jp = joueurPartieDaoImpl.mettreAJour(jp);
-		// p = partieDaoImpl.mettreAJour(p);
-		// carte = carteDaoImpl.mettreAJour(carte);
 		return carte;
 	}
 
@@ -251,5 +250,15 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 
 	public Joueur getJoueur(String pseudo) {
 		return super.recherche("SELECT j FROM Joueur j WHERE j.pseudo=?1", pseudo);
+	}
+	
+	private void terminerPartie(){
+		for(JoueurPartie jp: partieDaoImpl.getPartieCourante().getJoueursParties()){
+			int size = jp.getCartes().size();
+			for(int i = 0; i<size;i++){
+				Carte c = jp.getCartes().get(0);
+				remettreCarte(jp.getJoueur(), c);
+			}
+		}
 	}
 }
