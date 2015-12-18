@@ -154,57 +154,6 @@ public interface GestionPartie {
 	 *            Le joueur que l'on veut deconnecter.
 	 */
 	public void deconnecter(Joueur j);
-	public int getMin_joueurs();
-
-	public void setMin_joueurs(int min_joueurs);
-
-	/**
-	 * Permet de recuperer le nombre maximum de joueurs d'une partie.
-	 * 
-	 * @return Le nombre de joueur maximum.
-	 */
-	public int getMax_joueurs();
-
-	public void setMax_joueurs(int max_joueurs);
-
-	/**
-	 * Permet de recuperer le nombre de cartes distribues au debut de partie a
-	 * chaque joueur.
-	 * 
-	 * @return Le nombre de cartes distribues au debut de partie a chaque
-	 *         joueur.
-	 */
-	public int getNbCartesParJoueurs();
-
-	public void setNbCartesParJoueurs(int nbCartesParJoueurs);
-
-	/**
-	 * Permet de recuperer le nombre de cartes total d'une partie.
-	 * 
-	 * @return Le nombre de cartes total d'une partie.
-	 */
-	public int getNbCartesTotal();
-
-	public void setNbCartesTotal(int nbCartesTotal);
-
-	/**
-	 * Permet de recuperer le nombre de des distribues au debut de partie a
-	 * chaque joueur.
-	 * 
-	 * @return le nombre de des par joueur.
-	 */
-	public int getNbDesParJoueur();
-
-	public void setNbDesParJoueur(int nbDesParJoueur);
-
-	/**
-	 * Permet de recuperer le nombre de des total d'une partie.
-	 * 
-	 * @return Le nombre de des total d'une partie.
-	 */
-	public int getNbDesTotal();
-
-	public void setNbDesTotal(int nbDesTotal);
 
 	/**
 	 * 
@@ -299,4 +248,6 @@ public interface GestionPartie {
 	boolean laisserAdversaireAvecDeuxCartes(Carte c, Joueur j);
 
 	public void changementDeSens() throws NoCurrentGameException;
+	
+	public Joueur getPlayerFromIf(int id_player);
 }
