@@ -227,7 +227,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		remettreCarte(joueurReceveur.getJoueur(), c);
 
 		JoueurPartie joueurPartieCible = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueurCible);
-		joueurPartieCible.setCompteur_sauts(joueurPartieCible.getCompteur_sauts() + 1);
+		joueurPartieCible.ajouterSaut();
 		joueurPartieDaoImpl.enregistrer(joueurReceveur);
 		joueurPartieDaoImpl.enregistrer(joueurPartieCible);
 		partieDaoImpl.enregistrer(partieDaoImpl.getPartieCourante());
