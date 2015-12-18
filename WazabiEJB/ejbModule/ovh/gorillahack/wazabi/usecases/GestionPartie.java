@@ -249,5 +249,5 @@ public interface GestionPartie {
 
 	public void changementDeSens() throws NoCurrentGameException;
 	
-	public Joueur getPlayerFromIf(int id_player);
+	public Joueur getPlayerFromId(int id_player);
 }

@@ -438,7 +438,7 @@ public class GestionPartieImpl implements GestionPartie {
 	}
 
 	@Override
-	public Joueur getPlayerFromIf(int id_player) {
+	public Joueur getPlayerFromId(int id_player) {
 		return joueurDaoImpl.rechercher(id_player);
 	}
 
