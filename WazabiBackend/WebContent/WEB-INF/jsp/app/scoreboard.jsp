@@ -47,16 +47,24 @@
 						  <c:forEach var="partie" items="${ requestScope.listeHistorique }">
 							<tr>
 								<td>${ partie.nom }</td>
-								<td>${ partie.vainqueur.pseudo }</td>
+								<td>
+									<c:if test="${ empty partie.vainqueur.pseudo }">
+										<span class="label label-info">Pas de vainqueur</span>
+									</c:if>
+									${ partie.vainqueur.pseudo }
+								</td>
 								<td>${ partie.timestamp_creation }</td>
 								<td>
 									<c:choose>
 										<c:when test="${ partie.statut == 'ANNULEE' }">
 											<span class="label label-danger">Annulee</span>	
 										</c:when>
-										<c:when test="${ partie.statut != 'ANNULEE' }">
+										<c:when test="${ partie.statut == 'PAS_COMMENCE' }">
 											<span class="label label-success">Terminee</span>
 										</c:when>
+										<c:otherwise>
+											<span class="label label-info">Autre</span>
+										</c:otherwise>
 									</c:choose>
 								</td>
 							</tr>
