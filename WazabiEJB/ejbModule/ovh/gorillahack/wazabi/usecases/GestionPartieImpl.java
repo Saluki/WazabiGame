@@ -474,7 +474,15 @@ public class GestionPartieImpl implements GestionPartie {
 		} else if (getPartieCourante().getSens() == Sens.ANTIHORAIRE) {
 			changementDeSens(Sens.HORAIRE);
 		}
+		List<Joueur> adversaires = getAdversaires(getJoueurCourant());
 
+		// on ajoute un saut à tous les adversaires comme implémentation de
+		// rejouer
+		for (Joueur joueur : adversaires) {
+			JoueurPartie adversaire = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(joueur);
+			adversaire = joueurPartieDaoImpl.recharger(adversaire.getId_joueur_partie());
+			adversaire.ajouterSaut();
+		}
 	}
 
 }
