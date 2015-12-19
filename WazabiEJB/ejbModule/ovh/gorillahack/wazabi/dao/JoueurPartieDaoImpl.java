@@ -56,21 +56,23 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 	}
 
 	/**
-	 * Joueur prochain dans le sens anti-horaire.
+	 * Renvoie le joueur prochain dans le sens anti-horaire.
 	 * 
 	 * @param joueurPartie
 	 * @return
 	 */
 	public JoueurPartie getJoueurPrecedent(JoueurPartie joueurPartie, Partie partie) {
-		// lea requête JPQL ne fonctionnait pas
+		// la requête JPQL ne fonctionnait pas -> méthode bricolage
 
 		List<JoueurPartie> list = partie.getJoueursParties();
+		// le joueur precedent a l'ordre du joueur courant - 1
 		int precOrdre = joueurPartie.getOrdre_joueur() - 1;
-		// on doit récupérer le dernier joueur
 		if (precOrdre == -1) {
+			// on doit récupérer le dernier joueur (ordre = max)
 			JoueurPartie maxJoueur = list.get(0);
 			int max = maxJoueur.getOrdre_joueur();
 			for (JoueurPartie joueur : list) {
+				// on cherche le max
 				if (joueur.getOrdre_joueur() > max) {
 					maxJoueur = joueur;
 					max = joueur.getOrdre_joueur();
@@ -79,6 +81,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 			return maxJoueur;
 		} else {
 			for (JoueurPartie joueur : list) {
+				// on cherche juste le joueur avec le bon ordre
 				if (joueur.getOrdre_joueur() == precOrdre) {
 					return joueur;
 				}
@@ -87,22 +90,31 @@ public class JoueurPartieDaoImpl extends DaoImpl<JoueurPartie> {
 		return null;
 	}
 
+	/**
+	 * Renvoie le joueur suivant, pour le sens antihoraire
+	 * @param joueurPartie
+	 * @param partie
+	 * @return
+	 */
 	public JoueurPartie getJoueurSuivant(JoueurPartie joueurPartie, Partie partie) {
-		// la requête JPQL ne fonctionnait pas
+		// la requete JPQL ne fonctionnait pas -> methode bricolage
+		// pourrait etre fortement amelioree
 
 		List<JoueurPartie> list = partie.getJoueursParties();
 		int nextOrdre = joueurPartie.getOrdre_joueur() + 1;
-		// on doit récupérer le dernier joueur et vérifier si on ne va pas eu
-		// delà
+		// on doit recuperer le dernier joueur et vérifier si on ne va pas au
+		// dela
 		JoueurPartie maxJoueur = list.get(0);
 		int max = maxJoueur.getOrdre_joueur();
 		for (JoueurPartie joueur : list) {
+			// on cherche le max
 			if (joueur.getOrdre_joueur() > max) {
 				maxJoueur = joueur;
 				max = joueur.getOrdre_joueur();
 			}
 		}
 		if (nextOrdre > max) {
+			// si il n'y a pas plus grand, on revient au premier
 			nextOrdre = 0;
 		}
 

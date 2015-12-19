@@ -47,12 +47,24 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		super(Joueur.class);
 	}
 
+	/**
+	 * Le joueur deja existant se connecte en rentrant les bonnes informations.
+	 * @param pseudo
+	 * @param motdepasse
+	 * @return Le compte du joueur.
+	 */
 	public Joueur connecter(String pseudo, String motdepasse) {
 		Joueur joueur = super.recherche("SELECT j FROM Joueur j " + "WHERE j.pseudo = ?1 AND j.mot_de_passe = ?2",
 				pseudo, CryptService.hash(motdepasse));
 		return joueur;
 	}
 
+	/**
+	 * Inscrire un nouveau joueur, le pseudo doit etre unique.
+	 * @param pseudo
+	 * @param motdepasse
+	 * @return Le compte du joueur nouvellement cree.
+	 */
 	public Joueur inscrire(String pseudo, String motdepasse) {
 		// On vérifie que le pseudo n'est pas déjà pris
 		Joueur joueurExistant = super.recherche("SELECT j FROM Joueur j WHERE j.pseudo = ?1", pseudo);
@@ -65,6 +77,11 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		}
 	}
 
+	/**
+	 * Le joueur lance ses des.
+	 * @param j
+	 * @return
+	 */
 	public List<De> lancerDes(Joueur j) {
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<De> des = jp.getDes();
@@ -83,20 +100,29 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return carteDaoImpl.getCartes(j);
 	}
 
+	/**
+	 * Le joueur courant termine son tour.
+	 * @return
+	 */
 	public Partie terminerTour() {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie courant = p.getCourant();
 		p = partieDaoImpl.recharger(p.getId_partie());
+		
 		if (courant.getDes() == null) {
-		} else if (courant.getDes().isEmpty()) {
+		} // si plus de dés : fin de partie
+		else if (courant.getDes().isEmpty()) {
 			p.setStatut(Status.PAS_COMMENCE);
 			terminerPartie();
 			p.setVainqueur(courant.getJoueur());
 			p = partieDaoImpl.mettreAJour(p);
+		// sinon on passe au prochain joueur	
 		} else {
 			JoueurPartie suivant = null;
 			if (p.getSens() == Sens.HORAIRE) {
+				// suivant dans le sens horaire
 				suivant = joueurPartieDaoImpl.getJoueurSuivant(courant, p);
+				// on passe encore au suivant si le suivant devait passer des tours
 				while (suivant.getCompteur_sauts() > 0) {
 					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
 					joueurPartieDaoImpl.mettreAJour(suivant);
@@ -104,6 +130,7 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			} else if (p.getSens() == Sens.ANTIHORAIRE) {
+				// précédent dans le sens antihoraire
 				suivant = joueurPartieDaoImpl.getJoueurPrecedent(courant, p);
 				while (suivant.getCompteur_sauts() > 0) {
 					suivant.setCompteur_sauts(suivant.getCompteur_sauts() - 1);
@@ -116,12 +143,21 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return p;
 	}
 
+	/**
+	 * Le joueur se deconnecte, s'il n'a a plus assez de joueurs actifs alors
+	 * la partie se termine.
+	 * @param j
+	 * @param nombreJoueursMin
+	 * @return
+	 */
 	public Partie deconnecter(Joueur j, int nombreJoueursMin) {
 		Partie p = partieDaoImpl.getPartieCourante();
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		joueurPartieDaoImpl.enleverJoueur(jp);
 		List<JoueurPartie> temp = partieDaoImpl.getPartieCourante().getJoueursParties();
 		List<JoueurPartie> joueurActif = new ArrayList<JoueurPartie>();
+		
+		// on vérifie le nombre de joueurs restants, si < MIN : on arrête la partie
 		for (JoueurPartie jop : temp) {
 			if (jop.estActif())
 				joueurActif.add(jop);
@@ -140,14 +176,21 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				+ "jp.partie = (SELECT MAX(p.id_partie) FROM Partie p)" + "AND jp.joueur = j.id_joueur)");
 	}
 
+	/**
+	 * Le joueur pioche une carte.
+	 * @param j
+	 * @return
+	 */
 	public Carte piocherCarte(Joueur j) {
 		Partie p = partieDaoImpl.getPartieCourante();
+		// on prend une carte de la pioche
 		Carte c = p.piocher();
 		c = carteDaoImpl.recharger(c.getId_carte()); // Utile?
 		JoueurPartie jp = joueurPartieDaoImpl.getJoueurDeLaPartieCourante(j);
 		List<Carte> cartes = jp.getCartes();
 		if (cartes == null)
 			cartes = new ArrayList<Carte>();
+		// on ajoute la carte au joueur
 		cartes.add(c);
 		jp.setCartes(cartes);
 		joueurPartieDaoImpl.mettreAJour(jp);
@@ -155,6 +198,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return c;
 	}
 
+	/**
+	 * Le joueur remet la carte dans la pioche.
+	 * @param j
+	 * @param carte
+	 * @return
+	 */
 	public Carte remettreCarte(Joueur j, Carte carte) {
 		carte = carteDaoImpl.recharger(carte.getId_carte());
 		Partie p = partieDaoImpl.getPartieCourante();
@@ -164,6 +213,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return carte;
 	}
 
+	/**
+	 * Le joueur courant vole une carte au hasard d'un joueur qu'il a choisi.
+	 * @param carte
+	 * @param j
+	 * @return
+	 */
 	public boolean piocherCarteChezUnJoueur(Carte carte, Joueur j) {
 		// recuperation du joueur dans la classe joueurPartie
 
@@ -194,6 +249,10 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		}
 	}
 
+	/**
+	 * Le joueur courant retire toutes les cartes sauf 2 au hasard chez tous ses adversaires.
+	 * @return
+	 */
 	public boolean laisserToutLesAdversairesAvecDeuxCartes() {
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 
@@ -201,10 +260,11 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		List<JoueurPartie> listeJoueur = partieCourante.getJoueursParties();
 		for (JoueurPartie joueurCible : listeJoueur) {
 			List<Carte> listeCarteCible = joueurCible.getCartes();
+			// si c'est le joueur courant ou s'il n'a deja que 2 cartes 
 			if (listeCarteCible.size() <= 2 || joueurCible.equals(joueurReceveur)) {
 				continue;
 			}
-
+			//on retire une carte au hasard jusqu'à n'en avoir que 2
 			while (listeCarteCible.size() != 2) {
 				Carte c = listeCarteCible.get((int) (Math.random() * (listeCarteCible.size() - 1)));
 				remettreCarte(joueurCible.getJoueur(), c);
@@ -213,6 +273,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return true;
 	}
 
+	/**
+	 * Le joueur cible se voit rajouter un tour à passer (l'effet se cumule).
+	 * @param c
+	 * @param joueurCible
+	 * @return
+	 */
 	public boolean passerTour(Carte c, Joueur joueurCible) {
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 
@@ -224,6 +290,12 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return true;
 	}
 
+	/**
+	 * Le joueur cible perd toutes ses cartes sauf 1 choisie au hasard.
+	 * @param c
+	 * @param j
+	 * @return
+	 */
 	public boolean laisserAdversaireAvecUneCartes(Carte c, Joueur j) {
 		JoueurPartie joueurReceveur = joueurPartieDaoImpl.getJoueurCourant();
 		// utilisation de la carte
@@ -245,6 +317,9 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 		return super.recherche("SELECT j FROM Joueur j WHERE j.pseudo=?1", pseudo);
 	}
 
+	/**
+	 * Nettoie les des et les cartes apres que la partie soit terminee.
+	 */
 	private void terminerPartie() {
 		for (JoueurPartie jp : partieDaoImpl.getPartieCourante().getJoueursParties()) {
 			int size = jp.getCartes().size();
