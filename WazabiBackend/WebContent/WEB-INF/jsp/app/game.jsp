@@ -9,10 +9,10 @@
 	<div id="game-header" class="clearfix">
 		<div id="player-view"></div>	
 		<div id="actions-view">
-			<div id="btn-roll-dice" class="btn btn-success">
+			<div id="btn-roll-dice" class="btn btn-success" onmouseenter="myEnterFunction()" onmouseout="myOutFunction()" onclick="myClickFunction()">
 				<i class="glyphicon glyphicon-random"></i>&nbsp;&nbsp;Lancer les des
 			</div>
-			<div id="btn-game-next" class="btn btn-primary">
+			<div id="btn-game-next" class="btn btn-primary" onclick="mySecondClickFunction()">
 				<i class="glyphicon glyphicon-repeat"></i>&nbsp;&nbsp;Terminer tour de jeu
 			</div>
 			<div id="btn-game-quit" class="btn btn-danger">
@@ -23,7 +23,7 @@
 
 	<div id="wazabi-skip-tile" class="alert alert-warning"></div>		
 	<div id="cards-list-view"></div>
-	<div id="dices-list-view" class="clearfix"></div>
+	<div id="dices-list-view" class="clearfix" onclick="myClickFunction()" onmouseenter="myEnterFunction()" onmouseout="myOutFunction()"></div>
 	<div id="challengers-list-view" class="clearfix"></div>
 	
 	<div id="waiting-screen">
@@ -251,5 +251,7 @@
 
 <!-- JS Application -->
 <script src="js/game/app.js"></script>
+<script src="js/game/animation.js"></script>
+
 
 <jsp:include page="/WEB-INF/jspf/footer.jspf"/>

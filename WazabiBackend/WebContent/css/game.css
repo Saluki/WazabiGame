@@ -8,6 +8,16 @@
     100% { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
 }
 
+@keyframes throw {
+    0% { transform: translateZ(-100px) translateY(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    16% { transform: translateZ(-100px) translateY(-25px) rotateX(180deg) rotateY(180deg) rotateZ(0deg); }
+    33% { transform: translateZ(-100px) translateY(-50px) rotateX(360deg) rotateY(90deg) rotateZ(180deg); }
+    50% { transform: translateZ(-100px) translateY(-100px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+    66% { transform: translateZ(-100px) translateY(-50px) rotateX(180deg) rotateY(360deg) rotateZ(270deg); }
+    83% { transform: translateZ(-100px) translateY(-25px) rotateX(270deg) rotateY(180deg) rotateZ(180deg); }
+    100% { transform: translateZ(-100px) translateY(0px) rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
 body {
 	margin: auto;
 	width: 100%;
@@ -123,12 +133,14 @@ body {
 	text-align: center;
 }
 
-#dices-list-view:hover .wazabi-dice, .wazabi-dice:hover {
+#dices-list-view:hover .wazabi-dice {
 	
-	animation: spin 5s infinite linear;
+	animation: spin 8s infinite linear;
 }
 
+
 .wazabi-dice {
+	
 	background: #D9534F;
 	display: inline-block;
     margin-top: 75px;

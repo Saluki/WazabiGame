@@ -150,6 +150,7 @@ public interface GestionPartie {
 
 	/**
 	 * Permet de deconnecter un joueur de la partie courante.
+	 * 
 	 * @param j
 	 *            Le joueur que l'on veut deconnecter.
 	 */
@@ -199,17 +200,66 @@ public interface GestionPartie {
 	 */
 	public void donnerDes(Joueur j, int[] id_adversaires) throws NotEnoughDiceException;
 
+	/**
+	 * Permet de piocher une carte dans la pile.
+	 * 
+	 * @param joueur
+	 *            Le joueur qui doit piocher.
+	 * @return La carte aini obtenue.
+	 */
 	public Carte piocherUneCarte(Joueur joueur);
 
+	/**
+	 * Permet de remettre une carte dans la pioche.
+	 * 
+	 * @param joueur
+	 *            Le joueur qui remet la carte.
+	 * @param carte
+	 *            La carte que l on veut remettre.
+	 * @return La carte ainsi retiree;
+	 */
 	public Carte remettreCarte(Joueur joueur, Carte carte);
 
+	/**
+	 * Permet de ne laisser que 2 cartes a tous les adversaires du joueur
+	 * courant.
+	 * 
+	 * @param c
+	 *            La carte permettant cette action.
+	 * @return Un boolean qui sera a true si l operation s est bien deroulee.
+	 */
 	public boolean laisserTousAdversairesAvecDeuxCartes(Carte c);
 
-
-
+	/**
+	 * Permet au joueur courant de prendre une carte a l un de ses adversaires.
+	 * La carte ainsi prise sera rajoutee dans la main du joueur courant.
+	 * 
+	 * @param c
+	 *            La carte permettant cette action.
+	 * @param j
+	 *            Le joueur dont une carte sera enlevee de sa main.
+	 * @return Un boolean qui sera a true si l operation s est bien deroulee.
+	 */
 	boolean piocherUneCarteChezUnJoueur(Carte c, Joueur j);
 
+	/**
+	 * Permet au joueur courant de designer un joueur afin que celui-ci passe
+	 * son prochain tour.
+	 * 
+	 * @param c
+	 *            La carte permettant cette action.
+	 * @param j
+	 *            Le joueur qui passera son tour.
+	 * @return Un boolean qui sera a true si l operation s est bien deroulee.
+	 */
 	public boolean passerTour(Carte c, Joueur j);
+
+	/**
+	 * Permet de supprimer un de de la partie courante.
+	 * 
+	 * @param joueur
+	 *            Le joueur dont on veut supprimer le de.
+	 */
 	public void supprimerDe(Joueur joueur);
 
 	/**
@@ -221,8 +271,15 @@ public interface GestionPartie {
 	 * @return
 	 */
 	public Joueur getJoueurSuivant(Joueur actuel, Sens sens);
-	public void setPioche(List<Carte> pioche);
 
+	/**
+	 * Permet de changer le sens de la partie courante.
+	 * 
+	 * @param sens
+	 *            Le nouveau sens.
+	 * @throws NoCurrentGameException
+	 *             si aucune partie courante n existe.
+	 */
 	public void changementDeSens(Sens sens) throws NoCurrentGameException;
 
 	/**
@@ -231,21 +288,60 @@ public interface GestionPartie {
 	 * interet si ce n'est pas le cas.
 	 * 
 	 * @param joueur
-	 * @return
+	 *            Le joueur dont on veut obtenir le nombre de wazabi.
+	 * @return Le nombre de wazabi de ce joueur.
 	 */
 	public int getNbWazabi(Joueur joueur);
-	
+
+	/**
+	 * Permet a un joueur de donner un de a un autre joueur.
+	 * 
+	 * @param j
+	 *            Le joueur qui donne son de.
+	 * @param id_joueur
+	 *            L id du joueur qui recevra le de.
+	 */
 	public void donnerDes(Joueur j, int id_joueur);
 
-
+	/**
+	 * Permet au joueur courant de choisir un adversaire. Le joueur designe ne
+	 * possedera alors plus qu une seule carte dans sa main.
+	 * 
+	 * @param c
+	 *            La carte qui permet de realiser cette action.
+	 * @param j
+	 *            Le joueur designe.
+	 * @return Un boolean qui sera a true si l operation c est bien deroulee.
+	 */
 	boolean laisserAdversaireAvecUneCarte(Carte c, Joueur j);
 
+	/**
+	 * Permet de changer le sens de la partie. La partie se deroulera donc dans
+	 * le sens inverse.
+	 * 
+	 * @throws NoCurrentGameException
+	 */
 	public void changementDeSens() throws NoCurrentGameException;
 
-
+	/**
+	 * Permet a tous les joueurs de donner a son prochain/precedent adversaire
+	 * ses des selon le sens donne en parametre.
+	 * 
+	 * @param c
+	 *            La carte qui permet cette action.
+	 * @param sens
+	 *            Le sens dans lequel les des seront donnes.
+	 * @return Un boolean qui sera a true si l operation c est bien deroulee.
+	 */
 	public boolean faireTournerLesDes(Carte c, Sens sens);
 
-	
+	/**
+	 * Permet de recuperer un joueur a partir de son identifiant.
+	 * 
+	 * @param id_player
+	 *            L identifiant du joueur.
+	 * @return Le joueur.
+	 */
 	public Joueur getPlayerFromId(int id_player);
 
 }

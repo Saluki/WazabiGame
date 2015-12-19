@@ -358,6 +358,11 @@ public class GestionPartieImpl implements GestionPartie {
 		this.pioche = pioche;
 	}
 
+	/**
+	 * Permet d initialiser les differentes constantes se trouvant dans le XML.
+	 * 
+	 * @throws XmlParsingException
+	 */
 	private void setParameters() throws XmlParsingException {
 		Map<String, Integer> params = xmlParserImpl.parseParametres();
 		this.min_joueurs = params.get("MIN_JOUEURS");
@@ -366,6 +371,11 @@ public class GestionPartieImpl implements GestionPartie {
 		this.nbDesTotal = params.get("NB_DES_TOTAL");
 	}
 
+	/**
+	 * Permet d initialiser la pioche se trouvant dans le XML.
+	 * 
+	 * @throws XmlParsingException
+	 */
 	private void setCards() throws XmlParsingException {
 		Map<CarteEffet, Integer> map = xmlParserImpl.parseCartesEffet();
 
@@ -378,6 +388,11 @@ public class GestionPartieImpl implements GestionPartie {
 		pioche = carteDaoImpl.lister();
 	}
 
+	/**
+	 * Permet d initialiser les des se trouvant dans le XML.
+	 * 
+	 * @throws XmlParsingException
+	 */
 	private void setDices() throws XmlParsingException {
 		List<Face> faces = xmlParserImpl.parseDes();
 		faceDaoImpl.enregistrer(faces);
