@@ -112,7 +112,6 @@ public class JoueurDaoImpl extends DaoImpl<Joueur> {
 				}
 				p = partieDaoImpl.setCourant(suivant, p);
 			}
-			System.out.println(p.getCourant());
 		}
 		return p;
 	}
