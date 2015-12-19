@@ -87,9 +87,35 @@
 </script>
 
 <script type="text/template" id="dice-view-template">
-	
-	<i class="glyphicon glyphicon-<\%= iconTag %>"></i>
-
+		<div class="side front">
+			<i class="glyphicon glyphicon-<\%= iconTag %>"></i>
+        </div>
+        <div class="side top">
+			<\% if( iconTag=='star' || iconTag=='share-alt') { %>
+				<i class="glyphicon glyphicon-gift"></i>
+			<\% } else { %>
+				<i class="glyphicon glyphicon-share-alt"></i>
+			<\% } %>
+        </div>
+        <div class="side right">
+			<\% if( iconTag=='star' || iconTag=='share-alt') { %>
+				<i class="glyphicon glyphicon-share-alt"></i>
+			<\% } else { %>
+				<i class="glyphicon glyphicon-star"></i>
+			<\% } %>
+        </div>
+        <div class="side left">
+			<i class="glyphicon glyphicon-star"></i>
+        </div>
+        <div class="side bottom">
+			<i class="glyphicon glyphicon-gift"></i>
+        </div>
+        <div class="side back">
+			<i class="glyphicon glyphicon-star"></i>
+        </div>
+        <div class="side cover x"></div>
+        <div class="side cover y"></div>
+        <div class="side cover z"></div>
 </script>
 
 <script type="text/template" id="challengers-list-view-template">

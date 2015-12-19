@@ -96,7 +96,7 @@ public class GestionPartieImpl implements GestionPartie {
 				inscrire("mi", "mi", "mi");
 			if(joueurDaoImpl.getJoueur("ol")==null)
 				inscrire("ol", "ol", "ol");
-			//Creation de la chaine de responsabilite du traitement de cartes
+			//Creation de la (tres longue) chaine de responsabilite du traitement de cartes
 			this.gc = new GestionnaireCarteEnleverDe(new GestionnaireCarteTournerDe(new GestionnaireCarteSupprimerDe(
 					new GestionnaireCarteDonnerDe(new GestionnaireCartePrendreCarte(new GestionnaireCarteLaisserCarte(
 							new GestionnaireCartePioche3(new GestionnaireCarteLaisser2CartesAdversaires(
